@@ -5,10 +5,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <RouterLink class="nav-link" aria-current="page" to="/about">About</RouterLink>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
+                        <RouterLink class="nav-link" aria-current="page">Home</RouterLink>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
@@ -31,7 +28,7 @@
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
                     <li><router-link to="/login" class="dropdown-item" type="button">Login</router-link></li>
-                    <li><router-link to="/register" class="dropdown-item">Register</router-link></li>
+                    <li><router-link to="/register" class="dropdown-item" type="button">Register</router-link></li>
                 </ul>
             </div>
         </div>

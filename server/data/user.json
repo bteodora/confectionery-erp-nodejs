@@ -1,6 +1,22 @@
 [
-	{
-		"username": "admin",
-		"password": "admin"
-	}
+  {
+    "username": "nkusla",
+    "password": "nkusla",
+    "name": "Nikola",
+    "surname": "Kuslakovic",
+    "gender": "male",
+    "birth_date": "2002-02-15",
+    "role": "admin",
+    "points": 0
+  },
+  {
+    "username": "trksi",
+    "password": "trksi",
+    "name": "Stefan",
+    "surname": "Trkulja",
+    "gender": "male",
+    "birth_date": "2002-07-01",
+    "role": "customer",
+    "points": 0
+  }
 ]

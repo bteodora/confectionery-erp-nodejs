@@ -55,6 +55,7 @@ export default {
 
 #error {
 	color: red;
+	font-size: 15px;
 }
 
 </style>

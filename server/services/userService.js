@@ -7,7 +7,7 @@ exports.getAllUsers = () => {
 	return readJSONFile(usersFilePath);
 }
 
-exports.createUser = (newUser) => {
+exports.registerCustomer = (newUser) => {
 	const users = readJSONFile(usersFilePath);
 
 	const foundUser = users.find(u => u.username === newUser.username)
@@ -16,6 +16,8 @@ exports.createUser = (newUser) => {
 		throw new Error('Username already exists');
 	}
 
+	newUser.role = 'customer';
+	newUser.points = 0;
 	users.push(newUser);
 	writeJSONFile(usersFilePath, users);
 }
@@ -28,4 +30,12 @@ exports.login = (username, password) => {
 	if (!foundUser) {
 		throw new Error('Invalid username or password');
 	}
+}
+
+exports.getRole = (username) => {
+	const users = readJSONFile(usersFilePath);
+
+	const foundUser = users.find(u => u.username === username);
+
+	return foundUser.role;
 }
