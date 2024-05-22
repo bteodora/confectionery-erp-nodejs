@@ -24,7 +24,7 @@
 import axiosInstace, { logoutUser } from '@/utils/axiosInstance';
 
 export default {
-	name: 'AdminNavbar',
+	name: 'CustomerNavbar',
 	data() {
 		return {
 			username: '',

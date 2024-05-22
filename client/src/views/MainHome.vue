@@ -1,5 +1,5 @@
 <template>
-  <HomeNavbar/>
+	<HomeNavbar />
 </template>
 
 <script>
@@ -7,9 +7,9 @@
 import HomeNavbar from '@/components/HomeNavbar.vue'
 
 export default {
-  components: {
-	HomeNavbar
-  }
+	components: {
+		HomeNavbar
+	}
 }
 
 </script>

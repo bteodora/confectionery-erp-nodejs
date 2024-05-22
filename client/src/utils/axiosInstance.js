@@ -11,4 +11,8 @@ axiosInstance.interceptors.request.use((config) => {
 	return config;
 });
 
+export function logoutUser()  {
+	localStorage.removeItem('jwt');
+}
+
 export default axiosInstance;

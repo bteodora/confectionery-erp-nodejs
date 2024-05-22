@@ -42,7 +42,6 @@
 import axiosInstace from '@/utils/axiosInstance';
 
 export default {
-	name: 'RegisterView',
 	data() {
 		return {
 			username: '',

@@ -18,7 +18,6 @@
 import axiosInstace from '@/utils/axiosInstance';
 
 export default {
-	name: 'LoginView',
 	data() {
 		return {
 			username: '',
@@ -32,7 +31,23 @@ export default {
 				username: this.username,
 				password: this.password
 			}).then(response => {
-				alert(response.data.message);
+				localStorage.setItem('jwt', response.data.token);
+
+				if(response.data.role === 'admin') {
+					this.$router.push('/admin');
+				}
+				else if(response.data.role === 'customer') {
+					this.$router.push('/customer');
+				}
+				else if(response.data.role === 'manager') {
+					this.$router.push('/manager');
+				}
+				else if(response.data.role === 'staff') {
+					this.$router.push('/staff');
+				}
+				else {
+					this.$router.push('/');
+				}
 			}).catch(error => {
 				this.errorMessage = error.response.data.message;
 			});

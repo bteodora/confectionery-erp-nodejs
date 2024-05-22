@@ -28,8 +28,9 @@ router.post('/login', (req, res) => {
 	const { username, password } = req.body;
 	try {
 		userServices.login(username, password);
-		const token = generateToken({ username, role: userServices.getRole(username)});
-		res.status(200).send({ token });
+		const role = userServices.getRole(username);
+		const token = generateToken({ username, role: role});
+		res.status(200).send({ token, role: role });
 	} catch (err) {
 		res.status(400).send({ message: err.message});
 	}
