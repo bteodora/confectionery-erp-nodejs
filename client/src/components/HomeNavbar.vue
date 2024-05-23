@@ -1,7 +1,10 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand">Choco factory</a>
+			<a class="navbar-brand">
+				<img src="../assets/chocolate.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      			Choco factory
+			</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">

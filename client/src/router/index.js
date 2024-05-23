@@ -7,8 +7,18 @@ const router = createRouter({
 		{ path: '/', name: 'home', component: () => import('../views/MainHome.vue') },
 		{ path: '/login', name: 'login', component: () => import('../views/LoginForm.vue') },
 		{ path: '/register', name: 'register', component: () => import('../views/RegisterForm.vue'), },
-		{ path: '/admin', name: 'admin', component: () => import('../views/AdminHome.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
+
+		// Admin routes
+		{ path: '/admin', name: 'admin', component: () => import('../views/Admin/AdminHome.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
+		{ path: '/admin/showallusers', name: 'admin-showallusers', component: () => import('../views/Admin/ShowAllUsers.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
+
+		// Customer routes
 		{ path: '/customer', name: 'customer', component: () => import('../views/CustomerHome.vue'), meta: { requiresAuth: true, allowedRoles: ['customer'] } },
+
+		// Manager routes
+
+		// Staff routes
+
 	]
 })
 
@@ -25,13 +35,14 @@ router.beforeEach((to, from, next) => {
 				next({ name: 'home' });
 			})
 	}
-
-	axiosInstance.get('/user/profile')
+	else {
+		axiosInstance.get('/user/profile')
 		.then(response => {
 			next({ name: response.data.role });
 		}).catch(err => {
 			next();
 		})
+	}
 });
 
 export default router

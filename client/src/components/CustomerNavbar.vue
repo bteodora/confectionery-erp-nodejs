@@ -1,7 +1,10 @@
 <template>
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand">Choco factory</a>
+			<a class="navbar-brand">
+				<img src="../assets/chocolate.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+      			Choco factory
+			</a>
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			</div>
 			<a class="navbar-brand">{{ username }}</a>
@@ -32,9 +35,12 @@ export default {
 	},
 	mounted() {
 		axiosInstace.get('/user/profile')
-		.then(response => {
-			this.username = response.data.username;
-		});
+			.then((response) => {
+				this.username = response.data.username;
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	},
 	methods: {
 		logout() {

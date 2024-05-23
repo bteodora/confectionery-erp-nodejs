@@ -18,7 +18,7 @@ router.post('/register/customer', (req, res) => {
 	const newUser = req.body;
 	try {
 		userServices.registerCustomer(newUser);
-		res.status(200).send({ message: 'User successfully registered'});
+		res.status(200).send({ message: 'Customer successfully registered'});
 	} catch (err) {
 		res.status(400).send({ message: err.message});
 	}

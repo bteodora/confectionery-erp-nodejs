@@ -9,7 +9,6 @@ exports.getAllUsers = () => {
 
 exports.registerCustomer = (newUser) => {
 	const users = readJSONFile(usersFilePath);
-
 	const foundUser = users.find(u => u.username === newUser.username)
 
 	if (foundUser) {
@@ -24,7 +23,6 @@ exports.registerCustomer = (newUser) => {
 
 exports.login = (username, password) => {
 	const users = readJSONFile(usersFilePath);
-
 	const foundUser = users.find(u => u.username === username && u.password === password);
 
 	if (!foundUser) {
@@ -34,8 +32,6 @@ exports.login = (username, password) => {
 
 exports.getRole = (username) => {
 	const users = readJSONFile(usersFilePath);
-
 	const foundUser = users.find(u => u.username === username);
-
 	return foundUser.role;
 }
