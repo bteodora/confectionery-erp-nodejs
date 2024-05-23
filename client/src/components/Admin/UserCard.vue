@@ -29,4 +29,8 @@ export default {
 
 <style>
 
+.card {
+	margin: 20px;
+}
+
 </style>

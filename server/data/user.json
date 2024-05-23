@@ -17,5 +17,14 @@
     "birth_date": "2002-07-01",
     "role": "customer",
     "points": 0
+  },
+  {
+    "username": "tbecejac",
+    "password": "tbecejac",
+    "name": "Teodora",
+    "surname": "Becejac",
+    "gender": "female",
+    "birth_date": "2002-02-15",
+    "role": "manager"
   }
 ]

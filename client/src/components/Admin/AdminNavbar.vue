@@ -2,7 +2,7 @@
 	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 		<div class="container-fluid">
 			<a class="navbar-brand">
-				<img src="../assets/chocolate.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+				<img src="../../assets/img/chocolate.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
       			Choco factory
 			</a>
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -12,12 +12,19 @@
 						Factories
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="#">Add new</a></li>
+						<li><a class="dropdown-item" href="#">Register new</a></li>
 						<li><router-link class="dropdown-item" to="/admin">Show all</router-link></li>
 					</ul>
 				</li>
-				<li class="nav-item">
-					<router-link class="nav-link" aria-current="page" to="/admin/showallusers">Users</router-link>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						Users
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<li><router-link class="dropdown-item" to="/admin/registermanager">Register new manager</router-link></li>
+						<li><router-link class="dropdown-item" to="/admin/showallusers">Show all</router-link></li>
+					</ul>
 				</li>
 			</ul>
 

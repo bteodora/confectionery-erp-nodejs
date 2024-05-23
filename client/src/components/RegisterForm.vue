@@ -1,39 +1,39 @@
 <template>
-	<div class="container">
-		<h3>Register as customer</h3><br>
-		<div class="mb-3">
+	<div class="containerMiddle" style="width: 30%;">
+		<h3 class="bg-secondary">{{  this.title }}</h3><br>
+		<div class="mb-2">
 			<label class="form-label">Username</label>
 			<input type="text" class="form-control" v-model="username"/>
 		</div>
-		<div class="mb-3">
+		<div class="mb-2">
 			<label class="form-label">Password</label>
 			<input type="password" class="form-control" v-model="password_1"/>
 		</div>
-		<div class="mb-3">
+		<div class="mb-2">
 			<label class="form-label">Re-type password</label>
 			<input type="password" class="form-control" v-model="password_2"/>
 		</div>
-		<div class="mb-3">
+		<div class="mb-2">
 			<label class="form-label">Name</label>
 			<input type="text" class="form-control" v-model="name"/>
 		</div>
-		<div class="mb-3">
+		<div class="mb-2">
 			<label class="form-label">Surname</label>
 			<input type="text" class="form-control" v-model="surname"/>
 		</div>
-		<div class="mb-3">
+		<div class="mb-2">
 			<label class="form-label">Gender</label>
 			<select class="form-select" v-model="gender">
 				<option value="male">Male</option>
 				<option value="female">Female</option>
 			</select>
 		</div>
-		<div class="mb-3">
+		<div class="mb-2">
 			<label class="form-label">Birthdate</label>
 			<input type="date" class="form-control" v-model="birth_date"/>
 		</div>
-		<div id="error" class="form-text">{{ errorMessage }}</div><br>
-		<button class="btn btn-primary" v-on:click="register()">Register</button>
+		<div class="errorText">{{ errorMessage }}</div><br>
+		<button class="btn btn-primary" v-on:click="register()">Submit</button>
 	</div>
 </template>
 
@@ -54,6 +54,20 @@ export default {
 			errorMessage: ''
 		}
 	},
+	props: {
+		role : {
+			type: String,
+			required: true
+		},
+		title: {
+			type: String,
+			required: true
+		},
+		endpoint: {
+			type: String,
+			required: true
+		}
+	},
 	methods: {
 		register() {
 			if (this.username === '' || this.password_1 === '' || this.password_2 === '' || this.name === '' || this.surname === '' || this.birth_date === '') {
@@ -66,7 +80,7 @@ export default {
 				return;
 			}
 
-			axiosInstace.post('/user/register/customer', {
+			axiosInstace.post(this.endpoint, {
 				username: this.username,
 				password: this.password_1,
 				name: this.name,
@@ -87,18 +101,10 @@ export default {
 
 <style scoped>
 
-.container {
-	width: 30%;
-	background-color: beige;
-	border: 1px solid gray;
-	border-radius: 15px;
-	padding: 20px;
-	margin-top: 50px;
-}
-
-#error {
-	color: red;
-	font-size: 15px;
+h3 {
+	border-radius: 10px;
+	padding: 10px;
+	color: white;
 }
 
 </style>

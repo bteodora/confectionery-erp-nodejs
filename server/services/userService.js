@@ -7,7 +7,7 @@ exports.getAllUsers = () => {
 	return readJSONFile(usersFilePath);
 }
 
-exports.registerCustomer = (newUser) => {
+exports.registerUser = (newUser) => {
 	const users = readJSONFile(usersFilePath);
 	const foundUser = users.find(u => u.username === newUser.username)
 
@@ -15,8 +15,6 @@ exports.registerCustomer = (newUser) => {
 		throw new Error('Username already exists');
 	}
 
-	newUser.role = 'customer';
-	newUser.points = 0;
 	users.push(newUser);
 	writeJSONFile(usersFilePath, users);
 }

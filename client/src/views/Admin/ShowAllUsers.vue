@@ -5,7 +5,7 @@
 		<div class="container justify-content-center w-75">
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
 				<span class="navbar-toggler-icon"></span>
-				Search & filter
+				Search, filter, sort
 			</button>
 			<div class="collapse navbar-collapse m-3" id="collapsibleNavbar">
 				<ul class="navbar-nav align-items-center m-2">
@@ -72,8 +72,8 @@
 
 <script>
 
-import AdminNavbar from '@/components/AdminNavbar.vue'
-import UserCard from '@/components/UserCard.vue'
+import AdminNavbar from '@/components/Admin/AdminNavbar.vue'
+import UserCard from '@/components/Admin/UserCard.vue'
 import axiosInstace from '@/utils/axiosInstance';
 
 export default {
@@ -173,11 +173,12 @@ export default {
 </script>
 
 <style scoped>
+
 .card-container {
 	display: flex;
 	margin-top: 2%;
 	justify-content: center;
 	flex-wrap: wrap;
-	gap: 2%;
 }
+
 </style>

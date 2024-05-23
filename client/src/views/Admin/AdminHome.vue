@@ -4,7 +4,7 @@
 
 <script>
 
-import AdminNavbar from '@/components/AdminNavbar.vue'
+import AdminNavbar from '@/components/Admin/AdminNavbar.vue'
 
 export default {
 	components: {

@@ -1,6 +1,7 @@
 <template>
-	<div class="container">
-		<div class="mb-3">
+	<div class="containerBorder containerMiddle" style="width: 20%;">
+		<h3 class="bg-secondary">Login to Choco factory</h3>
+		<div class="my-3">
 			<label class="form-label">Username</label>
 			<input type="text" class="form-control" id="inputUsername" v-model="username">
 		</div>
@@ -9,7 +10,7 @@
 			<input type="password" class="form-control" id="inputPassword" v-model="password">
 		</div>
 		<div id="error" class="form-text">{{ errorMessage }}</div><br>
-		<button class="btn btn-primary" v-on:click="login()">Login</button>
+		<button class="btn btn-primary" v-on:click="login()">Submit</button>
 	</div>
 </template>
 
@@ -59,13 +60,15 @@ export default {
 
 <style scoped>
 
-.container {
-	width: 20%;
-	background-color: beige;
-	border: 1px solid gray;
-	border-radius: 15px;
-	padding: 20px;
-	margin-top: 100px;
+.containerBorder {
+	border: 1px solid black;
+	border-radius: 10px;
+}
+
+h3 {
+	border-radius: 10px;
+	padding: 10px;
+	color: white;
 }
 
 #error {

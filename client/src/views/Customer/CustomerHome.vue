@@ -4,7 +4,7 @@
 
 <script>
 
-import CustomerNavbar from '@/components/CustomerNavbar.vue'
+import CustomerNavbar from '@/components/Customer/CustomerNavbar.vue'
 
 export default {
 	components: {

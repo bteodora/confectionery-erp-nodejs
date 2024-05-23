@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
 			<a class="navbar-brand">
-				<img src="../assets/chocolate.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
+				<img src="../assets/img/chocolate.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
       			Choco factory
 			</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">

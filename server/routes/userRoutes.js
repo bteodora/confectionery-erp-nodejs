@@ -17,12 +17,27 @@ router.get('/', verifyToken, (req, res) => {
 router.post('/register/customer', (req, res) => {
 	const newUser = req.body;
 	try {
-		userServices.registerCustomer(newUser);
+		newUser.role = 'customer';
+		newUser.points = 0;
+		userServices.registerUser(newUser);
 		res.status(200).send({ message: 'Customer successfully registered'});
 	} catch (err) {
 		res.status(400).send({ message: err.message});
 	}
 });
+
+router.post('/register/manager', (req, res) => {
+	const newUser = req.body;
+	try {
+		newUser.role = 'manager';
+		newUser.factoryId = null;
+		userServices.registerUser(newUser);
+		res.status(200).send({ message: 'Customer successfully registered'});
+	} catch (err) {
+		res.status(400).send({ message: err.message});
+	}
+});
+
 
 router.post('/login', (req, res) => {
 	const { username, password } = req.body;
