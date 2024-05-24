@@ -7,6 +7,10 @@
 			<input type="text" class="form-control" v-model="name" />
 		</div>
 		<div class="mb-3">
+			<label class="form-label">Logo</label>
+			<input class="form-control" type="file"/>
+		</div>
+		<div class="mb-3">
 			<label class="form-label">Start of working hours</label>
 			<input type="time" class="form-control" v-model="startWorkTime" />
 		</div>
@@ -21,8 +25,8 @@
 
 		<div class="row g-3 mb-3">
 			<div class="col-md-6">
-				<label class="form-label">Address</label>
-				<input type="text" class="form-control" placeholder="Street & number" v-model="location.address" />
+				<label class="form-label">Street & number</label>
+				<input type="text" class="form-control" v-model="location.address" />
 			</div>
 			<div class="col-md-4">
 				<label class="form-label">City</label>
@@ -43,7 +47,8 @@
 			</select>
 		</div>
 
-		<br><div class="errorText">{{ errorMessage }}</div><br>
+		<br>
+		<div class="errorText">{{ errorMessage }}</div><br>
 		<button class="btn btn-primary" v-on:click="register()">Submit</button>
 	</div>
 </template>
@@ -51,7 +56,7 @@
 <script>
 
 import AdminNavbar from '@/components/Admin/AdminNavbar.vue';
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance, { logoutUser } from '@/utils/axiosInstance';
 
 export default {
 	name: 'RegisterFactory',
@@ -61,12 +66,13 @@ export default {
 	data() {
 		return {
 			name: '',
+			logo: '',
 			startWorkTime: '',
 			endWorkTime: '',
 			managerId: '',
 			location: {
-				lat: null,
 				lon: null,
+				lat: null,
 				address: '',
 				city: '',
 				zip: '',
@@ -77,12 +83,7 @@ export default {
 	},
 	methods: {
 		setupMap() {
-			var attribution = new ol.control.Attribution({
-				collapsible: false
-			});
-
-			var map = new ol.Map({
-				controls: ol.control.defaults({ attribution: false }).extend([attribution]),
+			let map = new ol.Map({
 				layers: [
 					new ol.layer.Tile({
 						source: new ol.source.OSM(),
@@ -98,11 +99,11 @@ export default {
 				})
 			});
 
-			var vectorSource = new ol.source.Vector({});
-			var vectorLayer = new ol.layer.Vector({ source: vectorSource });
+			let vectorSource = new ol.source.Vector({});
+			let vectorLayer = new ol.layer.Vector({ source: vectorSource });
 			map.addLayer(vectorLayer);
 
-			var markerStyle = new ol.style.Style({
+			let markerStyle = new ol.style.Style({
 				image: new ol.style.Icon({
 					anchor: [16, 64],
 					anchorXUnits: 'pixels',
@@ -112,13 +113,15 @@ export default {
 				})
 			});
 
-			map.on('click', function (event) {
+			map.on('click', (event) => {
 				vectorSource.clear();
 
-				var coordinate = event.coordinate;
-				this.location = ol.proj.toLonLat(coordinate);
+				let coordinate = event.coordinate;
+				let lonLat = ol.proj.toLonLat(coordinate)
+				this.location.lon = lonLat[0];
+				this.location.lat = lonLat[1];
 
-				var marker = new ol.Feature({
+				let marker = new ol.Feature({
 					geometry: new ol.geom.Point(coordinate)
 				});
 
@@ -127,7 +130,7 @@ export default {
 				vectorSource.addFeature(marker);
 			});
 
-			map.on('moveend', function () {
+			map.on('moveend', () => {
 				map.render();
 			});
 		},
@@ -141,6 +144,8 @@ export default {
 				});
 		},
 		validate() {
+			console.log(this.location);
+
 			if (this.name === '') {
 				this.errorMessage = 'All fields are required';
 				return false;
@@ -173,11 +178,15 @@ export default {
 				this.errorMessage = 'Location is required';
 				return false;
 			}
+			if (this.startWorkTime >= this.endWorkTime) {
+				this.errorMessage = 'End hours must be after start working hours';
+				return false;
+			}
 
 			return true;
 		},
 		register() {
-			if(!this.validate())
+			if (!this.validate())
 				return;
 
 			axiosInstance.post('/factory', {
