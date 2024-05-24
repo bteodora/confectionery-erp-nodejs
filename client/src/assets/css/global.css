@@ -11,3 +11,9 @@
 	color: red;
 	font-size: 15px;
 }
+
+.formHeader {
+	border-radius: 10px;
+	padding: 10px;
+	color: white;
+}

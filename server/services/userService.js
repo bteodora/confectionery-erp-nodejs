@@ -3,8 +3,19 @@ const { readJSONFile, writeJSONFile } = require('../utils/jsonParser');
 
 const usersFilePath = path.join(__dirname, '../data/user.json');
 
-exports.getAllUsers = () => {
-	return readJSONFile(usersFilePath);
+exports.getAllUsers = (role) => {
+	const users = readJSONFile(usersFilePath);
+
+	if (!role) {
+		return users;
+	}
+
+	return users.filter(u => u.role === role);
+}
+
+exports.getAvailableManagers = () => {
+	const users = readJSONFile(usersFilePath);
+	return users.filter(u => u.role === 'manager' && u.factoryId === null);
 }
 
 exports.registerUser = (newUser) => {

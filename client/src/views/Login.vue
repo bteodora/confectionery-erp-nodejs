@@ -1,6 +1,6 @@
 <template>
 	<div class="containerBorder containerMiddle" style="width: 20%;">
-		<h3 class="bg-secondary">Login to Choco factory</h3>
+		<h3 class="bg-secondary formHeader">Login to Choco factory</h3>
 		<div class="my-3">
 			<label class="form-label">Username</label>
 			<input type="text" class="form-control" id="inputUsername" v-model="username">
@@ -63,12 +63,6 @@ export default {
 .containerBorder {
 	border: 1px solid black;
 	border-radius: 10px;
-}
-
-h3 {
-	border-radius: 10px;
-	padding: 10px;
-	color: white;
 }
 
 #error {

@@ -8,8 +8,19 @@ router.get('/', verifyToken, (req, res) => {
 		return res.status(403).send({ message: 'Forbidden' });
 	}
 
-	const users = userServices.getAllUsers();
-	res.status(200).send(users);
+	let role = req.query.role || null;
+
+	const users = userServices.getAllUsers(role);
+	return res.status(200).send(users);
+});
+
+router.get('/manager/available', verifyToken, (req, res) => {
+	if (req.auth.role !== 'admin') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+	const managers = userServices.getAvailableManagers();
+	return res.status(200).send(managers);
 });
 
 router.post('/register/customer', (req, res) => {

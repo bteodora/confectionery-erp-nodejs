@@ -1,34 +1,34 @@
 <template>
 	<div class="containerMiddle" style="width: 30%;">
-		<h3 class="bg-secondary">{{  this.title }}</h3><br>
-		<div class="mb-2">
+		<h3 class="bg-secondary formHeader">{{  this.title }}</h3><br>
+		<div class="mb-3">
 			<label class="form-label">Username</label>
 			<input type="text" class="form-control" v-model="username"/>
 		</div>
-		<div class="mb-2">
+		<div class="mb-3">
 			<label class="form-label">Password</label>
 			<input type="password" class="form-control" v-model="password_1"/>
 		</div>
-		<div class="mb-2">
+		<div class="mb-3">
 			<label class="form-label">Re-type password</label>
 			<input type="password" class="form-control" v-model="password_2"/>
 		</div>
-		<div class="mb-2">
+		<div class="mb-3">
 			<label class="form-label">Name</label>
 			<input type="text" class="form-control" v-model="name"/>
 		</div>
-		<div class="mb-2">
+		<div class="mb-3">
 			<label class="form-label">Surname</label>
 			<input type="text" class="form-control" v-model="surname"/>
 		</div>
-		<div class="mb-2">
+		<div class="mb-3">
 			<label class="form-label">Gender</label>
 			<select class="form-select" v-model="gender">
 				<option value="male">Male</option>
 				<option value="female">Female</option>
 			</select>
 		</div>
-		<div class="mb-2">
+		<div class="mb-3">
 			<label class="form-label">Birthdate</label>
 			<input type="date" class="form-control" v-model="birth_date"/>
 		</div>
@@ -100,11 +100,5 @@ export default {
 </script>
 
 <style scoped>
-
-h3 {
-	border-radius: 10px;
-	padding: 10px;
-	color: white;
-}
 
 </style>

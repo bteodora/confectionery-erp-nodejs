@@ -12,7 +12,7 @@
 						Factories
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="#">Register new</a></li>
+						<li><router-link class="dropdown-item" to="/admin/registerfactory">Register new factory</router-link></li>
 						<li><router-link class="dropdown-item" to="/admin">Show all</router-link></li>
 					</ul>
 				</li>
