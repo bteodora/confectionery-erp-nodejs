@@ -42,7 +42,7 @@
 			<label class="form-label">Manager</label>
 			<select class="form-select" v-model="managerId">
 				<option value="" disabled selected></option>
-				<option v-for="manager in managers">
+				<option v-for="manager in managers" :value="manager.username">
 					{{ manager.username + " - " + manager.name + " " + manager.surname }}</option>
 			</select>
 		</div>
@@ -189,20 +189,20 @@ export default {
 			if (!this.validate())
 				return;
 
-			axiosInstance.post('/factory', {
+			axiosInstance.post('/factory/register', {
 				name: this.name,
 				startWorkTime: this.startWorkTime,
 				endWorkTime: this.endWorkTime,
 				managerId: this.managerId,
 				location: this.location
 			})
-				.then(response => {
-					alert(response.data.message);
-					this.$router.push('/admin');
-				})
-				.catch(error => {
-					this.errorMessage = error.response.data.message;
-				});
+			.then(response => {
+				alert(response.data.message);
+				this.$router.push('/admin');
+			})
+			.catch(error => {
+				this.errorMessage = error.response.data.message;
+			});
 		}
 	},
 	mounted() {

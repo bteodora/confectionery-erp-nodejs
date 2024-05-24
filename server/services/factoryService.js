@@ -10,14 +10,13 @@ exports.getAllFactories = () => {
 
 exports.registerFactory = (newFactory) => {
 	const factories = readJSONFile(factoriesFilePath);
+	let factoryId = 1;
 
-	if(factories.length === 0) {
-		newFactory.id = 1;
-	}
-	else {
-		newFactory.id = factories.sort((a, b) => a.id - b.id)[factories.length - 1].id;
+	if(factories.length > 0) {
+		factoryId = factories.sort((a, b) => a.id - b.id)[factories.length - 1].id;
 	}
 
+	newFactory = { id: factoryId, ...newFactory };
 	userService.setManagersFactoryId(newFactory.managerId, newFactory.id);
 
 	factories.push(newFactory);
