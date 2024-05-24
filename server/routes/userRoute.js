@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const userServices = require('../services/userService');
+const userService = require('../services/userService');
 const {verifyToken, generateToken} = require('../utils/tokenService');
 
 router.get('/', verifyToken, (req, res) => {
@@ -10,7 +10,7 @@ router.get('/', verifyToken, (req, res) => {
 
 	let role = req.query.role || null;
 
-	const users = userServices.getAllUsers(role);
+	const users = userService.getAllUsers(role);
 	return res.status(200).send(users);
 });
 
@@ -19,7 +19,7 @@ router.get('/manager/available', verifyToken, (req, res) => {
 		return res.status(403).send({ message: 'Forbidden' });
 	}
 
-	const managers = userServices.getAvailableManagers();
+	const managers = userService.getAvailableManagers();
 	return res.status(200).send(managers);
 });
 
@@ -29,7 +29,7 @@ router.post('/register/customer', (req, res) => {
 	try {
 		newUser.role = 'customer';
 		newUser.points = 0;
-		userServices.registerUser(newUser);
+		userService.registerUser(newUser);
 		res.status(200).send({ message: 'Customer successfully registered'});
 	} catch (err) {
 		res.status(400).send({ message: err.message});
@@ -45,19 +45,18 @@ router.post('/register/manager', verifyToken, (req, res) => {
 		const newUser = req.body;
 		newUser.role = 'manager';
 		newUser.factoryId = null;
-		userServices.registerUser(newUser);
+		userService.registerUser(newUser);
 		res.status(200).send({ message: 'Manager successfully registered'});
 	} catch (err) {
 		res.status(400).send({ message: err.message});
 	}
 });
 
-
 router.post('/login', (req, res) => {
 	const { username, password } = req.body;
 	try {
-		userServices.login(username, password);
-		const role = userServices.getRole(username);
+		userService.login(username, password);
+		const role = userService.getRole(username);
 		const token = generateToken({ username, role: role});
 		res.status(200).send({ token, role: role });
 	} catch (err) {

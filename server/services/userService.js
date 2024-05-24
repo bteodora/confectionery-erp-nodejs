@@ -18,6 +18,18 @@ exports.getAvailableManagers = () => {
 	return users.filter(u => u.role === 'manager' && u.factoryId === null);
 }
 
+exports.setManagersFactoryId = (managerId, factoryId) => {
+	const users = readJSONFile(usersFilePath);
+	const foundUser = users.find(u => u.username === managerId);
+
+	if (!foundUser) {
+		throw new Error('User not found');
+	}
+
+	foundUser.factoryId = factoryId;
+	writeJSONFile(usersFilePath, users);
+}
+
 exports.registerUser = (newUser) => {
 	const users = readJSONFile(usersFilePath);
 	const foundUser = users.find(u => u.username === newUser.username)
