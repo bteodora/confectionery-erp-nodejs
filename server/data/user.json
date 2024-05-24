@@ -25,6 +25,17 @@
     "surname": "Becejac",
     "gender": "female",
     "birth_date": "2002-02-15",
-    "role": "manager"
+    "role": "manager",
+    "factoryId": null
+  },
+  {
+    "username": "gala",
+    "password": "gala",
+    "name": "Strahinja",
+    "surname": "Galic",
+    "gender": "male",
+    "birth_date": "2002-01-08",
+    "role": "manager",
+    "factoryId": null
   }
 ]

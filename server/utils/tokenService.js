@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 
 secret_key = 'mysecretkey'
-expiration_time = '2h'
+expiration_time = '3h'
 
 exports.verifyToken = (req, res, next) => {
 	let token = '';
@@ -18,15 +18,15 @@ exports.verifyToken = (req, res, next) => {
 		return res.status(401).send({ message: 'No token in the Authorization header' });
 	}
 
-	const decoded = jwt.decode(token, secret_key);
+	try {
+		const decoded = jwt.verify(token, secret_key);
 
-	if (!decoded) {
-		return res.status(403).send({ message: 'Invalid token' });
-	}
-
-	req.auth = {
-		username: decoded.username,
-		role: decoded.role
+		req.auth = {
+			username: decoded.username,
+			role: decoded.role
+		}
+	} catch (err) {
+		return res.status(403).send({ message: 'Forbidden' });
 	}
 
 	next();

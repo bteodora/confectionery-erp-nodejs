@@ -4,10 +4,8 @@ const userServices = require('../services/userService');
 const {verifyToken, generateToken} = require('../utils/tokenService');
 
 router.get('/', verifyToken, (req, res) => {
-	const { username, role } = req.auth;
-
-	if (role !== 'admin') {
-		return res.status(403).send({ message: 'Unauthorized' });
+	if (req.auth.role !== 'admin') {
+		return res.status(403).send({ message: 'Forbidden' });
 	}
 
 	const users = userServices.getAllUsers();
@@ -15,6 +13,7 @@ router.get('/', verifyToken, (req, res) => {
 });
 
 router.post('/register/customer', (req, res) => {
+
 	const newUser = req.body;
 	try {
 		newUser.role = 'customer';
@@ -26,13 +25,17 @@ router.post('/register/customer', (req, res) => {
 	}
 });
 
-router.post('/register/manager', (req, res) => {
-	const newUser = req.body;
+router.post('/register/manager', verifyToken, (req, res) => {
+	if(req.auth.role !== 'admin') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
 	try {
+		const newUser = req.body;
 		newUser.role = 'manager';
 		newUser.factoryId = null;
 		userServices.registerUser(newUser);
-		res.status(200).send({ message: 'Customer successfully registered'});
+		res.status(200).send({ message: 'Manager successfully registered'});
 	} catch (err) {
 		res.status(400).send({ message: err.message});
 	}
