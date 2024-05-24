@@ -2,7 +2,7 @@
 	<div class="card" style="width: 20rem;">
 		<h5 class="card-header">{{ user.role[0].toUpperCase() + user.role.slice(1) }}</h5>
 		<div class="card-body">
-			<p class="card-title">{{ user.username }}</p><br>
+			<p class="card-title"><b>{{ user.username }}</b></p><br>
 			<p class="text">Name: {{ user.name + " " + user.surname }}</p>
 			<p class="text">Gender: {{ user.gender }}</p>
 			<p class="text">Birth date: {{ user.birth_date }}</p>
@@ -31,6 +31,8 @@ export default {
 
 .card {
 	margin: 20px;
+	border-radius: 10px;
+	box-shadow: 2px 2px 2px lightblue;
 }
 
 </style>

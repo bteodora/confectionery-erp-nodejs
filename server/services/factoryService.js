@@ -16,7 +16,7 @@ exports.registerFactory = (newFactory) => {
 		factoryId = factories.sort((a, b) => a.id - b.id)[factories.length - 1].id;
 	}
 
-	newFactory = { id: factoryId, ...newFactory };
+	newFactory = { id: factoryId, ...newFactory, rating: 0.0, isOpen: true};
 	userService.setManagersFactoryId(newFactory.managerId, newFactory.id);
 
 	factories.push(newFactory);

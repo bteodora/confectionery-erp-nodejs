@@ -1,3 +1,18 @@
 [
-
+  {
+    "id": 1,
+    "name": "Wonka's Chocolate Factory",
+    "startWorkTime": "10:00",
+    "endWorkTime": "21:00",
+    "managerId": "tbecejac",
+    "location": {
+      "lon": 19.851474501192566,
+      "lat": 45.24616742802104,
+      "address": "West Norwood Avenue",
+      "city": "Itasca",
+      "zip": "60143"
+    },
+	"rating" : 0.0,
+	"isOpen": true
+  }
 ]
