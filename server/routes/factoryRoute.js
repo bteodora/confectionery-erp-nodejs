@@ -45,7 +45,8 @@ router.post('/img/upload/:factoryId', verifyToken, (req, res, next) => {
 router.get('/img/:factoryId', (req, res) => {
 	const factoryId = Number(req.params.factoryId);
 	const imgPath = factoryServices.getFactoryImgPath(factoryId);
-	return res.status(200).sendFile(path.join(process.cwd() + '\\' + imgPath));
+	const fullImgPath = path.join(process.cwd().replace('\\', '/'), imgPath);
+	return res.status(200).sendFile(fullImgPath);
 });
 
 module.exports = router;
