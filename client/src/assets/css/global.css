@@ -1,8 +1,8 @@
 .containerMiddle {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%, -50%);
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 50px;
+	margin-bottom: 50px;
 	border-radius: 10px;
 	padding: 20px;
 }
@@ -10,4 +10,10 @@
 .errorText {
 	color: red;
 	font-size: 15px;
+}
+
+.formHeader {
+	border-radius: 10px;
+	padding: 10px;
+	color: white;
 }

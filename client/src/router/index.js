@@ -11,7 +11,8 @@ const router = createRouter({
 		// Admin routes
 		{ path: '/admin', name: 'admin', component: () => import('../views/Admin/AdminHome.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
 		{ path: '/admin/showallusers', name: 'admin-showallusers', component: () => import('../views/Admin/ShowAllUsers.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
-		{ path: '/admin/registermanager', name: 'admin-registermanager', component: () => import('@/components/Admin/RegisterManager.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
+		{ path: '/admin/registermanager', name: 'admin-registermanager', component: () => import('../views/Admin/RegisterManager.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
+		{ path: '/admin/registerfactory', name: 'admin-registerfactory', component: () => import('../views/Admin/RegisterFactory.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
 
 		// Customer routes
 		{ path: '/customer', name: 'customer', component: () => import('../views/Customer/CustomerHome.vue'), meta: { requiresAuth: true, allowedRoles: ['customer'] } },
