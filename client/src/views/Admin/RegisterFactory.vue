@@ -47,7 +47,6 @@
 			</select>
 		</div>
 
-		<br>
 		<div class="errorText">{{ errorMessage }}</div><br>
 		<button class="btn btn-primary" v-on:click="register()">Submit</button>
 	</div>

@@ -1,5 +1,5 @@
 <template>
-	<div class="containerBorder containerMiddle" style="width: 20%;">
+	<div class="containerBorder containerMiddle" style="width: 500px;">
 		<h3 class="bg-secondary formHeader">Login to Choco factory</h3>
 		<div class="my-3">
 			<label class="form-label">Username</label>
