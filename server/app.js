@@ -6,6 +6,7 @@ const userRoute = require('./routes/userRoute')
 const factoryRoute = require('./routes/factoryRoute')
 
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
 app.use('/api/user', userRoute)

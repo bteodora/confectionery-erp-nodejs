@@ -1,7 +1,7 @@
 const path = require('path');
 const { readJSONFile, writeJSONFile } = require('../utils/jsonParser');
 
-const usersFilePath = path.join(__dirname, '../data/user.json');
+const usersFilePath = path.join(__dirname, '../data/json/user.json');
 
 exports.getAllUsers = (role) => {
 	const users = readJSONFile(usersFilePath);

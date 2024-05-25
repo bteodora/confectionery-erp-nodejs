@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const factoryServices = require('../services/factoryService');
-const {verifyToken} = require('../utils/tokenService');
+const {verifyToken} = require('../utils/tokenParser');
+const upload = require('../utils/imgParser');
+const path = require('path');
 
 router.get('/', (req, res) => {
 	const factories = factoryServices.getAllFactories();
@@ -15,11 +17,35 @@ router.post('/register', verifyToken, (req, res) => {
 
 	const newFactory = req.body;
 	try {
-		factoryServices.registerFactory(newFactory);
-		res.status(200).send({ message: 'Factory successfully registered'});
+		let factoryId = factoryServices.registerFactory(newFactory);
+		res.status(200).send({ message: 'Factory successfully registered', factoryId: factoryId });
 	} catch (err) {
 		res.status(400).send({ message: err.message});
 	}
+});
+
+router.post('/img/upload/:factoryId', verifyToken, (req, res, next) => {
+	if(req.auth.role !== 'admin') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+	next();
+
+	}, upload.single('img'), (req, res) => {
+
+	const factoryId = Number(req.params.factoryId);
+	const imgPath = req.file.path;
+	try {
+		factoryServices.setFactoryImgPath(factoryId, imgPath);
+		res.status(200).send({ message: 'Logo successfully uploaded'});
+	} catch (err) {
+		res.status(400).send({ message: err.message});
+	}
+});
+
+router.get('/img/:factoryId', (req, res) => {
+	const factoryId = Number(req.params.factoryId);
+	const imgPath = factoryServices.getFactoryImgPath(factoryId);
+	return res.status(200).sendFile(path.join(process.cwd() + '\\' + imgPath));
 });
 
 module.exports = router;

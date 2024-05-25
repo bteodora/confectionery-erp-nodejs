@@ -1,6 +1,5 @@
 <template>
 
-<h3>Factories</h3>
 <div class="card-container">
 	<FactoryCard v-for="factory in factories" :factory="factory" :viewingRole="null"/>
 </div>
@@ -36,12 +35,6 @@ export default {
 </script>
 
 <style scoped>
-
-h3 {
-	padding: 10px;
-	text-align: center;
-	border-bottom: 1px solid gray;
-}
 
 .card-container {
 	display: flex;

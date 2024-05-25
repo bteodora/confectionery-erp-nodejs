@@ -1,6 +1,7 @@
 const path = require('path');
+const multer = require('multer');
 const { readJSONFile, writeJSONFile } = require('../utils/jsonParser');
-const factoriesFilePath = path.join(__dirname, '../data/factory.json');
+const factoriesFilePath = path.join(__dirname, '../data/json/factory.json');
 const userService = require('./userService');
 
 exports.getAllFactories = () => {
@@ -13,7 +14,7 @@ exports.registerFactory = (newFactory) => {
 	let factoryId = 1;
 
 	if(factories.length > 0) {
-		factoryId = factories.sort((a, b) => a.id - b.id)[factories.length - 1].id;
+		factoryId = factories.sort((a, b) => a.id - b.id)[factories.length - 1].id + 1;
 	}
 
 	newFactory = { id: factoryId, ...newFactory, rating: 0.0, isOpen: true};
@@ -21,4 +22,29 @@ exports.registerFactory = (newFactory) => {
 
 	factories.push(newFactory);
 	writeJSONFile(factoriesFilePath, factories);
+
+	return newFactory.id;
+}
+
+exports.setFactoryImgPath = (factoryId, imgPath) => {
+	const factories = readJSONFile(factoriesFilePath);
+	const foundFactory = factories.find(f => f.id === factoryId);
+
+	if (!foundFactory) {
+		throw new Error('Factory not found');
+	}
+
+	foundFactory.imgPath = imgPath;
+	writeJSONFile(factoriesFilePath, factories);
+}
+
+exports.getFactoryImgPath = (factoryId) => {
+	const factories = readJSONFile(factoriesFilePath);
+	const foundFactory = factories.find(f => f.id === factoryId);
+
+	if (!foundFactory) {
+		throw new Error('Factory not found');
+	}
+
+	return foundFactory.imgPath;
 }

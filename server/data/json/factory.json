@@ -1,0 +1,36 @@
+[
+  {
+    "id": 1,
+    "name": "Wonka's Chocolate Factory",
+    "startWorkTime": "09:00",
+    "endWorkTime": "21:00",
+    "managerId": "tbecejac",
+    "location": {
+      "lon": 19.85133066773415,
+      "lat": 45.24613178366607,
+      "address": "West Norwood Avenue 1445",
+      "city": "Itasca",
+      "zip": "60143"
+    },
+    "rating": 0,
+    "isOpen": true,
+    "imgPath": "data\\img\\1716630827070_wonka_logo.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Malešići Cacao Inc.",
+    "startWorkTime": "12:00",
+    "endWorkTime": "18:00",
+    "managerId": "gala",
+    "location": {
+      "lon": 19.065986741334196,
+      "lat": 44.4925260950435,
+      "address": "Sokaka 10",
+      "city": "Malešići",
+      "zip": "42069"
+    },
+    "rating": 0,
+    "isOpen": true,
+    "imgPath": "data\\img\\1716633106614_malesici_logo.jpg"
+  }
+]

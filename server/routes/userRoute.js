@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userService = require('../services/userService');
-const {verifyToken, generateToken} = require('../utils/tokenService');
+const {verifyToken, generateToken} = require('../utils/tokenParser');
 
 router.get('/', verifyToken, (req, res) => {
 	if (req.auth.role !== 'admin') {

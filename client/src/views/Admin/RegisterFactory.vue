@@ -8,7 +8,7 @@
 		</div>
 		<div class="mb-3">
 			<label class="form-label">Logo</label>
-			<input class="form-control" type="file"/>
+			<input class="form-control" type="file" ref="fileInput" multiple="false" />
 		</div>
 		<div class="mb-3">
 			<label class="form-label">Start of working hours</label>
@@ -144,8 +144,6 @@ export default {
 				});
 		},
 		validate() {
-			console.log(this.location);
-
 			if (this.name === '') {
 				this.errorMessage = 'All fields are required';
 				return false;
@@ -182,27 +180,40 @@ export default {
 				this.errorMessage = 'End hours must be after start working hours';
 				return false;
 			}
+			if (this.$refs.fileInput.files.length === 0) {
+				this.errorMessage = 'Logo is required';
+				return false;
+			}
 
 			return true;
 		},
-		register() {
+		async register() {
 			if (!this.validate())
 				return;
 
-			axiosInstance.post('/factory/register', {
-				name: this.name,
-				startWorkTime: this.startWorkTime,
-				endWorkTime: this.endWorkTime,
-				managerId: this.managerId,
-				location: this.location
-			})
-			.then(response => {
-				alert(response.data.message);
+			try {
+				const response1 = await axiosInstance.post('/factory/register', {
+					name: this.name,
+					startWorkTime: this.startWorkTime,
+					endWorkTime: this.endWorkTime,
+					managerId: this.managerId,
+					location: this.location
+				});
+
+				const factoryId = response1.data.factoryId;
+				const img = this.$refs.fileInput.files[0];
+				const formData = new FormData();
+				formData.append('img', img);
+
+				const response2 = await axiosInstance.post(`/factory/img/upload/${factoryId}`, formData)
+
+				alert(response1.data.message + '\n' + response2.data.message);
 				this.$router.push('/admin');
-			})
-			.catch(error => {
-				this.errorMessage = error.response.data.message;
-			});
+			}
+			catch (error) {
+				console.log(error.response.data.message);
+				return;
+			}
 		}
 	},
 	mounted() {
