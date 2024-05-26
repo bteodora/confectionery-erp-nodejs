@@ -1,6 +1,9 @@
 <template>
-	<AdminNavbar/>
-	<RegisterForm role="manager" title="Register manager" endpoint="/user/register/manager"/>
+	<AdminNavbar />
+	<div class="containerCenter col-4">
+		<h3 class="bg-secondary formHeader">Register manager</h3><br>
+		<RegisterForm role="manager" endpoint="/user/register/manager" />
+	</div>
 </template>
 
 <script>
@@ -18,6 +21,4 @@ export default {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

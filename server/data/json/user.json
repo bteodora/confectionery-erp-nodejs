@@ -37,5 +37,15 @@
     "birth_date": "2002-01-08",
     "role": "manager",
     "factoryId": 2
+  },
+  {
+    "username": "msremac",
+    "password": "msremac",
+    "name": "Mihajlo",
+    "surname": "Sremac",
+    "gender": "male",
+    "birth_date": "2002-01-12",
+    "role": "manager",
+    "factoryId": 3
   }
 ]

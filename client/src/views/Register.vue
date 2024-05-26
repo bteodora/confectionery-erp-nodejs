@@ -1,5 +1,8 @@
 <template>
-	<RegisterForm :title="'Register as customer'" :role="customer" :endpoint="'/user/register/customer'"/>
+	<div class="containerCenter col-4">
+		<h3 class="bg-secondary formHeader">Register manager</h3><br>
+		<RegisterForm role="customer" endpoint="/user/register/customer" />
+	</div>
 </template>
 
 <script>
@@ -15,6 +18,4 @@ export default {
 
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

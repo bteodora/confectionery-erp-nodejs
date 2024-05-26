@@ -33,7 +33,7 @@ router.post('/img/upload/:factoryId', verifyToken, (req, res, next) => {
 	}, upload.single('img'), (req, res) => {
 
 	const factoryId = Number(req.params.factoryId);
-	const imgPath = req.file.path;
+	const imgPath = req.file.path.replace('\\', '/');
 	try {
 		factoryServices.setFactoryImgPath(factoryId, imgPath);
 		res.status(200).send({ message: 'Logo successfully uploaded'});

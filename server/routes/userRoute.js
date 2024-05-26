@@ -80,7 +80,6 @@ router.get('/profile', verifyToken, (req, res) => {
 		});
 });
 
-
 router.put('/profile', verifyToken, (req, res) => {
 	const username = req.auth.username;
 	const user = req.body;
