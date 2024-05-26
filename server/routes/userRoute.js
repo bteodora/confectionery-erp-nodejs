@@ -64,8 +64,28 @@ router.post('/login', (req, res) => {
 	}
 });
 
+router.get('/verify', verifyToken, (req, res) => {
+	res.status(200).send({ message: 'Token is valid', role: req.auth.role});
+});
+
 router.get('/profile', verifyToken, (req, res) => {
-	res.status(200).send(req.auth);
+	const username = req.auth.username;
+	const user = userService.getUser(username);
+
+	res.status(200).send({
+		name: user.name,
+		surname: user.surname,
+		gender: user.gender,
+		birth_date: user.birth_date,
+		});
+});
+
+
+router.put('/profile', verifyToken, (req, res) => {
+	const username = req.auth.username;
+	const user = req.body;
+	userService.updateUser(username, user);
+	res.status(200).send({ message: 'Profile updated successfully'});
 });
 
 module.exports = router;

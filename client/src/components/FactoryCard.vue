@@ -41,7 +41,6 @@ export default {
 		}
 
 		this.imgSrc = `${baseURL}/factory/img/${this.factory.id}`;
-		console.log(this.imgSrc);
 	},
 }
 

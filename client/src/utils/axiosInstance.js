@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 export const baseURL = 'http://localhost:5000/api';
 
@@ -11,6 +12,16 @@ axiosInstance.interceptors.request.use((config) => {
 	config.headers.Authorization = `Bearer ${jwt}`;
 	return config;
 });
+
+export function getUserProfile() {
+	try {
+		const token = localStorage.getItem('jwt');
+		return jwtDecode(token);
+	  } catch (error) {
+		console.error("Invalid token", error);
+		return null;
+	  }
+}
 
 export function logoutUser()  {
 	localStorage.removeItem('jwt');

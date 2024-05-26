@@ -34,13 +34,7 @@ export default {
 		}
 	},
 	mounted() {
-		axiosInstace.get('/user/profile')
-			.then((response) => {
-				this.username = response.data.username;
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		this.username = getUserProfile().username;
 	},
 	methods: {
 		logout() {
