@@ -1,0 +1,108 @@
+const express = require('express');
+const router = express.Router();
+const chocolateService = require('../services/chocolateService');
+const {verifyToken} = require('../utils/tokenParser');
+const upload = require('../utils/imgParser');
+const path = require('path');
+
+// Potrebno:
+// Sve cokolade za fabriku ✔
+
+// MENADZER:
+// Kreiranje ✔
+// Izmena ✔
+// Brisanje ✔
+// ! set Image ✔
+
+// RADNIK i KUPAC:
+// Promena kvantiteta ✔
+
+router.get('/:factoryId', (req, res) => {
+	const factoryId = Number(req.params.factoryId);
+	const chocolates = chocolateService.GetAllChocolatesForFactory(factoryId);
+
+	if (chocolates) {
+		return res.status(200).send(chocolates);
+	} else {
+		return res.status(404).send({ error: 'No chocolates found for this factory' });
+	}
+});
+
+router.post('/changeQuantity/:newQuantity', verifyToken, (req, res) => {
+    if(req.auth.role !== 'worker' || req.auth.role !== 'customer') { //customer smanjuje worker povecava
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+    const newQuantity = Number(req.params.newQuantity);
+    try{
+        chocolateService.SetQuantity(newQuantity);
+        res.status(200).send({ message: 'Successfully created new chocolate'});
+    }
+    catch{
+        res.status(400).send({ message: err.message});
+    }
+});
+
+router.post('/img/upload/:chocoId', verifyToken, (req, res, next) => {
+	if(req.auth.role !== 'manager') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+	next();
+
+	}, upload.single('img'), (req, res) => {
+
+	const chocoId = Number(req.params.chocoId);
+	const imgPath = req.file.path;
+	try {
+        chocolateService.SetImagePath.apply(chocoId, imgPath);
+		res.status(200).send({ message: 'Successfully uploaded a picture of the chocolate'});
+	} catch (err) {
+		res.status(400).send({ message: err.message});
+	}
+});
+
+router.post('/createChocolate', verifyToken, (req, res) => {
+    if(req.auth.role !== 'manager') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+    const newChocolate = req.body;
+    try{
+        chocolateService.CreateChocolate(newChocolate);
+        res.status(200).send({ message: 'Successfully created new chocolate'});
+    }
+    catch{
+        res.status(400).send({ message: err.message});
+    }
+});
+
+router.post('/updateChocolate', verifyToken, (req, res) => {
+    if(req.auth.role !== 'manager') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+    const newChocolate = req.body;
+    try{
+        chocolateService.UpdateChocolate(newChocolate);
+        res.status(200).send({ message: 'Successfully updated chocolate'});
+    }
+    catch{
+        res.status(400).send({ message: err.message});
+    }
+});
+
+router.post('/deleteChocolate/:chocolateId', verifyToken, (req, res) => {
+    if(req.auth.role !== 'manager') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+    const chocolateId = Number(req.params.chocolateId);
+    try{
+        chocolateService.DeleteChocolate(chocolateId);
+        res.status(200).send({ message: 'Successfully deleted chocolate'});
+    }
+    catch{
+        res.status(400).send({ message: err.message});
+    }
+});
+
+module.exports = router;
