@@ -2,31 +2,33 @@ const express = require('express');
 const router = express.Router();
 const userService = require('../services/userService');
 const {verifyToken, generateToken} = require('../utils/tokenParser');
+const User = require('../models/user');
 
 router.get('/', verifyToken, (req, res) => {
-	if (req.auth.role !== 'admin') {
+	if (req.auth.role !== 'admin')
 		return res.status(403).send({ message: 'Forbidden' });
-	}
 
 	let role = req.query.role || null;
 
 	const users = userService.getAllUsers(role);
-	return res.status(200).send(users);
+	res.status(200).send(users);
 });
 
 router.get('/manager/available', verifyToken, (req, res) => {
-	if (req.auth.role !== 'admin') {
+	if (req.auth.role !== 'admin')
 		return res.status(403).send({ message: 'Forbidden' });
-	}
 
 	const managers = userService.getAvailableManagers();
-	return res.status(200).send(managers);
+	res.status(200).send(managers);
 });
 
 router.post('/register/customer', (req, res) => {
-
-	const newUser = req.body;
 	try {
+		const newUser = req.body;
+
+		if(!User.checkUser(newUser))
+			return res.status(400).send({ message: 'Invalid fields'});
+
 		newUser.role = 'customer';
 		newUser.points = 0;
 		userService.registerUser(newUser);
@@ -43,6 +45,10 @@ router.post('/register/manager', verifyToken, (req, res) => {
 
 	try {
 		const newUser = req.body;
+
+		if(!User.checkUser(newUser))
+			return res.status(400).send({ message: 'Invalid fields'});
+
 		newUser.role = 'manager';
 		newUser.factoryId = null;
 		userService.registerUser(newUser);
@@ -53,8 +59,12 @@ router.post('/register/manager', verifyToken, (req, res) => {
 });
 
 router.post('/login', (req, res) => {
-	const { username, password } = req.body;
 	try {
+		const { username, password } = req.body;
+
+		if(!User.checkUsername(username) || !User.checkPassword(password))
+			return res.status(400).send({ message: 'Invalid fields'});
+
 		userService.login(username, password);
 		const role = userService.getRole(username);
 		const token = generateToken({ username, role: role});
@@ -70,19 +80,29 @@ router.get('/verify', verifyToken, (req, res) => {
 
 router.get('/profile', verifyToken, (req, res) => {
 	const username = req.auth.username;
-	const user = userService.getUser(username);
 
-	res.status(200).send({
-		name: user.name,
-		surname: user.surname,
-		gender: user.gender,
-		birth_date: user.birth_date,
+	try {
+		const user = userService.getUser(username);
+
+		res.status(200).send({
+			name: user.name,
+			surname: user.surname,
+			gender: user.gender,
+			birth_date: user.birth_date,
 		});
+	}
+	catch(err) {
+		res.status(400).send({ message: err.message});
+	}
 });
 
 router.put('/profile', verifyToken, (req, res) => {
 	const username = req.auth.username;
 	const user = req.body;
+
+	if(!User.checkName(user.name) || !User.checkSurname(user.surname) || !User.checkGender(user.gender) || !User.checkBirthDate(user.birth_date))
+		return res.status(400).send({ message: 'Invalid fields'});
+
 	userService.updateUser(username, user);
 	res.status(200).send({ message: 'Profile updated successfully'});
 });
