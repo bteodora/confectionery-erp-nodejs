@@ -18,6 +18,8 @@ const router = createRouter({
 		{ path: '/customer', name: 'customer', component: () => import('../views/Customer/CustomerHome.vue'), meta: { requiresAuth: true, allowedRoles: ['customer'] } },
 
 		// Manager routes
+		{ path: '/manager', name: 'manager', component: () => import('../views/Manager/ManagerHome.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
+		{ path: '/manager/addChocolate', name: 'manager-addChocolate', component: () => import('../views/Manager/AddChocolate.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
 
 		// Staff routes
 
