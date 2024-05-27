@@ -46,7 +46,7 @@ export default {
 			password_2: '',
 			name: '',
 			surname: '',
-			gender: 'male',
+			gender: '',
 			birth_date: '',
 			errorMessage: ''
 		}
@@ -63,7 +63,7 @@ export default {
 	},
 	methods: {
 		register() {
-			if (this.username === '' || this.password_1 === '' || this.password_2 === '' || this.name === '' || this.surname === '' || this.birth_date === '') {
+			if (this.username === '' || this.password_1 === '' || this.password_2 === '' || this.name === '' || this.gender === '' || this.surname === '' || this.birth_date === '') {
 				this.errorMessage = 'All fields are required!';
 				return;
 			}
@@ -83,6 +83,7 @@ export default {
 			}).then(response => {
 				alert(response.data.message);
 				this.refresh();
+				this.$emit('registerSuccess');
 			}).catch(error => {
 				this.errorMessage = error.response.data.message;
 			});

@@ -43,7 +43,6 @@
 
 			<div class="d-flex align-items-center">
 				<select class="form-select" v-model="managerId">
-					<option value="" disabled selected></option>
 					<option v-for="manager in managers" :value="manager.username">
 						{{ manager.username + " - " + manager.name + " " + manager.surname }}</option>
 				</select>
@@ -62,7 +61,7 @@
 						<h5 class="modal-title" id="exampleModalLabel">Register manager</h5>
 					</div>
 					<div class="modal-body">
-						<RegisterForm ref="registerForm" role="manager" endpoint="/user/register/manager"/>
+						<RegisterForm ref="registerForm" role="manager" endpoint="/user/register/manager" v-on:registerSuccess="getManagers()"/>
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
