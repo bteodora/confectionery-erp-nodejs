@@ -37,5 +37,15 @@
     "birth_date": "2002-01-08",
     "role": "manager",
     "factoryId": 2
+  },
+  {
+    "username": "p@pi",
+    "password": "ognjen",
+    "name": "Ognjen",
+    "surname": "Papovic",
+    "gender": "male",
+    "birth_date": "2002-06-24",
+    "role": "customer",
+    "points": 0
   }
 ]
