@@ -24,7 +24,7 @@
 
 <script>
 
-import axiosInstace, { logoutUser } from '@/utils/axiosInstance';
+import axiosInstace, { logoutUser, getUserProfile } from '@/utils/axiosInstance';
 
 export default {
 	name: 'CustomerNavbar',

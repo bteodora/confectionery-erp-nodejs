@@ -19,7 +19,7 @@ export function getUserProfile() {
 		return jwtDecode(token);
 	  } catch (error) {
 		console.error("Invalid token", error);
-		return null;
+		return { username: null, role: null };
 	  }
 }
 
