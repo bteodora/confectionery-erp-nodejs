@@ -4,9 +4,6 @@ class Location {
 		if(!loc || loc === undefined)
 			return false;
 
-		if(!Location.checkName(loc.name))
-			return false;
-
 		if(!Location.checkLonLat(loc.lon, loc.lat))
 			return false;
 

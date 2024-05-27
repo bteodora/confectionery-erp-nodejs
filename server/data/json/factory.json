@@ -12,7 +12,7 @@
       "city": "Itasca",
       "zip": "60143"
     },
-    "rating": 0.0,
+    "rating": 0,
     "isOpen": true,
     "imgPath": "data/img/1716630827070_wonka_logo.jpg"
   },
@@ -29,7 +29,7 @@
       "city": "Malešići",
       "zip": "42069"
     },
-    "rating": 0.0,
+    "rating": 0,
     "isOpen": true,
     "imgPath": "data/img/1716633106614_malesici_logo.jpg"
   },

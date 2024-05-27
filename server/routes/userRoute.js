@@ -25,12 +25,12 @@ router.get('/manager/available', verifyToken, (req, res) => {
 router.post('/register/customer', (req, res) => {
 	try {
 		const newUser = req.body;
+		newUser.role = 'customer';
+		newUser.points = 0;
 
 		if(!User.checkUser(newUser))
 			return res.status(400).send({ message: 'Invalid fields'});
 
-		newUser.role = 'customer';
-		newUser.points = 0;
 		userService.registerUser(newUser);
 		res.status(200).send({ message: 'Customer successfully registered'});
 	} catch (err) {
@@ -45,12 +45,12 @@ router.post('/register/manager', verifyToken, (req, res) => {
 
 	try {
 		const newUser = req.body;
+		newUser.role = 'manager';
+		newUser.factoryId = null;
 
 		if(!User.checkUser(newUser))
 			return res.status(400).send({ message: 'Invalid fields'});
 
-		newUser.role = 'manager';
-		newUser.factoryId = null;
 		userService.registerUser(newUser);
 		res.status(200).send({ message: 'Manager successfully registered'});
 	} catch (err) {

@@ -239,7 +239,6 @@ export default {
 		},
 		refreshModal(){
 			this.$refs.registerForm.refresh();
-			getManagers();
 		}
 	},
 	mounted() {

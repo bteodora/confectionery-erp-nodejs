@@ -1,10 +1,11 @@
+const Location = require('./location');
+
 class Factory {
 
 	static checkFactory(newFactory) {
-		if(!this.checkName(newFactory.name)
-			|| !this.checkWorkTime(newFactory.startWorkTime, newFactory.endWorkTime)
-			|| !this.checkRating(newFactory.rating)
-			|| !this.checkManagerId(newFactory.managerId))
+		if(!Factory.checkName(newFactory.name)
+			|| !Factory.checkWorkTime(newFactory.startWorkTime, newFactory.endWorkTime)
+			|| !Factory.checkManagerId(newFactory.managerId))
 
 			return false
 
@@ -34,13 +35,6 @@ class Factory {
 		const end = new Date(`1970-01-01T${endWorkTime}:00`);
 
 		if(start >= end)
-			return false
-
-		return true
-	}
-
-	static checkRating(rating) {
-		if(rating < 0  || rating > 5 || rating === undefined)
 			return false
 
 		return true
