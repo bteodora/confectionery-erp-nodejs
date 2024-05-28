@@ -1,0 +1,41 @@
+[
+  {
+    "name": "Wonka Classic Bar",
+    "price": 180,
+    "type": "milk",
+    "weight": 90,
+    "description": "Classic Wonka chocolate bar, designed by no other than Willy Wonka. This chocolate is best known for its rich taste and creamy texture that melts perfectly in your mouth.",
+    "factoryId": 1,
+    "category": "regular",
+    "status": "OutOfStock",
+    "quantity": 0,
+    "id": 1,
+    "imagePath": "data\\img\\1716911533746_wonka_bar.jpg"
+  },
+  {
+    "name": "Wonka Waterfall Bar",
+    "price": 235,
+    "type": "mixed",
+    "weight": 105,
+    "description": "Try out out latest chocolate - Wonka's waterfall chocolate! With a perfect mix of white, black and milk chocolate, it will surely blow your mind away!",
+    "factoryId": 1,
+    "category": "regular",
+    "status": "OutOfStock",
+    "quantity": 0,
+    "id": 2,
+    "imagePath": "data\\img\\1716911583035_wonka_mixed.jpg"
+  },
+  {
+    "name": "Wonka Caramel Bar",
+    "price": 210,
+    "type": "black",
+    "weight": 95,
+    "description": "Try out the best caramel chocolate in the world! The center of this chocolate is flowing with caramel filling which will make you crave for more...",
+    "factoryId": 1,
+    "category": "regular",
+    "status": "OutOfStock",
+    "quantity": 0,
+    "id": 3,
+    "imagePath": "data\\img\\1716911640696_wonka_caramel.jpg"
+  }
+]
