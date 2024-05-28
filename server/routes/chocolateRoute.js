@@ -42,40 +42,50 @@ router.post('/changeQuantity/:newQuantity', verifyToken, (req, res) => {
     }
 });
 
-router.post('/img/upload/:chocoId', verifyToken, (req, res, next) => {
-	if(req.auth.role !== 'manager') {
-		return res.status(403).send({ message: 'Forbidden' });
-	}
-	next();
+router.post('/img/upload/:chocoId', verifyToken, upload.single('img'), (req, res, next) => {
+    if (req.auth.role !== 'manager') {
+        return res.status(403).send({ message: 'Forbidden' });
+    }
 
-	}, upload.single('img'), (req, res) => {
+    const chocoId = Number(req.params.chocoId);
+    if (isNaN(chocoId)) {
+        return res.status(400).send({ message: 'Invalid chocolate ID' });
+    }
 
-	const chocoId = Number(req.params.chocoId);
-	const imgPath = req.file.path;
-	try {
-        chocolateService.SetImagePath.apply(chocoId, imgPath);
-		res.status(200).send({ message: 'Successfully uploaded a picture of the chocolate'});
-	} catch (err) {
-		res.status(400).send({ message: err.message});
-	}
+    if (!req.file) {
+        return res.status(400).send({ message: 'No file uploaded' });
+    }
+
+    const imgPath = req.file.path;
+    //console.log(`Uploading image for chocolate ID: ${chocoId}, image path: ${imgPath}`);
+
+    try {
+        chocolateService.SetImagePath(chocoId, imgPath);
+        res.status(200).send({ message: 'Successfully uploaded a picture of the chocolate' });
+    } catch (err) {
+        console.error('Error setting image path:', err);
+        res.status(400).send({ message: err.message });
+    }
 });
 
-router.post('/createChocolate', verifyToken, (req, res) => {
+
+
+router.post('/createchocolate', verifyToken, (req, res) => {
     if(req.auth.role !== 'manager') {
 		return res.status(403).send({ message: 'Forbidden' });
 	}
 
     const newChocolate = req.body;
     try{
-        chocolateService.CreateChocolate(newChocolate);
-        res.status(200).send({ message: 'Successfully created new chocolate'});
+        let chocoId = chocolateService.CreateChocolate(newChocolate);
+        res.status(200).send({ message: 'Successfully created new chocolate', chocoId: chocoId});
     }
     catch{
         res.status(400).send({ message: err.message});
     }
 });
 
-router.post('/updateChocolate', verifyToken, (req, res) => {
+router.post('/updatechocolate', verifyToken, (req, res) => {
     if(req.auth.role !== 'manager') {
 		return res.status(403).send({ message: 'Forbidden' });
 	}
@@ -90,7 +100,7 @@ router.post('/updateChocolate', verifyToken, (req, res) => {
     }
 });
 
-router.post('/deleteChocolate/:chocolateId', verifyToken, (req, res) => {
+router.post('/deletechocolate/:chocolateId', verifyToken, (req, res) => {
     if(req.auth.role !== 'manager') {
 		return res.status(403).send({ message: 'Forbidden' });
 	}
