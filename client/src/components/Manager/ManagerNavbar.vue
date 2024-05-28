@@ -12,7 +12,7 @@
                         Factories
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownChocolates">
-                        <li><router-link class="dropdown-item" >Show All</router-link></li>
+                        <li><router-link class="dropdown-item" to="/manager">Show All</router-link></li>
                         <li><router-link class="dropdown-item" >Show ratings</router-link></li>
                     </ul>
                 </li>
@@ -23,8 +23,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownChocolates">
                         <li><router-link class="dropdown-item" >Show All</router-link></li>
-                        <li><router-link class="dropdown-item" to="/manager/addChocolate">Add new</router-link></li> 
-                        <!-- ne radi na klik promena -->
+                        <li><router-link class="dropdown-item" to="/manager/addchocolate">Add new</router-link></li> 
                     </ul>
                 </li>
                 <li class="nav-item">
