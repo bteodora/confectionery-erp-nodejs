@@ -1,5 +1,5 @@
 <template>
-	<AdminNavbar />
+	<ManagerNavbar/>
 	<div class="container" style="width: 35%;">
 		<h3 class="bg-secondary formHeader">Register Chocolate</h3><br>
 		<div class="mb-3">
@@ -16,6 +16,15 @@
 				<option value="black">Black</option>
 				<option value="white">White</option>
 				<option value="milk">Milk</option>
+				<option value="mixed">Mixed</option>
+			</select>
+		</div>
+		<div class="mb-3">
+			<label class="form-label">Category</label>
+			<select class="form-select" v-model="category">
+				<option value="cooking">Chocolate for cooking</option>
+				<option value="drinking">For drinking</option>
+				<option value="regular">Regular</option>
 			</select>
 		</div>
 		<div class="mb-3">
@@ -36,28 +45,50 @@
 </template>
 
 <script>
-import AdminNavbar from '@/components/Admin/AdminNavbar.vue';
+import ManagerNavbar from '@/components/Manager/ManagerNavbar.vue';
 import axiosInstance from '@/utils/axiosInstance';
 
 export default {
 	name: 'RegisterChocolate',
 	components: {
-		AdminNavbar
+		ManagerNavbar
 	},
 	data() {
 		return {
 			name: '',
 			price: '',
 			type: '',
+			category: '',
 			weight: '',
 			description: '',
-			errorMessage: ''
+			errorMessage: '',
+			factoryId: null
 		};
 	},
+
+	mounted() {
+    axiosInstance.get('/user/factoryid')
+        .then((response) => {     
+            this.factoryId = response.data.factoryId;
+        })
+        .catch((error) => {
+			alert(error);
+            console.error('Error fetching factoryId:', error);
+        });
+	},
+
 	methods: {
 		validate() {
-			if (this.name === '' || this.price === '' || this.type === '' || this.weight === '' || this.description === '') {
+			if (this.name === '' || this.price === '' || this.type === '' || this.weight === '' || this.description === ''|| this.category==='') {
 				this.errorMessage = 'All fields are required';
+				return false;
+			}
+			if (this.price <= 0) {
+				this.errorMessage = 'Price must be greater than 0';
+				return false;
+			}
+			if (this.weight <= 0) {
+				this.errorMessage = 'Weight must be greater than 0 grams';
 				return false;
 			}
 			if (this.$refs.fileInput.files.length === 0) {
@@ -68,30 +99,31 @@ export default {
 		},
 		async register() {
 			if (!this.validate()) return;
-
 			try {
-				const response1 = await axiosInstance.post('/chocolate/register', {
+				const response1 = await axiosInstance.post('/chocolate/createchocolate', {
 					name: this.name,
 					price: this.price,
 					type: this.type,
 					weight: this.weight,
-					description: this.description
+					description: this.description,
+					factoryId : this.factoryId,
+					category: this.category
 				});
-
-				const chocolateId = response1.data.chocolateId;
+				const chocolateId = response1.data.chocoId;
 				const img = this.$refs.fileInput.files[0];
 				const formData = new FormData();
 				formData.append('img', img);
+				// alert('setovanje img path-a')
+				const response2 = await axiosInstance.post(`/chocolate/img/upload/${chocolateId}`, formData);
 
-				// const response2 = await axiosInstance.post(`/chocolate/img/upload/${chocolateId}`, formData);
-
-				// alert(response1.data.message + '\n' + response2.data.message);
-				// this.$router.push('/admin');
+				alert(response1.data.message + '\n' + response2.data.message);
+				this.$router.push('/manager');
 			} catch (error) {
 				this.errorMessage = error.response.data.message;
 				console.error(error);
+				alert(error);
 			}
-		}
+		} 
 	}
 };
 </script>
