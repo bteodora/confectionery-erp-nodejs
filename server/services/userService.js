@@ -51,6 +51,12 @@ exports.login = (username, password) => {
 	}
 }
 
+exports.getFactoryId = (username) => {
+	const users = readJSONFile(usersFilePath);
+	const foundUser = users.find(u => u.username === username);
+	return foundUser.factoryId;
+}
+
 exports.getRole = (username) => {
 	const users = readJSONFile(usersFilePath);
 	const foundUser = users.find(u => u.username === username);

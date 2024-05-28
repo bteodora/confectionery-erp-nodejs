@@ -65,7 +65,23 @@ router.post('/login', (req, res) => {
 });
 
 router.get('/profile', verifyToken, (req, res) => {
-	res.status(200).send(req.auth);
+    res.status(200).send(req.auth);
 });
+
+router.get('/factoryid', verifyToken, (req, res) => {
+    if (req.auth.role !== 'manager') {
+        return res.status(403).send({ message: 'Forbidden' });
+    }
+
+    try {
+        const factoryId = userService.getFactoryId(req.auth.username);
+        // console.log('Factory ID:', factoryId); // Log factoryId for debugging
+        return res.status(200).send({ factoryId });
+    } catch (err) {
+        console.error('Error:', err); // Log any errors for debugging
+        res.status(400).send({ message: err.message });
+    }
+});
+
 
 module.exports = router;
