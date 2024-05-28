@@ -32,8 +32,10 @@ exports.CreateChocolate = (newChocolate) => {
     newChocolate.status = "OutOfStock";
     newChocolate.quantity = 0;
     newChocolate.id = chocoId;
+    newChocolate.imagePath = "";
     chocolates.push(newChocolate);
     writeJSONFile(chocolateFilePath, chocolates);
+    return newChocolate.id;
 }
 
 exports.SetImagePath = (chocolateId, imagePath) => {
@@ -41,7 +43,7 @@ exports.SetImagePath = (chocolateId, imagePath) => {
     const oldChocolate = chocolates.find(c => c.id == chocolateId);
 
     if(!oldChocolate){
-        throw new Error('No such chocolate exists');
+        throw new Error('No such chocolate exists');        
     }
 
     oldChocolate.imagePath = imagePath;
