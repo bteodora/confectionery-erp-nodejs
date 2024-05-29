@@ -24,7 +24,7 @@
 
 <script>
 
-import axiosInstace, { logoutUser } from '@/utils/axiosInstance';
+import axiosInstace, { logoutUser, getUserProfile } from '@/utils/axiosInstance';
 
 export default {
 	name: 'CustomerNavbar',
@@ -34,13 +34,7 @@ export default {
 		}
 	},
 	mounted() {
-		axiosInstace.get('/user/profile')
-			.then((response) => {
-				this.username = response.data.username;
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+		this.username = getUserProfile().username;
 	},
 	methods: {
 		logout() {

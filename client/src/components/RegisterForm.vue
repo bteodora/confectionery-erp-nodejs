@@ -1,40 +1,37 @@
 <template>
-	<div class="containerMiddle" style="width: 30%;">
-		<h3 class="bg-secondary formHeader">{{  this.title }}</h3><br>
-		<div class="mb-3">
-			<label class="form-label">Username</label>
-			<input type="text" class="form-control" v-model="username"/>
-		</div>
-		<div class="mb-3">
-			<label class="form-label">Password</label>
-			<input type="password" class="form-control" v-model="password_1"/>
-		</div>
-		<div class="mb-3">
-			<label class="form-label">Re-type password</label>
-			<input type="password" class="form-control" v-model="password_2"/>
-		</div>
-		<div class="mb-3">
-			<label class="form-label">Name</label>
-			<input type="text" class="form-control" v-model="name"/>
-		</div>
-		<div class="mb-3">
-			<label class="form-label">Surname</label>
-			<input type="text" class="form-control" v-model="surname"/>
-		</div>
-		<div class="mb-3">
-			<label class="form-label">Gender</label>
-			<select class="form-select" v-model="gender">
-				<option value="male">Male</option>
-				<option value="female">Female</option>
-			</select>
-		</div>
-		<div class="mb-3">
-			<label class="form-label">Birthdate</label>
-			<input type="date" class="form-control" v-model="birth_date"/>
-		</div>
-		<div class="errorText">{{ errorMessage }}</div><br>
-		<button class="btn btn-primary" v-on:click="register()">Submit</button>
+	<div class="mb-3">
+		<label class="form-label">Username</label>
+		<input type="text" class="form-control" v-model="username" />
 	</div>
+	<div class="mb-3">
+		<label class="form-label">Password</label>
+		<input type="password" class="form-control" v-model="password_1" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label">Re-type password</label>
+		<input type="password" class="form-control" v-model="password_2" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label">Name</label>
+		<input type="text" class="form-control" v-model="name" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label">Surname</label>
+		<input type="text" class="form-control" v-model="surname" />
+	</div>
+	<div class="mb-3">
+		<label class="form-label">Gender</label>
+		<select class="form-select" v-model="gender">
+			<option value="male">Male</option>
+			<option value="female">Female</option>
+		</select>
+	</div>
+	<div class="mb-3">
+		<label class="form-label">Birthdate</label>
+		<input type="date" class="form-control" v-model="birth_date" />
+	</div>
+	<div class="errorText">{{ errorMessage }}</div><br>
+	<button class="btn btn-primary" v-on:click="register()">Submit</button>
 </template>
 
 <script>
@@ -49,17 +46,13 @@ export default {
 			password_2: '',
 			name: '',
 			surname: '',
-			gender: 'male',
+			gender: '',
 			birth_date: '',
 			errorMessage: ''
 		}
 	},
 	props: {
-		role : {
-			type: String,
-			required: true
-		},
-		title: {
+		role: {
 			type: String,
 			required: true
 		},
@@ -70,7 +63,7 @@ export default {
 	},
 	methods: {
 		register() {
-			if (this.username === '' || this.password_1 === '' || this.password_2 === '' || this.name === '' || this.surname === '' || this.birth_date === '') {
+			if (this.username === '' || this.password_1 === '' || this.password_2 === '' || this.name === '' || this.gender === '' || this.surname === '' || this.birth_date === '') {
 				this.errorMessage = 'All fields are required!';
 				return;
 			}
@@ -89,10 +82,21 @@ export default {
 				birth_date: this.birth_date
 			}).then(response => {
 				alert(response.data.message);
-				this.$router.push('/');
+				this.refresh();
+				this.$emit('registerSuccess');
 			}).catch(error => {
 				this.errorMessage = error.response.data.message;
 			});
+		},
+		refresh() {
+			this.errorMessage = '';
+			this.username = '';
+			this.password_1 = '';
+			this.password_2 = '';
+			this.name = '';
+			this.surname = '';
+			this.birth_date = '';
+			this.gender = '';
 		}
 	}
 }
@@ -100,5 +104,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

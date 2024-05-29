@@ -13,6 +13,7 @@ const router = createRouter({
 		{ path: '/admin/showallusers', name: 'admin-showallusers', component: () => import('../views/Admin/ShowAllUsers.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
 		{ path: '/admin/registermanager', name: 'admin-registermanager', component: () => import('../views/Admin/RegisterManager.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
 		{ path: '/admin/registerfactory', name: 'admin-registerfactory', component: () => import('../views/Admin/RegisterFactory.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
+		{ path: '/admin/profile', name: 'admin-editprofile', component: () => import('../views/Admin/AdminProfile.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
 
 		// Customer routes
 		{ path: '/customer', name: 'customer', component: () => import('../views/Customer/CustomerHome.vue'), meta: { requiresAuth: true, allowedRoles: ['customer'] } },
@@ -29,7 +30,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 	if (to.matched.some(record => record.meta.requiresAuth)) {
-		axiosInstance.get('/user/profile')
+		axiosInstance.get('/user/verify')
 			.then(response => {
 				if (to.matched.some(record => record.meta.allowedRoles.includes(response.data.role))) {
 					next();
@@ -41,7 +42,7 @@ router.beforeEach((to, from, next) => {
 			})
 	}
 	else {
-		axiosInstance.get('/user/profile')
+		axiosInstance.get('/user/verify')
 		.then(response => {
 			next({ name: response.data.role });
 		}).catch(err => {
