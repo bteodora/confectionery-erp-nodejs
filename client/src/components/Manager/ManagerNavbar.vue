@@ -22,7 +22,7 @@
                         Chocolates
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownChocolates">
-                        <li><router-link class="dropdown-item" >Show All</router-link></li>
+                        <li><router-link class="dropdown-item" to="/manager/allchocolate">Show All</router-link></li>
                         <li><router-link class="dropdown-item" to="/manager/addchocolate">Add new</router-link></li> 
                     </ul>
                 </li>
