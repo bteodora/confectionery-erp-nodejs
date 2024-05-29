@@ -18,9 +18,23 @@ const chocolateFilePath = path.join(__dirname, '../data/json/chocolate.json');
 // KUPAC: 
 // Promena kvantiteta ✔
 
-exports.GetAllChocolatesForFactory =(factoryId1) => {
+exports.GetAllChocolatesForFactory = (factoryId) => { 
+    const chocolates = readJSONFile(chocolateFilePath);    
+    let filteredChocolates = chocolates.filter(c => c.factoryId == factoryId);
+    filteredChocolates = filteredChocolates.filter(c => c.isDeleted == false);
+    return filteredChocolates;
+  };
+  
+
+exports.getImagePath = (chocolateId) =>{
     const chocolates = readJSONFile(chocolateFilePath);
-    return chocolates.filter(c => c.factoryId == factoryId1);
+    const oldChocolate = chocolates.find(c => c.id == chocolateId);
+
+    if(!oldChocolate){
+        throw new Error('No such chocolate exists');        
+    }
+
+    return oldChocolate.imagePath;
 }
 
 exports.CreateChocolate = (newChocolate) => {
@@ -33,6 +47,7 @@ exports.CreateChocolate = (newChocolate) => {
     newChocolate.quantity = 0;
     newChocolate.id = chocoId;
     newChocolate.imagePath = "";
+    newChocolate.isDeleted = false;
     chocolates.push(newChocolate);
     writeJSONFile(chocolateFilePath, chocolates);
     return newChocolate.id;
@@ -63,13 +78,13 @@ exports.UpdateChocolate = (updatedChocolate) => {
 
 exports.DeleteChocolate = (chocoId) =>{
     const chocolates = readJSONFile(chocolateFilePath);
-    const chocolateIndex = chocolates.findIndex(c => c.id === chocoId);
+    const oldChocolate = chocolates.find(c => c.id == chocoId);
 
-    if (chocolateIndex === -1) {
-        throw new Error('No such chocolate exists');
+    if(!oldChocolate){
+        throw new Error('No such chocolate exists');        
     }
 
-    chocolates.splice(chocolateIndex, 1);
+    oldChocolate.isDeleted = true;
     writeJSONFile(chocolateFilePath, chocolates);
 }
 

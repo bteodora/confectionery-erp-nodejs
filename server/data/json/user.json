@@ -47,5 +47,15 @@
     "birth_date": "2002-06-24",
     "role": "customer",
     "points": 0
+  },
+  {
+    "username": "Meda",
+    "password": "medacar123",
+    "name": "Milos",
+    "surname": "Medic",
+    "gender": "male",
+    "birth_date": "2002-11-12",
+    "role": "customer",
+    "points": 0
   }
 ]
