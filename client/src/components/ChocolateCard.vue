@@ -42,7 +42,7 @@ export default {
     },
     deleteChocolate() {
         try {
-            axios.post(`/chocolate/deletechocolate/${this.chocolate.id}`)
+            axios.post(`/api/chocolate/deletechocolate/${this.chocolate.id}`)
                 .then(() => {
                     alert('Chocolate was successfully deleted');
                 })
