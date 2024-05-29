@@ -25,7 +25,6 @@ exports.GetAllChocolatesForFactory = (factoryId) => {
     return filteredChocolates;
   };
   
-
 exports.getImagePath = (chocolateId) =>{
     const chocolates = readJSONFile(chocolateFilePath);
     const oldChocolate = chocolates.find(c => c.id == chocolateId);

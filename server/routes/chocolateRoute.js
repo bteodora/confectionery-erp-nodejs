@@ -64,8 +64,7 @@ router.post('/img/upload/:chocoId', verifyToken, upload.single('img'), (req, res
         return res.status(400).send({ message: 'No file uploaded' });
     }
 
-    const imgPath = req.file.path;
-    //console.log(`Uploading image for chocolate ID: ${chocoId}, image path: ${imgPath}`);
+    const imgPath = req.file.path;    
 
     try {
         chocolateService.SetImagePath(chocoId, imgPath);
@@ -107,17 +106,20 @@ router.post('/updatechocolate', verifyToken, (req, res) => {
 });
 
 router.post('/deletechocolate/:chocolateId', verifyToken, (req, res) => {
-    console.log('usao u funkciju');
+    console.log('Entered deletechocolate route');
+    alert('usao')
     if (req.auth.role !== 'manager') {
+        console.log('Unauthorized access attempt');
         return res.status(403).send({ message: 'Forbidden' });
     }
 
     const chocolateId = Number(req.params.chocolateId);
     try {
-        console.log('usao u delete');
+        console.log(`Attempting to delete chocolate with ID: ${chocolateId}`);
         chocolateService.DeleteChocolate(chocolateId);
         res.status(200).send({ message: 'Successfully deleted chocolate' });
     } catch (err) {
+        console.log(`Error occurred: ${err.message}`);
         res.status(400).send({ message: err.message });
     }
 });

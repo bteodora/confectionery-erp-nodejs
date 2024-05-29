@@ -41,19 +41,18 @@ export default {
       console.log(`Updating chocolate with ID: ${this.chocolate.id}`);
     },
     deleteChocolate() {
-        try {
-            axios.post(`/api/chocolate/deletechocolate/${this.chocolate.id}`)
-                .then(() => {
-                    alert('Chocolate was successfully deleted');
-                })
-                .catch(error => {
-                    console.log(`Deleting chocolate with ID: ${this.chocolate.id}`);
-                    alert('An error occurred while trying to delete the chocolate');
-                });
-        } catch (error) {
-            console.log(`Error in deleteChocolate method: ${error.message}`);
-            alert('An unexpected error occurred');
-        }
+        console.log(`Attempting to delete chocolate with ID: ${this.chocolate.id}`);
+        alert(this.chocolate.id);
+        // router.post('/deletechocolate/:chocolateId', verifyToken, (req, res) => {
+        axios.post(`/chocolate/deletechocolate/${this.chocolate.id}`)
+            .then(() => {
+                alert('Chocolate was successfully deleted');
+            })
+            .catch(error => {
+                alert(error)
+                console.error(`Error deleting chocolate with ID: ${this.chocolate.id}: ${error.message}`);
+                alert('An error occurred while trying to delete the chocolate');
+            });
     }
   }
 };
