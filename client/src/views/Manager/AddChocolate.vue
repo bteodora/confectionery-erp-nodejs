@@ -62,6 +62,7 @@ export default {
 			weight: '',
 			description: '',
 			errorMessage: '',
+			isDeleted: false,
 			factoryId: null
 		};
 	},
@@ -107,17 +108,18 @@ export default {
 					weight: this.weight,
 					description: this.description,
 					factoryId : this.factoryId,
-					category: this.category
+					category: this.category,
+					isDeleted: this.isDeleted
 				});
 				const chocolateId = response1.data.chocoId;
 				const img = this.$refs.fileInput.files[0];
 				const formData = new FormData();
 				formData.append('img', img);
-				// alert('setovanje img path-a')
+				
 				const response2 = await axiosInstance.post(`/chocolate/img/upload/${chocolateId}`, formData);
 
 				alert(response1.data.message + '\n' + response2.data.message);
-				this.$router.push('/manager');
+				this.$router.push('/manager/allchocolate');
 			} catch (error) {
 				this.errorMessage = error.response.data.message;
 				console.error(error);
