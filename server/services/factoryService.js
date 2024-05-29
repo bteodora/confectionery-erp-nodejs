@@ -6,7 +6,7 @@ const userService = require('./userService');
 
 exports.getAllFactories = () => {
 	const factories = readJSONFile(factoriesFilePath);
-	return factories;
+	return factories.filter(f => !f.isDeleted);
 }
 
 exports.registerFactory = (newFactory) => {
@@ -17,7 +17,7 @@ exports.registerFactory = (newFactory) => {
 		factoryId = factories.sort((a, b) => a.id - b.id)[factories.length - 1].id + 1;
 	}
 
-	newFactory = { id: factoryId, ...newFactory, rating: 0.0, isOpen: true};
+	newFactory = { id: factoryId, ...newFactory, rating: 0.0, isDeleted: false};
 	userService.setManagersFactoryId(newFactory.managerId, newFactory.id);
 
 	factories.push(newFactory);
@@ -27,7 +27,7 @@ exports.registerFactory = (newFactory) => {
 }
 
 exports.setFactoryImgPath = (factoryId, imgPath) => {
-	const factories = readJSONFile(factoriesFilePath);
+	const factories = this.getAllFactories();
 	const foundFactory = factories.find(f => f.id === factoryId);
 
 	if (!foundFactory) {
@@ -39,7 +39,7 @@ exports.setFactoryImgPath = (factoryId, imgPath) => {
 }
 
 exports.getFactoryImgPath = (factoryId) => {
-	const factories = readJSONFile(factoriesFilePath);
+	const factories = this.getAllFactories();
 	const foundFactory = factories.find(f => f.id === factoryId);
 
 	if (!foundFactory) {

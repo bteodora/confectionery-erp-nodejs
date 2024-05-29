@@ -8,7 +8,7 @@
 			<p class="card-text">Address: {{ factory.location.address }}</p>
 			<p class="card-text">City: {{ factory.location.city }}</p>
 			<p class="card-text">Rating: {{ factory.rating.toPrecision(2) }} / 5</p>
-			<br><button class="btn btn-primary" :disabled="!factory.isOpen">Details</button>
+			<br><button class="btn btn-primary">Details</button>
 		</div>
 	</div>
 </template>
@@ -33,21 +33,19 @@ export default {
 	},
 	mounted() {
 		if (!this.factory.isOpen) {
-			this.cardBackgroundColor = 'lightgray';
-		}
-
-		if(!this.factory.isOpen) {
 			this.status = 'CLOSED';
+			this.cardBackgroundColor = 'lightgray';
 		}
 
 		this.imgSrc = `${baseURL}/factory/img/${this.factory.id}`;
 	},
+	methods: {
+	}
 }
 
 </script>
 
 <style scoped>
-
 .card {
 	border-radius: 10px;
 	box-shadow: 2px 2px 2px lightblue;
@@ -60,5 +58,4 @@ export default {
 	border-radius: 10px 10px 0px 0px;
 	border-bottom: 1px solid gray;
 }
-
 </style>

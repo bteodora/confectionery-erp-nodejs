@@ -106,6 +106,10 @@ export default {
 			axiosInstance.get('/factory')
 			.then((response) => {
 				this.factories = response.data;
+				this.factories = this.factories.map(f => {
+					f.isOpen = this.isFactoryOpen(f.startWorkTime, f.endWorkTime);
+					return f;
+				})
 				this.filtered_factories = this.factories
 			})
 			.catch((error) => {
@@ -165,6 +169,17 @@ export default {
 			if (this.sortByRatingAsc) {
 				this.filtered_factories = this.filtered_factories.reverse();
 			}
+		},
+		isFactoryOpen(startWorkTime, endWorkTime) {
+			const now = new Date();
+
+			const [startHour, startMinute] = startWorkTime.split(':').map(Number);
+			const [endHour, endMinute] = endWorkTime.split(':').map(Number);
+
+			const startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHour, startMinute);
+			const endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHour, endMinute);
+
+			return now >= startDate && now <= endDate;
 		}
 	}
 }

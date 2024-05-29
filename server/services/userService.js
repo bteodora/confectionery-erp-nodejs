@@ -33,7 +33,7 @@ exports.updateUser = (username, user) => {
 	}
 
 	const index = users.indexOf(foundUser);
-	
+
 	users[index].name = user.name;
 	users[index].surname = user.surname
 	users[index].gender = user.gender;
