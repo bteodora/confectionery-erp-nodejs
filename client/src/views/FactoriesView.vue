@@ -17,7 +17,7 @@
 					<div class="container text-center w-50 m-2">
 						<div class="row">
 							<div class="col-6">
-								<button class="btn btn-secondary w-100" v-on:click="search()">Search</button>
+								<button class="btn btn-secondary w-100" v-on:click="applySearchAndFilter()">Search</button>
 							</div>
 							<div class="col-6">
 								<button class="btn btn-secondary w-100" v-on:click="clearSearch()">Clear search</button>
@@ -34,7 +34,7 @@
 					<div class="container w-50 m-2">
 						<div class="row">
 							<div class="col-6">
-								<button class="btn btn-secondary w-100" v-on:click="filter()">Filter</button>
+								<button class="btn btn-secondary w-100" v-on:click="applySearchAndFilter()">Filter</button>
 							</div>
 							<div class="col-6">
 								<button class="btn btn-secondary w-100" v-on:click="clearFilter()">Clear filter</button>
@@ -116,29 +116,33 @@ export default {
 				console.log(error);
 			});
 		},
+		applySearchAndFilter() {
+			this.filtered_factories = this.factories
+			this.search();
+			this.filter();
+		},
 		search() {
-			this.filtered_factories = this.factories.filter(f => {
+			this.filtered_factories = this.filtered_factories.filter(f => {
 				return f.name.toLocaleLowerCase().includes(this.search_factory_name.toLocaleLowerCase()) &&
 					f.location.city.toLocaleLowerCase().includes(this.search_city.toLocaleLowerCase())
 			})
 
 		},
-		clearSearch() {
-			this.search_factory_name = '';
-			this.search_chocolate_name = '';
-			this.search_city = '';
-
-			this.filtered_factories = this.factories
-		},
 		filter() {
 			if (this.filter_status === '')
 				return
 
-			this.filtered_factories = this.factories.filter(f => f.isOpen === JSON.parse(this.filter_status))
+			this.filtered_factories = this.filtered_factories.filter(f => f.isOpen === JSON.parse(this.filter_status))
+		},
+		clearSearch() {
+			this.search_factory_name = '';
+			this.search_chocolate_name = '';
+			this.search_city = '';
+			this.applySearchAndFilter();
 		},
 		clearFilter() {
 			this.filter_status = ''
-			this.filtered_factories = this.factories
+			this.applySearchAndFilter();
 		},
 		sortByFactoryName() {
 			this.sortByFactoryNameAsc = !this.sortByFactoryNameAsc;
