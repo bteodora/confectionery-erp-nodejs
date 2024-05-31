@@ -15,7 +15,7 @@
 					<div class="container text-center w-50 m-2">
 						<div class="row">
 							<div class="col-6">
-								<button class="btn btn-secondary w-100" v-on:click="search()">Search</button>
+								<button class="btn btn-secondary w-100" v-on:click="applySearchAndFilter()">Search</button>
 							</div>
 							<div class="col-6">
 								<button class="btn btn-secondary w-100" v-on:click="clearSearch()">Clear search</button>
@@ -34,7 +34,7 @@
 					<div class="container w-50 m-2">
 						<div class="row">
 							<div class="col-6">
-								<button class="btn btn-secondary w-100" v-on:click="filter()">Filter</button>
+								<button class="btn btn-secondary w-100" v-on:click="applySearchAndFilter()">Filter</button>
 							</div>
 							<div class="col-6">
 								<button class="btn btn-secondary w-100" v-on:click="clearFilter()">Clear filter</button>
@@ -100,12 +100,18 @@ export default {
 		axiosInstace.get("/user")
 			.then((response) => {
 				this.users = response.data;
+
 				this.filtered_users = this.users;
 			})
 	},
 	methods: {
+		applySearchAndFilter() {
+			this.filtered_users = this.users;
+			this.search();
+			this.filter();
+		},
 		search() {
-			this.filtered_users = this.users.filter(user => {
+			this.filtered_users = this.filtered_users.filter(user => {
 				return user.username.toLocaleLowerCase().includes(this.search_username.toLocaleLowerCase()) &&
 					user.name.toLocaleLowerCase().includes(this.search_name.toLocaleLowerCase()) &&
 					user.surname.toLocaleLowerCase().includes(this.search_surname.toLocaleLowerCase())
@@ -115,17 +121,17 @@ export default {
 			if (this.filter_role === '')
 				return
 
-			this.filtered_users = this.users.filter(user => user.role === this.filter_role)
+			this.filtered_users = this.filtered_users.filter(user => user.role === this.filter_role)
 		},
 		clearFilter() {
 			this.filter_role = '';
-			this.filtered_users = this.users;
+			this.applySearchAndFilter();
 		},
 		clearSearch() {
 			this.search_username = '';
 			this.search_name = '';
 			this.search_surname = '';
-			this.filtered_users = this.users;
+			this.applySearchAndFilter();
 		},
 		sortByUsername() {
 			this.sortByUsernameAsc = !this.sortByUsernameAsc;

@@ -13,14 +13,14 @@
       "zip": "60143"
     },
     "rating": 0,
-    "isOpen": true,
+    "isDeleted": false,
     "imgPath": "data/img/1716630827070_wonka_logo.jpg"
   },
   {
     "id": 2,
     "name": "Malešići Cacao Inc.",
     "startWorkTime": "12:00",
-    "endWorkTime": "18:00",
+    "endWorkTime": "21:00",
     "managerId": "gala",
     "location": {
       "lon": 19.065986741334196,
@@ -30,7 +30,24 @@
       "zip": "42069"
     },
     "rating": 0,
-    "isOpen": true,
+    "isDeleted": false,
     "imgPath": "data/img/1716633106614_malesici_logo.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Vito & Dona Choco Corp.",
+    "startWorkTime": "09:00",
+    "endWorkTime": "13:00",
+    "managerId": "msremac",
+    "location": {
+      "lon": 19.686200050637122,
+      "lat": 45.24400098959143,
+      "address": "Josipa Mažara Šoše 7a",
+      "city": "Futog",
+      "zip": "21000"
+    },
+    "rating": 0,
+    "isDeleted": false,
+    "imgPath": "data/img/1716754313458_dona_logo.jpg"
   }
 ]

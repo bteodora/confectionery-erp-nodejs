@@ -1,6 +1,6 @@
 <template>
 	<AdminNavbar />
-	<div class="container" style="width: 35%;">
+	<div class="containerCenter col-4">
 		<h3 class="bg-secondary formHeader">Register factory</h3><br>
 		<div class="mb-3">
 			<label class="form-label">Name</label>
@@ -40,27 +40,49 @@
 
 		<div class="mb-3">
 			<label class="form-label">Manager</label>
-			<select class="form-select" v-model="managerId">
-				<option value="" disabled selected></option>
-				<option v-for="manager in managers" :value="manager.username">
-					{{ manager.username + " - " + manager.name + " " + manager.surname }}</option>
-			</select>
+
+			<div class="d-flex align-items-center">
+				<select class="form-select" v-model="managerId">
+					<option v-for="manager in managers" :value="manager.username">
+						{{ manager.username + " - " + manager.name + " " + manager.surname }}</option>
+				</select>
+				<button type="button" class="btn btn-primary text-nowrap mx-3" data-bs-toggle="modal"
+					data-bs-target="#registerModal" v-on:click="refreshModal()">Register new</button>
+			</div>
 		</div>
 
 		<div class="errorText">{{ errorMessage }}</div><br>
 		<button class="btn btn-primary" v-on:click="register()">Submit</button>
+
+		<div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Register manager</h5>
+					</div>
+					<div class="modal-body">
+						<RegisterForm ref="registerForm" role="manager" endpoint="/user/register/manager" v-on:registerSuccess="getManagers()"/>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script>
 
 import AdminNavbar from '@/components/Admin/AdminNavbar.vue';
+import RegisterForm from '@/components/RegisterForm.vue';
 import axiosInstance, { logoutUser } from '@/utils/axiosInstance';
 
 export default {
 	name: 'RegisterFactory',
 	components: {
-		AdminNavbar
+		AdminNavbar,
+		RegisterForm
 	},
 	data() {
 		return {
@@ -213,6 +235,9 @@ export default {
 				console.log(error.response.data.message);
 				return;
 			}
+		},
+		refreshModal(){
+			this.$refs.registerForm.refresh();
 		}
 	},
 	mounted() {
@@ -224,10 +249,5 @@ export default {
 </script>
 
 <style scoped>
-.container {
-	margin-top: 50px;
-	margin-bottom: 100px;
-	margin-left: auto;
-	margin-right: auto;
-}
+
 </style>
