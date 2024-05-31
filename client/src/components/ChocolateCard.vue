@@ -18,8 +18,7 @@
 </template>
 
 <script>
-import { baseURL } from '@/utils/axiosInstance';
-import axios from 'axios';
+import axiosInstance, { baseURL } from '@/utils/axiosInstance';
 
 export default {
   name: 'ChocolateCard',
@@ -43,8 +42,8 @@ export default {
     deleteChocolate() {
         console.log(`Attempting to delete chocolate with ID: ${this.chocolate.id}`);
         alert(this.chocolate.id);
-        // router.post('/deletechocolate/:chocolateId', verifyToken, (req, res) => {
-        axios.post(`/chocolate/deletechocolate/${this.chocolate.id}`)
+          let endpoint = `/chocolate/deletechocolate/${this.chocolate.id}`
+          axiosInstance.delete(endpoint)
             .then(() => {
                 alert('Chocolate was successfully deleted');
             })

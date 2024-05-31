@@ -105,9 +105,8 @@ router.post('/updatechocolate', verifyToken, (req, res) => {
     }
 });
 
-router.post('/deletechocolate/:chocolateId', verifyToken, (req, res) => {
+router.delete('/deletechocolate/:chocolateId', verifyToken, (req, res) => {
     console.log('Entered deletechocolate route');
-    alert('usao')
     if (req.auth.role !== 'manager') {
         console.log('Unauthorized access attempt');
         return res.status(403).send({ message: 'Forbidden' });
