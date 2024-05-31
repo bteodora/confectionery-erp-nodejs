@@ -15,7 +15,7 @@
           <button class="btn btn-danger" @click="deleteChocolate">Delete</button>
         </div>
         <div v-if="role === 'staff'" class="staff-button">
-          <button class="btn btn-success" @click="addChocolate">Add chocolate</button>
+          <button class="btn btn-success" @click="openQuantityModal">Add chocolate</button>
         </div>
       </div>
     </div>
@@ -74,6 +74,32 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal for updating chocolate quantity -->
+    <div class="modal fade" id="quantityModal" tabindex="-1" aria-labelledby="quantityModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="quantityModalLabel">Update Chocolate Quantity</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="container" style="width: 100%;">
+              <div class="mb-3 d-flex align-items-center">
+                <button class="btn btn-secondary" @click="decreaseQuantity">-</button>
+                <input type="number" class="form-control mx-2" v-model="newQuantity" readonly/>
+                <button class="btn btn-secondary" @click="increaseQuantity">+</button>
+              </div>
+              <div class="errorText">{{ quantityErrorMessage }}</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" @click="updateQuantity">Update Quantity</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -97,12 +123,23 @@ export default {
         weight: 0,
         description: ''
       },
-      errorMessage: ''
+      errorMessage: '',
+      newQuantity: 0,
+      quantityErrorMessage: ''
     };
   },
   mounted() {
     this.imgSrc = `${baseURL}/chocolate/img/${this.chocolate.id}`;
     this.role = getUserProfile().role;
+    this.newQuantity = this.chocolate.quantity;
+  },
+  watch: {
+    chocolate: {
+      handler(newVal) {
+        this.newQuantity = newVal.quantity;
+      },
+      deep: true
+    }
   },
   computed: {
     statusClass() {
@@ -114,12 +151,28 @@ export default {
   },
   methods: {
     openUpdateModal() {
-      // Populate the modal with current chocolate data
       this.chocolateForm = { ...this.chocolate };
       this.$nextTick(() => {
         const updateModal = new bootstrap.Modal(document.getElementById('updateModal'));
         updateModal.show();
       });
+    },
+    openQuantityModal() {
+      this.newQuantity = this.chocolate.quantity;
+      console.log('Opening Quantity Modal. Current quantity:', this.chocolate.quantity);
+      console.log('New quantity initialized to:', this.newQuantity);
+      this.$nextTick(() => {
+        const quantityModal = new bootstrap.Modal(document.getElementById('quantityModal'));
+        quantityModal.show();
+      });
+    },
+    increaseQuantity() {
+      this.newQuantity++;
+    },
+    decreaseQuantity() {
+      if (this.newQuantity > this.chocolate.quantity) {
+        this.newQuantity--;
+      }
     },
     updateChocolateDetails() {
       // Validate and send update request
@@ -145,6 +198,24 @@ export default {
       this.errorMessage = '';
       return true;
     },
+    updateQuantity() {
+      alert('Updating Quantity. New quantity:'+ this.newQuantity + 'Current quantity:'+  this.chocolate.quantity)
+      console.log('Updating Quantity. New quantity:', this.newQuantity, 'Current quantity:', this.chocolate.quantity);
+      if (this.newQuantity < this.chocolate.quantity) {
+        this.quantityErrorMessage = 'New quantity cannot be less than the current quantity';
+        return;
+      }
+      const endpoint = `/chocolate/updatequantity/${this.chocolate.id}`;
+      axiosInstance.post(endpoint, { quantity: this.newQuantity })
+        .then(response => {
+          alert('Chocolate quantity was successfully updated');
+          location.reload(); 
+        })
+        .catch(error => {
+          console.error(`Error updating quantity for chocolate with ID: ${this.chocolate.id}: ${error.message}`);
+          alert('An error occurred while trying to update the chocolate quantity: ' + error);
+        });
+    },
     deleteChocolate() {
       const endpoint = `/chocolate/deletechocolate/${this.chocolate.id}`;
       axiosInstance.delete(endpoint)
@@ -155,9 +226,6 @@ export default {
         .catch(error => {
           alert('An error occurred while trying to delete the chocolate');
         });
-    },
-    addChocolate() {
-      alert('changing the quantitiy of the chocolate')
     }
   }
 };
@@ -226,5 +294,8 @@ export default {
 }
 .text-success {
   color: green;
+}
+.errorText {
+  color: red;
 }
 </style>
