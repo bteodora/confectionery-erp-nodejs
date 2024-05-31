@@ -129,10 +129,6 @@ router.put('/profile', verifyToken, (req, res) => {
 });
 
 router.get('/factoryid', verifyToken, (req, res) => {
-    if (req.auth.role !== 'manager') {
-        return res.status(403).send({ message: 'Forbidden' });
-    }
-
     try {
         const factoryId = userService.getFactoryId(req.auth.username);
         // console.log('Factory ID:', factoryId); // Log factoryId for debugging

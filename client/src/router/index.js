@@ -25,7 +25,8 @@ const router = createRouter({
 		{ path: '/manager/registerstaff', name: 'manager-registerstaff', component: () => import('../views/Manager/RegisterStaff.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
 		
 		// Staff routes
-
+		{ path: '/staff', name: 'staff', component: () => import('../views/Worker/StaffHome.vue'), meta: { requiresAuth: true, allowedRoles: ['staff'] } },
+		{ path: '/staff/chocolates', name: 'staffchocolates', component: () => import('../views/Worker/StaffChocolates.vue'), meta: { requiresAuth: true, allowedRoles: ['staff'] } },
 	]
 })
 
