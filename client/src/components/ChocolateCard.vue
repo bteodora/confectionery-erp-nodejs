@@ -1,24 +1,84 @@
 <template>
-  <div class="card" :class="{ 'bg-lightgray': chocolate.status === 'OutOfStock' }">
-    <img :src="imgSrc" class="card-img-top" alt="Chocolate Image">
-    <div class="card-body">
-      <h5 class="card-title">{{ chocolate.name }}</h5>
-      <p class="card-text"><b>Status: {{ chocolate.status }}</b></p>
-      <p class="card-text">Category: {{ chocolate.category }}</p>
-      <p class="card-text">Type: {{ chocolate.type }}</p>
-      <p class="card-text">Weight: {{ chocolate.weight }} grams</p>
-      <p class="card-description">{{ chocolate.description }}</p>
-      <p class="card-price"><b>Price: {{ chocolate.price.toFixed(2) }} DIN</b></p>
-      <div class="card-buttons">
-        <button class="btn btn-primary" @click="updateChocolate">Update</button>
-        <button class="btn btn-danger" @click="deleteChocolate">Delete</button>
+  <div>
+    <div class="card" :class="{ 'bg-lightgray': chocolate.status === 'OutOfStock' }">
+      <img :src="imgSrc" class="card-img-top" alt="Chocolate Image">
+      <div class="card-body">
+        <h5 class="card-title">{{ chocolate.name }}</h5>
+        <p class="card-text" :class="statusClass">Status: {{ chocolate.status }}<span v-if="chocolate.status === 'InStock'"> (Quantity: {{ chocolate.quantity }})</span></p>
+        <p class="card-text">Category: {{ chocolate.category }}</p>
+        <p class="card-text">Type: {{ chocolate.type }}</p>
+        <p class="card-text">Weight: {{ chocolate.weight }} grams</p>
+        <p class="card-description">{{ chocolate.description }}</p>
+        <p class="card-price"><b>Price: {{ chocolate.price.toFixed(2) }} DIN</b></p>
+        <div class="card-buttons" v-if="role === 'manager'">
+          <button class="btn btn-primary" @click="openUpdateModal">Update</button>
+          <button class="btn btn-danger" @click="deleteChocolate">Delete</button>
+        </div>
+        <div v-if="role === 'staff'" class="staff-button">
+          <button class="btn btn-success" @click="addChocolate">Add chocolate</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal for updating chocolate -->
+    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateModalLabel">Update Chocolate</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- Form fields for updating chocolate -->
+            <div class="container" style="width: 100%;">
+              <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" class="form-control" v-model="chocolateForm.name" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Price</label>
+                <input type="number" class="form-control" v-model="chocolateForm.price" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Type</label>
+                <select class="form-select" v-model="chocolateForm.type">
+                  <option value="black">Black</option>
+                  <option value="white">White</option>
+                  <option value="milk">Milk</option>
+                  <option value="mixed">Mixed</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Category</label>
+                <select class="form-select" v-model="chocolateForm.category">
+                  <option value="cooking">Chocolate for cooking</option>
+                  <option value="drinking">For drinking</option>
+                  <option value="regular">Regular</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Weight (grams)</label>
+                <input type="number" class="form-control" v-model="chocolateForm.weight" />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea class="form-control" v-model="chocolateForm.description"></textarea>
+              </div>
+              <div class="errorText">{{ errorMessage }}</div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" @click="updateChocolateDetails">Update</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import axiosInstance, { baseURL } from '@/utils/axiosInstance';
+import axiosInstance, { baseURL, getUserProfile } from '@/utils/axiosInstance';
 
 export default {
   name: 'ChocolateCard',
@@ -27,31 +87,77 @@ export default {
   },
   data() {
     return {
-      imgSrc: ''
+      imgSrc: '',
+      role: '',
+      chocolateForm: {
+        name: '',
+        price: 0,
+        type: '',
+        category: '',
+        weight: 0,
+        description: ''
+      },
+      errorMessage: ''
     };
   },
   mounted() {
     this.imgSrc = `${baseURL}/chocolate/img/${this.chocolate.id}`;
-    // console.log(this.imgSrc);
+    this.role = getUserProfile().role;
+  },
+  computed: {
+    statusClass() {
+      return {
+        'text-danger': this.chocolate.status === 'OutOfStock',
+        'text-success': this.chocolate.status === 'InStock'
+      };
+    }
   },
   methods: {
-    updateChocolate() {
-      // Handle the update logic here
-      console.log(`Updating chocolate with ID: ${this.chocolate.id}`);
+    openUpdateModal() {
+      // Populate the modal with current chocolate data
+      this.chocolateForm = { ...this.chocolate };
+      this.$nextTick(() => {
+        const updateModal = new bootstrap.Modal(document.getElementById('updateModal'));
+        updateModal.show();
+      });
+    },
+    updateChocolateDetails() {
+      // Validate and send update request
+      if (this.validateForm()) {
+        const endpoint = '/chocolate/updatechocolate';
+        axiosInstance.post(endpoint, this.chocolateForm)
+          .then(response => {
+            alert('Chocolate was successfully updated');
+            location.reload();  // Reload to reflect changes
+          })
+          .catch(error => {
+            console.error(`Error updating chocolate with ID: ${this.chocolate.id}: ${error.message}`);
+            alert('An error occurred while trying to update the chocolate: ' + error);
+          });
+      }
+    },
+    validateForm() {
+      if (!this.chocolateForm.name || !this.chocolateForm.price || !this.chocolateForm.type ||
+          !this.chocolateForm.category || !this.chocolateForm.weight || !this.chocolateForm.description) {
+        this.errorMessage = 'All fields are required';
+        return false;
+      }
+      this.errorMessage = '';
+      return true;
     },
     deleteChocolate() {
-        console.log(`Attempting to delete chocolate with ID: ${this.chocolate.id}`);
-        alert(this.chocolate.id);
-          let endpoint = `/chocolate/deletechocolate/${this.chocolate.id}`
-          axiosInstance.delete(endpoint)
-            .then(() => {
-                alert('Chocolate was successfully deleted');
-            })
-            .catch(error => {
-                alert(error)
-                console.error(`Error deleting chocolate with ID: ${this.chocolate.id}: ${error.message}`);
-                alert('An error occurred while trying to delete the chocolate');
-            });
+      const endpoint = `/chocolate/deletechocolate/${this.chocolate.id}`;
+      axiosInstance.delete(endpoint)
+        .then(() => {
+          alert('Chocolate was successfully deleted');
+          location.reload();  
+        })
+        .catch(error => {
+          alert('An error occurred while trying to delete the chocolate');
+        });
+    },
+    addChocolate() {
+      alert('changing the quantitiy of the chocolate')
     }
   }
 };
@@ -94,9 +200,14 @@ export default {
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
   color: #666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 .card-price {
-  margin-top: 1rem;
+  margin-top: auto;
   font-size: 1.25rem;
 }
 .card-buttons {
@@ -104,7 +215,16 @@ export default {
   justify-content: space-between;
   margin-top: 1rem;
 }
+.staff-button {
+  margin-top: 1rem;
+}
 .btn {
   width: 48%;
+}
+.text-danger {
+  color: red;
+}
+.text-success {
+  color: green;
 }
 </style>
