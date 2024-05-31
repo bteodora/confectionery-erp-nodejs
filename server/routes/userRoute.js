@@ -58,6 +58,27 @@ router.post('/register/manager', verifyToken, (req, res) => {
 	}
 });
 
+router.post('/register/staff', verifyToken, (req, res) => {
+	if(req.auth.role !== 'manager') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+	try {
+		const newUser = req.body;
+		newUser.role = 'staff';
+		newUser.factoryId = userService.getFactoryId(req.auth.username);
+		console.log("registering new staff member to factory "+newUser.factoryId);
+
+		if(!User.checkUser(newUser))
+			return res.status(400).send({ message: 'Invalid fields'});
+
+		userService.registerUser(newUser);
+		res.status(200).send({ message: 'Staff member successfully registered'});
+	} catch (err) {
+		res.status(400).send({ message: err.message});
+	}
+});
+
 router.post('/login', (req, res) => {
 	try {
 		const { username, password } = req.body;

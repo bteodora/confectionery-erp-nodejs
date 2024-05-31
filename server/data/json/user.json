@@ -47,5 +47,15 @@
     "birth_date": "2002-01-12",
     "role": "manager",
     "factoryId": 3
+  },
+  {
+    "username": "staff1",
+    "password": "1",
+    "name": "Teodora",
+    "surname": "Becejac",
+    "gender": "female",
+    "birth_date": "2002-02-15",
+    "role": "staff",
+    "factoryId": 1
   }
 ]
