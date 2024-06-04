@@ -17,16 +17,19 @@ const router = createRouter({
 
 		// Customer routes
 		{ path: '/customer', name: 'customer', component: () => import('../views/Customer/CustomerHome.vue'), meta: { requiresAuth: true, allowedRoles: ['customer'] } },
+		{ path: '/customer/profile', name: 'customer-profile', component: () => import('../views/Customer/CustomerProfile.vue'), meta: { requiresAuth: true, allowedRoles: ['customer'] } },
 
 		// Manager routes
 		{ path: '/manager', name: 'manager', component: () => import('../views/Manager/ManagerHome.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
 		{ path: '/manager/addchocolate', name: 'manager-addChocolate', component: () => import('../views/Manager/AddChocolate.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
 		{ path: '/manager/allchocolate', name: 'manager-allChocolate', component: () => import('../views/Manager/AllChocolates.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
 		{ path: '/manager/registerstaff', name: 'manager-registerstaff', component: () => import('../views/Manager/RegisterStaff.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
+		{ path: '/manager/profile', name: 'manager-profile', component: () => import('../views/Manager/ManagerProfile.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
 		
 		// Staff routes
 		{ path: '/staff', name: 'staff', component: () => import('../views/Worker/StaffHome.vue'), meta: { requiresAuth: true, allowedRoles: ['staff'] } },
 		{ path: '/staff/chocolates', name: 'staffchocolates', component: () => import('../views/Worker/StaffChocolates.vue'), meta: { requiresAuth: true, allowedRoles: ['staff'] } },
+		{ path: '/staff/profile', name: 'staffprofile', component: () => import('../views/Worker/StaffProfile.vue'), meta: { requiresAuth: true, allowedRoles: ['staff'] } },
 	]
 })
 
