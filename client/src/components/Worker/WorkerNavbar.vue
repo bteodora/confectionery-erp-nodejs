@@ -21,7 +21,7 @@
                     Menu
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end">
-                    <li><router-link class="dropdown-item">Edit profile</router-link></li>
+                    <li><router-link class="dropdown-item" to="/staff/profile">Edit profile</router-link></li>
                     <li><button class="dropdown-item" v-on:click="logout()">Logout</button></li>
                 </ul>
             </div>
