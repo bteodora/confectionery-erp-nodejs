@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const chocolateService = require('../services/chocolateService');
+const userService = require('../services/userService');
 const {verifyToken} = require('../utils/tokenParser');
 const upload = require('../utils/imgParser');
 const path = require('path');
@@ -30,24 +31,34 @@ router.get('/:factoryId', (req, res) => {
     }
   });
 
-  router.get('/img/:chocolateId', (req, res) => {
+router.get('/img/:chocolateId', (req, res) => {
 	const chocolateId = Number(req.params.chocolateId);
 	const imgPath = chocolateService.getImagePath(chocolateId);
 	const fullImgPath = path.join(process.cwd().replace('\\', '/'), imgPath);
 	return res.status(200).sendFile(fullImgPath);
 });
 
-router.post('/changeQuantity/:newQuantity', verifyToken, (req, res) => {
-    if(req.auth.role !== 'worker' || req.auth.role !== 'customer') { //customer smanjuje worker povecava
-		return res.status(403).send({ message: 'Forbidden' });
-	}
-    const newQuantity = Number(req.params.newQuantity);
-    try{
-        chocolateService.SetQuantity(newQuantity);
-        res.status(200).send({ message: 'Successfully created new chocolate'});
+router.post('/updatequantity/:chocolateId', verifyToken, (req, res) => {
+    if (req.auth.role !== 'staff' && req.auth.role !== 'customer') {
+      return res.status(403).send({ message: 'Forbidden' });
     }
-    catch{
-        res.status(400).send({ message: err.message});
+    const chocolateId = req.params.chocolateId;
+    const { quantity } = req.body;
+    const chocolate = chocolateService.GetById(chocolateId);
+
+    if(chocolate.quantity>quantity && req.auth.role == 'staff'){
+        return res.status(400).send({ message: 'New quantity must be bigger than current quantity.' });
+    }
+
+    if(chocolate.quantity<quantity && req.auth.role == 'customer'){
+        return res.status(400).send({ message: 'New quantity must be smaller than current quantity.' });
+    }
+  
+    try {
+      chocolateService.SetQuantity(chocolateId, quantity);
+      res.status(200).send({ message: 'Successfully updated chocolate quantity' });
+    } catch (err) {
+      res.status(400).send({ message: err.message });
     }
 });
 
@@ -115,7 +126,6 @@ router.post('/updatechocolate', verifyToken, (req, res) => {
 });
 
 router.delete('/deletechocolate/:chocolateId', verifyToken, (req, res) => {
-    console.log('Entered deletechocolate route');
     if (req.auth.role !== 'manager') {
         console.log('Unauthorized access attempt');
         return res.status(403).send({ message: 'Forbidden' });
@@ -123,7 +133,6 @@ router.delete('/deletechocolate/:chocolateId', verifyToken, (req, res) => {
 
     const chocolateId = Number(req.params.chocolateId);
     try {
-        console.log(`Attempting to delete chocolate with ID: ${chocolateId}`);
         chocolateService.DeleteChocolate(chocolateId);
         res.status(200).send({ message: 'Successfully deleted chocolate' });
     } catch (err) {

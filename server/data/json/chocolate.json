@@ -22,8 +22,8 @@
     "factoryId": 1,
     "category": "regular",
     "isDeleted": false,
-    "status": "OutOfStock",
-    "quantity": 0,
+    "status": "InStock",
+    "quantity": 2,
     "id": 2,
     "imagePath": "data\\img\\1716911583035_wonka_mixed.jpg"
   },

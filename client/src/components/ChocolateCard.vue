@@ -115,6 +115,7 @@ export default {
     return {
       imgSrc: '',
       role: '',
+      myFactoryId: 0,
       chocolateForm: {
         name: '',
         price: 0,
@@ -132,6 +133,14 @@ export default {
     this.imgSrc = `${baseURL}/chocolate/img/${this.chocolate.id}`;
     this.role = getUserProfile().role;
     this.newQuantity = this.chocolate.quantity;
+    axiosInstance.get('/user/factoryid')
+        .then((response) => {     
+            this.myFactoryId = response.data.factoryId;
+        })
+        .catch((error) => {
+			alert(error);
+            console.error('Error fetching factoryId:', error);
+        });
   },
   computed: {
     statusClass() {
@@ -142,6 +151,14 @@ export default {
     }
   },
   methods: {
+    checkId(){
+      if(this.chocolate.factoryId !== this.myFactoryId){        
+        console.error("This user can not change chocolates from another factories");
+        alert('This user can not change chocolates from another factories');
+        return false;
+      }
+      return true;
+    },
     openUpdateModal() {
       this.chocolateForm = { ...this.chocolate };
       this.$nextTick(() => {
@@ -165,7 +182,7 @@ export default {
       }
     },
     updateChocolateDetails() {
-      if (this.validateForm()) {
+      if (this.validateForm() && this.checkId()) {
         const endpoint = '/chocolate/updatechocolate';
         axiosInstance.post(endpoint, this.chocolateForm)
           .then(response => {
@@ -188,8 +205,9 @@ export default {
       return true;
     },
     updateQuantity() {
-      alert('Updating Quantity. New quantity:' + this.newQuantity + 'Current quantity:' + this.chocolate.quantity);
-      console.log('Updating Quantity. New quantity:', this.newQuantity, 'Current quantity:', this.chocolate.quantity);
+      if(!this.checkId()){
+        return;
+      }
       if (this.newQuantity < this.chocolate.quantity) {
         this.quantityErrorMessage = 'New quantity cannot be less than the current quantity';
         return;
@@ -206,6 +224,9 @@ export default {
         });
     },
     deleteChocolate() {
+      if(!this.checkId()){
+        return;
+      }
       const endpoint = `/chocolate/deletechocolate/${this.chocolate.id}`;
       axiosInstance.delete(endpoint)
         .then(() => {

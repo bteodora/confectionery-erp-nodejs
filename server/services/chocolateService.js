@@ -87,6 +87,17 @@ exports.DeleteChocolate = (chocoId) =>{
     writeJSONFile(chocolateFilePath, chocolates);
 }
 
+exports.GetById = (chocoId) => {
+    const chocolates = readJSONFile(chocolateFilePath);
+    const foundChocolate = chocolates.find(c => c.id == chocoId);
+
+    if(!foundChocolate){
+        throw new Error('No such chocolate exists');
+    }
+
+    return foundChocolate;
+}
+
 exports.SetQuantity = (chocoId, newQuantity) =>
 {
     const chocolates = readJSONFile(chocolateFilePath);
@@ -97,5 +108,11 @@ exports.SetQuantity = (chocoId, newQuantity) =>
     }
 
     foundChocolate.quantity = newQuantity;
+    if(newQuantity !== 0){
+        foundChocolate.status = "InStock";
+    }
+    else{        
+        foundChocolate.status = "OutOfStock";
+    }
     writeJSONFile(chocolateFilePath, chocolates);
 }
