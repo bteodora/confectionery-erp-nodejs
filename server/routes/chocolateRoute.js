@@ -4,6 +4,7 @@ const chocolateService = require('../services/chocolateService');
 const {verifyToken} = require('../utils/tokenParser');
 const upload = require('../utils/imgParser');
 const path = require('path');
+const Chocolate = require('../models/chocolate');
 
 // Potrebno:
 // Sve cokolade za fabriku ✔
@@ -81,6 +82,10 @@ router.post('/createchocolate', verifyToken, (req, res) => {
 	}
 
     const newChocolate = req.body;
+
+    if(!Chocolate.checkChocolate(newChocolate))
+        return res.status(400).send({ message: 'Invalid fields'});
+
     try{
         let chocoId = chocolateService.CreateChocolate(newChocolate);
         res.status(200).send({ message: 'Successfully created new chocolate', chocoId: chocoId});
@@ -96,6 +101,10 @@ router.post('/updatechocolate', verifyToken, (req, res) => {
 	}
 
     const newChocolate = req.body;
+
+    if(!Chocolate.checkChocolate(newChocolate))
+        return res.status(400).send({ message: 'Invalid fields here'});
+
     try{
         chocolateService.UpdateChocolate(newChocolate);
         res.status(200).send({ message: 'Successfully updated chocolate'});

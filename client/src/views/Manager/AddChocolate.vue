@@ -96,6 +96,7 @@ export default {
 				this.errorMessage = 'Picture is required';
 				return false;
 			}
+			
 			return true;
 		},
 		async register() {
@@ -115,7 +116,7 @@ export default {
 				const img = this.$refs.fileInput.files[0];
 				const formData = new FormData();
 				formData.append('img', img);
-				// alert('setovanje img path-a')
+				
 				const response2 = await axiosInstance.post(`/chocolate/img/upload/${chocolateId}`, formData);
 
 				alert(response1.data.message + '\n' + response2.data.message);

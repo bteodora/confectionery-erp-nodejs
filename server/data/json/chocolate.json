@@ -54,5 +54,19 @@
     "quantity": 0,
     "id": 4,
     "imagePath": "data\\img\\1716994065529_wonka_chilly.png"
+  },
+  {
+    "name": "Wonka Nutty Chocolate",
+    "price": 219.99,
+    "type": "milk",
+    "weight": 120,
+    "description": "The best chocolate with nuts on the market. Designed by WIlly Wonka in the beggining of 2000s.",
+    "factoryId": 1,
+    "category": "regular",
+    "isDeleted": false,
+    "status": "OutOfStock",
+    "quantity": 0,
+    "id": 5,
+    "imagePath": "data\\img\\1717501880988_Wonka Nutty.png"
   }
 ]
