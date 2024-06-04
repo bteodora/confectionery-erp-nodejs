@@ -21,7 +21,7 @@
     </div>
 
     <!-- Modal for updating chocolate -->
-    <div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
+    <div class="modal fade" :id="'updateModal-' + chocolate.id" tabindex="-1" aria-labelledby="updateModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -76,7 +76,7 @@
     </div>
 
     <!-- Modal for updating chocolate quantity -->
-    <div class="modal fade" id="quantityModal" tabindex="-1" aria-labelledby="quantityModalLabel" aria-hidden="true">
+    <div class="modal fade" :id="'quantityModal-' + chocolate.id" tabindex="-1" aria-labelledby="quantityModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -133,14 +133,6 @@ export default {
     this.role = getUserProfile().role;
     this.newQuantity = this.chocolate.quantity;
   },
-  watch: {
-    chocolate: {
-      handler(newVal) {
-        this.newQuantity = newVal.quantity;
-      },
-      deep: true
-    }
-  },
   computed: {
     statusClass() {
       return {
@@ -153,16 +145,14 @@ export default {
     openUpdateModal() {
       this.chocolateForm = { ...this.chocolate };
       this.$nextTick(() => {
-        const updateModal = new bootstrap.Modal(document.getElementById('updateModal'));
+        const updateModal = new bootstrap.Modal(document.getElementById('updateModal-' + this.chocolate.id));
         updateModal.show();
       });
     },
     openQuantityModal() {
       this.newQuantity = this.chocolate.quantity;
-      console.log('Opening Quantity Modal. Current quantity:', this.chocolate.quantity);
-      console.log('New quantity initialized to:', this.newQuantity);
       this.$nextTick(() => {
-        const quantityModal = new bootstrap.Modal(document.getElementById('quantityModal'));
+        const quantityModal = new bootstrap.Modal(document.getElementById('quantityModal-' + this.chocolate.id));
         quantityModal.show();
       });
     },
@@ -175,13 +165,12 @@ export default {
       }
     },
     updateChocolateDetails() {
-      // Validate and send update request
       if (this.validateForm()) {
         const endpoint = '/chocolate/updatechocolate';
         axiosInstance.post(endpoint, this.chocolateForm)
           .then(response => {
             alert('Chocolate was successfully updated');
-            location.reload();  // Reload to reflect changes
+            location.reload();
           })
           .catch(error => {
             console.error(`Error updating chocolate with ID: ${this.chocolate.id}: ${error.message}`);
@@ -199,7 +188,7 @@ export default {
       return true;
     },
     updateQuantity() {
-      alert('Updating Quantity. New quantity:'+ this.newQuantity + 'Current quantity:'+  this.chocolate.quantity)
+      alert('Updating Quantity. New quantity:' + this.newQuantity + 'Current quantity:' + this.chocolate.quantity);
       console.log('Updating Quantity. New quantity:', this.newQuantity, 'Current quantity:', this.chocolate.quantity);
       if (this.newQuantity < this.chocolate.quantity) {
         this.quantityErrorMessage = 'New quantity cannot be less than the current quantity';
@@ -209,7 +198,7 @@ export default {
       axiosInstance.post(endpoint, { quantity: this.newQuantity })
         .then(response => {
           alert('Chocolate quantity was successfully updated');
-          location.reload(); 
+          location.reload();
         })
         .catch(error => {
           console.error(`Error updating quantity for chocolate with ID: ${this.chocolate.id}: ${error.message}`);
@@ -221,7 +210,7 @@ export default {
       axiosInstance.delete(endpoint)
         .then(() => {
           alert('Chocolate was successfully deleted');
-          location.reload();  
+          location.reload();
         })
         .catch(error => {
           alert('An error occurred while trying to delete the chocolate');
