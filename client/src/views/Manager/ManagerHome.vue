@@ -1,17 +1,17 @@
 <template>
 	<ManagerNavbar/>
-	<RouterView/>
+	<FactoriesView/>
 </template>
 
 <script>
 
 import ManagerNavbar from '@/components/Manager/ManagerNavbar.vue'
-import { RouterView } from 'vue-router';
+import FactoriesView from '../FactoriesView.vue';
 
 export default {
 	components: {
 		ManagerNavbar,
-		RouterView
+		FactoriesView
 	}
 }
 

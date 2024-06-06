@@ -1,17 +1,17 @@
 <template>
 	<StaffNavbar/>
-	<RouterView/>
+	<FactoriesView/>
 </template>
 
 <script>
 
 import StaffNavbar from '@/components/Worker/WorkerNavbar.vue'
-import { RouterView } from 'vue-router';
+import FactoriesView from '../FactoriesView.vue';
 
 export default {
 	components: {
 		StaffNavbar,
-		RouterView
+		FactoriesView
 	}
 }
 

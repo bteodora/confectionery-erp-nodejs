@@ -1,17 +1,17 @@
 <template>
 	<HomeNavbar/>
-	<RouterView/>
+	<FactoriesView/>
 </template>
 
 <script>
 
 import HomeNavbar from '@/components/HomeNavbar.vue'
-import { RouterView } from 'vue-router';
+import FactoriesView from './FactoriesView.vue';
 
 export default {
 	components: {
 		HomeNavbar,
-		RouterView
+		FactoriesView
 	}
 }
 

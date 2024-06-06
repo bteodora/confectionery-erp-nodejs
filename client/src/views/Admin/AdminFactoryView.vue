@@ -1,18 +1,18 @@
 <template>
 	<AdminNavbar/>
-	<FactoriesView/>
+	<DetailedFactoryView/>
 </template>
 
 <script>
 
 import AdminNavbar from '@/components/Admin/AdminNavbar.vue';
-import FactoriesView from '../FactoriesView.vue';
+import DetailedFactoryView from '@/views/DetailedFactoryView.vue';
 
 export default {
-	name: 'AdminHome',
+	name: 'AdminFactoryView',
 	components: {
 		AdminNavbar,
-		FactoriesView
+		DetailedFactoryView
 	}
 }
 

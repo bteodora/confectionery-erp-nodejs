@@ -45,15 +45,15 @@ export default {
 			let route = {query: {factoryId: this.factory.id}};
 
 			if(viewingRole == 'admin')
-				route.path = '/admin/details';
+				route.path = '/admin/factorydetails';
 			else if(viewingRole == 'manager')
-				route.path = '/manager/details';
+				route.path = '/manager/factorydetails';
 			else if(viewingRole == 'customer')
-				route.path = '/customer/details';
+				route.path = '/customer/factorydetails';
 			else if(viewingRole == 'staff')
-				route.path = '/staff/details';
+				route.path = '/staff/factorydetails';
 			else
-				route.path = '/details';
+				route.path = '/factorydetails';
 
 			this.$router.push(route);
 		}
