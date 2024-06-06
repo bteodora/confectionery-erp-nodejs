@@ -50,6 +50,8 @@ export default {
 				route.path = '/manager/details';
 			else if(viewingRole == 'customer')
 				route.path = '/customer/details';
+			else if(viewingRole == 'staff')
+				route.path = '/staff/details';
 			else
 				route.path = '/details';
 

@@ -23,7 +23,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownChocolates">
                         <li><router-link class="dropdown-item" to="/manager/allchocolate">Show All</router-link></li>
-                        <li><router-link class="dropdown-item" to="/manager/addchocolate">Add new</router-link></li> 
+                        <li><router-link class="dropdown-item" to="/manager/addchocolate">Add new</router-link></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import axiosInstance, { logoutUser } from '@/utils/axiosInstance';
+import axiosInstance, { logoutUser, getUserProfile } from '@/utils/axiosInstance';
 
 export default {
     name: 'ManagerNavbar',
@@ -68,13 +68,8 @@ export default {
         };
     },
     mounted() {
-        axiosInstance.get('/user/profile')
-            .then((response) => {
-                this.username = response.data.username;
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+        const profile = getUserProfile();
+		this.username = profile.username;
     },
     methods: {
         logout() {

@@ -49,11 +49,11 @@
     "factoryId": 3
   },
   {
-    "username": "staff1",
-    "password": "1",
-    "name": "Teodora",
-    "surname": "Becejac",
-    "gender": "female",
+    "username": "grkila",
+    "password": "grkila",
+    "name": "Dusan",
+    "surname": "Grkovic",
+    "gender": "male",
     "birth_date": "2002-02-15",
     "role": "staff",
     "factoryId": 1

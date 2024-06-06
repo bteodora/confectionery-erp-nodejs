@@ -138,7 +138,7 @@ export default {
             this.myFactoryId = response.data.factoryId;
         })
         .catch((error) => {
-			alert(error);
+			//alert(error);
             console.error('Error fetching factoryId:', error);
         });
   },

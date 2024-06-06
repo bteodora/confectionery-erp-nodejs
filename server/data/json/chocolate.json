@@ -11,7 +11,7 @@
     "status": "InStock",
     "quantity": 15,
     "id": 1,
-    "imagePath": "data\\img\\1716911533746_wonka_bar.jpg"
+    "imagePath": "data/img/1716911533746_wonka_bar.jpg"
   },
   {
     "name": "Wonka Waterfall Bar",
@@ -25,7 +25,7 @@
     "status": "InStock",
     "quantity": 2,
     "id": 2,
-    "imagePath": "data\\img\\1716911583035_wonka_mixed.jpg"
+    "imagePath": "data/img/1716911583035_wonka_mixed.jpg"
   },
   {
     "name": "Wonka Caramel Bar",
@@ -39,7 +39,7 @@
     "status": "InStock",
     "quantity": 10,
     "id": 3,
-    "imagePath": "data\\img\\1716911640696_wonka_caramel.jpg"
+    "imagePath": "data/img/1716911640696_wonka_caramel.jpg"
   },
   {
     "name": "Wonka Chilly Chocolate Bar",
@@ -53,7 +53,7 @@
     "status": "OutOfStock",
     "quantity": 0,
     "id": 4,
-    "imagePath": "data\\img\\1716994065529_wonka_chilly.png"
+    "imagePath": "data/img/1716994065529_wonka_chilly.png"
   },
   {
     "name": "Wonka Nutty Chocolate",
@@ -67,6 +67,6 @@
     "status": "OutOfStock",
     "quantity": 0,
     "id": 5,
-    "imagePath": "data\\img\\1717501880988_Wonka Nutty.png"
+    "imagePath": "data/img/1717501880988_Wonka Nutty.png"
   }
 ]
