@@ -11,6 +11,20 @@ router.get('/', (req, res) => {
 	return res.status(200).send(factories);
 });
 
+router.get('/:factoryId', (req, res) => {
+	try {
+		const factoryId = Number(req.params.factoryId);
+
+		if(isNaN(factoryId))
+			return res.status(400).send({ message: 'Invalid factoryId'});
+
+		const factory = factoryServices.getFactory(factoryId);
+		res.status(200).send(factory);
+	} catch (err) {
+		res.status(400).send({ message: err.message});
+	}
+});
+
 router.post('/register', verifyToken, (req, res) => {
 	if(req.auth.role !== 'admin') {
 		return res.status(403).send({ message: 'Forbidden' });

@@ -1,17 +1,18 @@
 <template>
 	<AdminNavbar/>
-	<FactoriesView/>
+	<RouterView/>
 </template>
 
 <script>
 
-import AdminNavbar from '@/components/Admin/AdminNavbar.vue'
-import FactoriesView from '../FactoriesView.vue';
+import AdminNavbar from '@/components/Admin/AdminNavbar.vue';
+import { RouterView } from 'vue-router';
 
 export default {
+	name: 'AdminHome',
 	components: {
 		AdminNavbar,
-		FactoriesView
+		RouterView
 	}
 }
 

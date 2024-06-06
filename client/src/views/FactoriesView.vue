@@ -66,7 +66,7 @@
 	</nav>
 
 	<div class="card-container">
-		<FactoryCard v-for="factory in filtered_factories" :factory="factory" :key="factory.id" :viewingRole="viewingRole" />
+		<FactoryCard v-for="factory in filtered_factories" :factory="factory" :key="factory.id" :viewingRole="viewingRole"/>
 	</div>
 
 </template>

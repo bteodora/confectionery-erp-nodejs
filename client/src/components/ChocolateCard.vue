@@ -134,7 +134,7 @@ export default {
     this.role = getUserProfile().role;
     this.newQuantity = this.chocolate.quantity;
     axiosInstance.get('/user/factoryid')
-        .then((response) => {     
+        .then((response) => {
             this.myFactoryId = response.data.factoryId;
         })
         .catch((error) => {
@@ -152,7 +152,7 @@ export default {
   },
   methods: {
     checkId(){
-      if(this.chocolate.factoryId !== this.myFactoryId){        
+      if(this.chocolate.factoryId !== this.myFactoryId){
         console.error("This user can not change chocolates from another factories");
         alert('This user can not change chocolates from another factories');
         return false;

@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import axiosInstance from '@/utils/axiosInstance'
 
+import FactoriesView from '@/views/FactoriesView.vue'
+import DetailedFactoriesView from '@/views/DetailedFactoryView.vue'
+
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
 	routes: [
@@ -9,7 +12,8 @@ const router = createRouter({
 		{ path: '/register', name: 'register', component: () => import('../views/Register.vue'), },
 
 		// Admin routes
-		{ path: '/admin', name: 'admin', component: () => import('../views/Admin/AdminHome.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
+		{ path: '/admin', name: 'admin', component: () => import('../views/Admin/AdminHome.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] },
+			children: [ { path: '', component: FactoriesView }, { path: 'details', component: DetailedFactoriesView }] },
 		{ path: '/admin/showallusers', name: 'admin-showallusers', component: () => import('../views/Admin/ShowAllUsers.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
 		{ path: '/admin/registermanager', name: 'admin-registermanager', component: () => import('../views/Admin/RegisterManager.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
 		{ path: '/admin/registerfactory', name: 'admin-registerfactory', component: () => import('../views/Admin/RegisterFactory.vue'), meta: { requiresAuth: true, allowedRoles: ['admin'] } },
@@ -25,7 +29,7 @@ const router = createRouter({
 		{ path: '/manager/allchocolate', name: 'manager-allChocolate', component: () => import('../views/Manager/AllChocolates.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
 		{ path: '/manager/registerstaff', name: 'manager-registerstaff', component: () => import('../views/Manager/RegisterStaff.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
 		{ path: '/manager/profile', name: 'manager-profile', component: () => import('../views/Manager/ManagerProfile.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
-		
+
 		// Staff routes
 		{ path: '/staff', name: 'staff', component: () => import('../views/Worker/StaffHome.vue'), meta: { requiresAuth: true, allowedRoles: ['staff'] } },
 		{ path: '/staff/chocolates', name: 'staffchocolates', component: () => import('../views/Worker/StaffChocolates.vue'), meta: { requiresAuth: true, allowedRoles: ['staff'] } },

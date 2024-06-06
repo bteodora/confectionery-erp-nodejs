@@ -8,7 +8,7 @@
 			<p class="card-text">Address: {{ factory.location.address }}</p>
 			<p class="card-text">City: {{ factory.location.city }}</p>
 			<p class="card-text">Rating: {{ factory.rating.toPrecision(2) }} / 5</p>
-			<br><button class="btn btn-primary">Details</button>
+			<br><button class="btn btn-primary" v-on:click="detailsClicked()">Details</button>
 		</div>
 	</div>
 </template>
@@ -16,7 +16,7 @@
 <script>
 
 import router from '@/router';
-import axiosInstance, { baseURL } from '@/utils/axiosInstance';
+import axiosInstance, { baseURL, getUserProfile } from '@/utils/axiosInstance';
 
 export default {
 	name: 'FactoryCard',
@@ -29,7 +29,6 @@ export default {
 	},
 	props: {
 		factory: Object,
-		viewingRole: String
 	},
 	mounted() {
 		if (!this.factory.isOpen) {
@@ -40,6 +39,22 @@ export default {
 		this.imgSrc = `${baseURL}/factory/img/${this.factory.id}`;
 	},
 	methods: {
+		detailsClicked() {
+
+			const viewingRole = getUserProfile().role;
+			let route = {query: {factoryId: this.factory.id}};
+
+			if(viewingRole == 'admin')
+				route.path = '/admin/details';
+			else if(viewingRole == 'manager')
+				route.path = '/manager/details';
+			else if(viewingRole == 'customer')
+				route.path = '/customer/details';
+			else
+				route.path = '/details';
+
+			this.$router.push(route);
+		}
 	}
 }
 

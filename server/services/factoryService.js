@@ -9,6 +9,17 @@ exports.getAllFactories = () => {
 	return factories.filter(f => !f.isDeleted);
 }
 
+exports.getFactory = (factoryId) => {
+	const factories = this.getAllFactories()
+	const foundFactory = factories.find(f => f.id === factoryId);
+
+	if (!foundFactory) {
+		throw new Error('Factory not found');
+	}
+
+	return foundFactory;
+}
+
 exports.registerFactory = (newFactory) => {
 	const factories = readJSONFile(factoriesFilePath);
 	let factoryId = 1;
