@@ -143,7 +143,6 @@ router.get('/factoryid', verifyToken, (req, res) => {
     }
 });
 
-
 router.put('/cart', verifyToken, (req, res) => {
 	const username = req.auth.username;
 	const newProduct = req.body;

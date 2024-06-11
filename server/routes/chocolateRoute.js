@@ -19,7 +19,9 @@ const Chocolate = require('../models/chocolate');
 // RADNIK i KUPAC:
 // Promena kvantiteta ✔
 
-router.get('/:factoryId', (req, res) => {
+router.get('/factory/:factoryId', (req, res) => {
+	console.log('GET /chocolate/:factoryId');
+
     const factoryId = Number(req.params.factoryId);
     const chocolates = chocolateService.GetAllChocolatesForFactory(factoryId);
 

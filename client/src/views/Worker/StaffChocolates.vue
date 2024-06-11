@@ -6,12 +6,12 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   import axiosInstance from '@/utils/axiosInstance';
   import ChocolateCard from '@/components/ChocolateCard.vue';
   import WorkerNavbar from '@/components/Worker/WorkerNavbar.vue';
-  
+
   export default {
     name: 'ChocolatesView',
     components: {
@@ -30,10 +30,10 @@
         const factoryResponse = await axiosInstance.get('/user/factoryid');
         this.factoryId = factoryResponse.data.factoryId;
         console.log('Factory ID fetched:', this.factoryId);
-  
+
         if (this.factoryId) {
           console.log(`Fetching chocolates for factory ID: ${this.factoryId}`);
-          const chocolatesResponse = await axiosInstance.get(`/chocolate/${this.factoryId}`);
+          const chocolatesResponse = await axiosInstance.get(`/chocolate/factory/${this.factoryId}`);
           this.chocolates = chocolatesResponse.data;
           console.log('Chocolates fetched:', this.chocolates);
         } else {
@@ -46,7 +46,7 @@
     }
   };
   </script>
-  
+
   <style scoped>
   .card-container {
     display: flex;
@@ -55,4 +55,3 @@
     flex-wrap: wrap;
   }
   </style>
-  

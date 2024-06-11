@@ -33,7 +33,7 @@ export default {
 
       if (this.factoryId) {
         console.log(`Fetching chocolates for factory ID: ${this.factoryId}`);
-        const chocolatesResponse = await axiosInstance.get(`/chocolate/${this.factoryId}`);
+        const chocolatesResponse = await axiosInstance.get(`/chocolate/factory/${this.factoryId}`);
         this.chocolates = chocolatesResponse.data;
         console.log('Chocolates fetched:', this.chocolates);
       } else {

@@ -56,7 +56,7 @@ export default {
 			this.factory.status = isOpen ? 'OPEN' : 'CLOSED';
 			this.background = isOpen ? 'white' : 'lightgray';
 
-			axiosInstance.get(`/chocolate/${this.factory.id}`)
+			axiosInstance.get(`/chocolate/factory/${this.factory.id}`)
 			.then((response) => {
 				this.chocolates = response.data;
 				this.chocolates = this.filterOutOfStockChocolates(this.chocolates);
