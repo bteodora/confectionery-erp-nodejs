@@ -5,7 +5,23 @@
 				<img src="../../assets/img/chocolate.png" alt="" width="30" height="24" class="d-inline-block align-text-top">
       			Choco factory
 			</a>
-			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<div class="navbar-nav me-auto mb-2 mb-lg-0">
+				<li class="nav-item">
+					<router-link class="nav-link" to="/customer">Factories</router-link>
+				</li>
+                <li class="nav-item">
+                    <router-link class="nav-link" to="/customer/cart">Cart</router-link>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPurchases" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Purchases
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownPurchases">
+                        <li><router-link class="dropdown-item" >Pending</router-link></li>
+                        <li><router-link class="dropdown-item" >Past</router-link></li>
+                    </ul>
+                </li>
 			</div>
 			<a class="navbar-brand">{{ username }}</a>
 			<div class="btn-group">

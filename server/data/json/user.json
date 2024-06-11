@@ -16,7 +16,20 @@
     "gender": "male",
     "birth_date": "2002-07-01",
     "role": "customer",
-    "points": 0
+    "points": 0,
+    "cart": {
+      "factoryId": 1,
+      "products": [
+        {
+          "chocolateId": 1,
+          "selectedQuantity": 1
+        },
+        {
+          "chocolateId": 2,
+          "selectedQuantity": 2
+        }
+      ]
+    }
   },
   {
     "username": "tbecejac",

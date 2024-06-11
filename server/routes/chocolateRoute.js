@@ -20,16 +20,28 @@ const Chocolate = require('../models/chocolate');
 // Promena kvantiteta ✔
 
 router.get('/:factoryId', (req, res) => {
-    const factoryId = Number(req.params.factoryId);    
+    const factoryId = Number(req.params.factoryId);
     const chocolates = chocolateService.GetAllChocolatesForFactory(factoryId);
-  
-    if (chocolates.length > 0) {      
+
+    if (chocolates.length > 0) {
       return res.status(200).send(chocolates);
     } else {
       console.error(`No chocolates found for factory ID: ${factoryId}`);
       return res.status(404).send({ error: 'No chocolates found for this factory' });
     }
   });
+
+router.get('/choco/:chocolateId', (req, res) => {
+	const chocolateId = Number(req.params.chocolateId);
+	const chocolate = chocolateService.GetById(chocolateId);
+
+	if (chocolate) {
+		return res.status(200).send(chocolate);
+	} else {
+		console.error(`Chocolate with ID ${chocolateId} not found`);
+		return res.status(404).send({ error: 'Chocolate not found' });
+	}
+});
 
 router.get('/img/:chocolateId', (req, res) => {
 	const chocolateId = Number(req.params.chocolateId);
@@ -53,7 +65,7 @@ router.post('/updatequantity/:chocolateId', verifyToken, (req, res) => {
     if(chocolate.quantity<quantity && req.auth.role == 'customer'){
         return res.status(400).send({ message: 'New quantity must be smaller than current quantity.' });
     }
-  
+
     try {
       chocolateService.SetQuantity(chocolateId, quantity);
       res.status(200).send({ message: 'Successfully updated chocolate quantity' });
@@ -76,7 +88,7 @@ router.post('/img/upload/:chocoId', verifyToken, upload.single('img'), (req, res
         return res.status(400).send({ message: 'No file uploaded' });
     }
 
-    const imgPath = req.file.path;    
+    const imgPath = req.file.path;
 
     try {
         chocolateService.SetImagePath(chocoId, imgPath);

@@ -59,6 +59,7 @@ export default {
 			axiosInstance.get(`/chocolate/${this.factory.id}`)
 			.then((response) => {
 				this.chocolates = response.data;
+				this.chocolates = this.filterOutOfStockChocolates(this.chocolates);
 			})
 			.catch((error) => {
 				console.log(error);
@@ -78,6 +79,9 @@ export default {
 			end.setHours(endWorkTime.split(':')[0], endWorkTime.split(':')[1]);
 
 			return now >= start && now <= end;
+		},
+		filterOutOfStockChocolates(chocolates) {
+			return chocolates.filter(chocolate => chocolate.quantity > 0);
 		}
 	}
 }

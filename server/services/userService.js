@@ -91,3 +91,44 @@ exports.getRole = (username) => {
 	const foundUser = users.find(u => u.username === username);
 	return foundUser.role;
 }
+
+exports.updateCart = (username, newProduct) => {
+	const users = this.getAllUsers();
+	const foundUser = users.find(u => u.username === username);
+
+	if (!foundUser) {
+		throw new Error('User not found');
+	}
+
+	const index = users.indexOf(foundUser);
+
+	if (users[index].cart.factoryId === null) {
+		users[index].cart.factoryId = newProduct.factoryId;
+	}
+	else if (users[index].cart.factoryId !== newProduct.factoryId) {
+		throw new Error('Cart must contain products from the same factory');
+	}
+
+	chocolate = users[index].cart.products.find(p => p.chocolateId === newProduct.id);
+	if (chocolate) {
+		chocolate.selectedQuantity = newProduct.selectedQuantity;
+	} else {
+		users[index].cart.products.push({
+			chocolateId: newProduct.id,
+			selectedQuantity: newProduct.selectedQuantity
+		});
+	}
+
+	writeJSONFile(usersFilePath, users);
+}
+
+exports.getCart = (username) => {
+	const users = this.getAllUsers();
+	const foundUser = users.find(u => u.username === username);
+
+	if (!foundUser) {
+		throw new Error('User not found');
+	}
+
+	return foundUser.cart;
+}

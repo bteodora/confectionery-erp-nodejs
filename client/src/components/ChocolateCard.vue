@@ -8,12 +8,21 @@
         <p class="card-text">Category: {{ chocolate.category }}</p>
         <p class="card-text">Type: {{ chocolate.type }}</p>
         <p class="card-text">Weight: {{ chocolate.weight }} grams</p>
-        <p class="card-description">{{ chocolate.description }}</p>
-        <p class="card-price"><b>Price: {{ chocolate.price.toFixed(2) }} DIN</b></p>
+		<p class="card-text" v-if="inCart">Selected quantity: {{ chocolate.selectedQuantity }}</p>
+        <p class="card-description" v-if="!inCart">{{ chocolate.description }}</p>
+        <p class="card-price"><b>Price: {{ chocolate.price }} DIN</b></p>
+		<p class="card-price" v-if="inCart"><b>Total price: {{ chocolate.price * chocolate.selectedQuantity }} DIN</b></p>
         <div class="card-buttons" v-if="role === 'manager'">
           <button class="btn btn-primary" @click="openUpdateModal">Update</button>
           <button class="btn btn-danger" @click="deleteChocolate">Delete</button>
         </div>
+		<div v-if="role === 'customer' && !inCart" class="card-buttons">
+		  <button class="btn btn-primary" @click="addToCart">Add to cart</button>
+		</div>
+		<div v-if="role === 'customer' && inCart" class="card-buttons">
+		  <button class="btn btn-primary" @click="updateSelectedQuantity">Update quantity</button>
+		  <button class="btn btn-danger" @click="removeFromCart">Remove</button>
+		</div>
         <div v-if="role === 'staff'" class="staff-button">
           <button class="btn btn-success" @click="openQuantityModal">Add chocolate</button>
         </div>
@@ -100,16 +109,34 @@
         </div>
       </div>
     </div>
+
+	<!-- Modal for updating selected quantity by customer -->
+	<div class="modal fade" :id="'selectQuantityModal-' + chocolate.id" tabindex="-1" aria-labelledby="quantityModalLabel" aria-hidden="true">
+		<CustomerUpdateChocolateQuantity ref="customerUpdateQuantity" :chocolate="chocolate" :endpoint="'/user/cart'"/>
+	</div>
   </div>
 </template>
 
 <script>
+
 import axiosInstance, { baseURL, getUserProfile } from '@/utils/axiosInstance';
+import CustomerUpdateChocolateQuantity from '@/components/Customer/CustomerUpdateChocolateQuantity.vue';
 
 export default {
   name: 'ChocolateCard',
   props: {
-    chocolate: Object
+    chocolate: Object,
+	inCart: {
+		type: Boolean,
+		default: false
+	},
+	selectedQuantity: {
+		type: Number,
+		default: 0
+	}
+  },
+  components: {
+	CustomerUpdateChocolateQuantity,
   },
   data() {
     return {
@@ -236,7 +263,21 @@ export default {
         .catch(error => {
           alert('An error occurred while trying to delete the chocolate');
         });
-    }
+    },
+	addToCart() {
+		this.$nextTick(() => {
+			const quantityModal = new bootstrap.Modal(document.getElementById('selectQuantityModal-' + this.chocolate.id));
+			quantityModal.show();
+			this.$refs.customerUpdateQuantity.refresh(1);
+      });
+	},
+	updateSelectedQuantity() {
+		this.$nextTick(() => {
+			const quantityModal = new bootstrap.Modal(document.getElementById('selectQuantityModal-' + this.chocolate.id));
+			quantityModal.show();
+			this.$refs.customerUpdateQuantity.refresh(this.chocolate.selectedQuantity);
+		});
+	},
   }
 };
 </script>

@@ -27,6 +27,10 @@ router.post('/register/customer', (req, res) => {
 		const newUser = req.body;
 		newUser.role = 'customer';
 		newUser.points = 0;
+		newUser.cart = {
+			factoryId: null,
+			products: [],
+		}
 
 		if(!User.checkUser(newUser))
 			return res.status(400).send({ message: 'Invalid fields'});
@@ -139,5 +143,25 @@ router.get('/factoryid', verifyToken, (req, res) => {
     }
 });
 
+
+router.put('/cart', verifyToken, (req, res) => {
+	const username = req.auth.username;
+	const newProduct = req.body;
+
+	userService.updateCart(username, newProduct);
+	res.status(200).send({ message: 'Cart updated successfully'});
+
+});
+
+router.get('/cart', verifyToken, (req, res) => {
+	const username = req.auth.username;
+
+	try {
+		const cart = userService.getCart(username);
+		res.status(200).send(cart);
+	} catch (err) {
+		res.status(400).send({ message: err.message});
+	}
+});
 
 module.exports = router;
