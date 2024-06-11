@@ -188,4 +188,18 @@ router.delete('/cart/:chocolateId', verifyToken, (req, res) => {
 	}
 });
 
+router.delete('/cart', verifyToken, (req, res) => {
+	const username = req.auth.username;
+
+	if(req.auth.role !== 'customer')
+		return res.status(403).send({ message: 'Forbidden' });
+
+	try {
+		userService.emptyCart(username);
+		res.status(200).send({ message: 'Cart emptied'});
+	} catch (err) {
+		res.status(400).send({ message: err.message});
+	}
+});
+
 module.exports = router;

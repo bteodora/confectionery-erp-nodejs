@@ -7,6 +7,11 @@
 		<h1>Chocolates in cart</h1>
 		<br>
 		<h4 v-if="chocolates.length !== 0"><b>Total price in cart: {{ totalPrice }} DIN</b></h4>
+		<br>
+		<div v-if="chocolates.length !== 0" class="d-grid gap-4 d-md-flex justify-content-md-center">
+			<button class="btn btn-success">Submit purchase</button>
+			<button class="btn btn-danger" v-on:click="emptyCart">Empty cart</button>
+		</div>
 	</div>
 	<div class="container d-flex flex-wrap justify-content-center">
 		<ChocolateCard v-for="chocolate in chocolates" :key="chocolate.id" :chocolate="chocolate" :inCart="true"/>
@@ -59,6 +64,16 @@ export default {
 				console.log(error);
 			});
 		},
+		emptyCart() {
+			axiosInstance.delete('/user/cart')
+			.then(() => {
+				this.chocolates = [];
+				this.totalPrice = 0;
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		}
 	}
 }
 

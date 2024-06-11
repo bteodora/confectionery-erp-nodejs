@@ -154,3 +154,19 @@ exports.deleteFromCart = (username, chocolateId) => {
 
 	writeJSONFile(usersFilePath, users);
 }
+
+exports.emptyCart = (username) => {
+	const users = this.getAllUsers();
+	const foundUser = users.find(u => u.username === username);
+
+	if (!foundUser) {
+		throw new Error('User not found');
+	}
+
+	const index = users.indexOf(foundUser);
+
+	users[index].cart.factoryId = null;
+	users[index].cart.products = [];
+
+	writeJSONFile(usersFilePath, users);
+}

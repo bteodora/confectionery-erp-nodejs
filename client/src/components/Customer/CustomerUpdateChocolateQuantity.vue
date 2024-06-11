@@ -55,7 +55,6 @@ export default {
 				selectedQuantity: this.newQuantity
 			}).then((response) => {
 				location.reload();
-				alert('Chocolate quantity successfully updated!');
 			}).catch((error) => {
 				this.quantityErrorMessage = error.response.data.message;
 			});
