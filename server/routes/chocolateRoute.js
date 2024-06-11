@@ -20,15 +20,12 @@ const Chocolate = require('../models/chocolate');
 // Promena kvantiteta ✔
 
 router.get('/factory/:factoryId', (req, res) => {
-	console.log('GET /chocolate/:factoryId');
-
     const factoryId = Number(req.params.factoryId);
     const chocolates = chocolateService.GetAllChocolatesForFactory(factoryId);
 
     if (chocolates.length > 0) {
       return res.status(200).send(chocolates);
     } else {
-      console.error(`No chocolates found for factory ID: ${factoryId}`);
       return res.status(404).send({ error: 'No chocolates found for this factory' });
     }
   });
@@ -141,7 +138,6 @@ router.post('/updatechocolate', verifyToken, (req, res) => {
 
 router.delete('/deletechocolate/:chocolateId', verifyToken, (req, res) => {
     if (req.auth.role !== 'manager') {
-        console.log('Unauthorized access attempt');
         return res.status(403).send({ message: 'Forbidden' });
     }
 
@@ -150,7 +146,6 @@ router.delete('/deletechocolate/:chocolateId', verifyToken, (req, res) => {
         chocolateService.DeleteChocolate(chocolateId);
         res.status(200).send({ message: 'Successfully deleted chocolate' });
     } catch (err) {
-        console.log(`Error occurred: ${err.message}`);
         res.status(400).send({ message: err.message });
     }
 });

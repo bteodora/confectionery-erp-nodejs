@@ -71,7 +71,6 @@ router.post('/register/staff', verifyToken, (req, res) => {
 		const newUser = req.body;
 		newUser.role = 'staff';
 		newUser.factoryId = userService.getFactoryId(req.auth.username);
-		console.log("registering new staff member to factory "+newUser.factoryId);
 
 		if(!User.checkUser(newUser))
 			return res.status(400).send({ message: 'Invalid fields'});
@@ -135,10 +134,9 @@ router.put('/profile', verifyToken, (req, res) => {
 router.get('/factoryid', verifyToken, (req, res) => {
     try {
         const factoryId = userService.getFactoryId(req.auth.username);
-        // console.log('Factory ID:', factoryId); // Log factoryId for debugging
         return res.status(200).send({ factoryId });
     } catch (err) {
-        console.error('Error:', err); // Log any errors for debugging
+        console.error('Error:', err);
         res.status(400).send({ message: err.message });
     }
 });
@@ -189,6 +187,5 @@ router.delete('/cart/:chocolateId', verifyToken, (req, res) => {
 		res.status(400).send({ message: err.message});
 	}
 });
-
 
 module.exports = router;

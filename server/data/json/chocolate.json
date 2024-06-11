@@ -68,5 +68,19 @@
     "quantity": 0,
     "id": 5,
     "imagePath": "data/img/1717501880988_Wonka Nutty.png"
+  },
+  {
+    "name": "Top Cacao",
+    "price": 420,
+    "type": "black",
+    "weight": 10,
+    "description": "Our premium cacao product boasts an exquisite, velvety texture with a rich, authentic flavor. Handcrafted to perfection, it offers an indulgent, luxurious experience, delivering the pure essence of exceptional quality cacao.",
+    "factoryId": 2,
+    "category": "cooking",
+    "isDeleted": false,
+    "status": "InStock",
+    "quantity": 5,
+    "id": 6,
+    "imagePath": "data\\img\\1718106484252_top_cacao.jpg"
   }
 ]

@@ -81,7 +81,11 @@ export default {
 			return now >= start && now <= end;
 		},
 		filterOutOfStockChocolates(chocolates) {
-			return chocolates.filter(chocolate => chocolate.quantity > 0);
+			const role = getUserProfile().role;
+			if (role === 'customer' || role === null)
+				return chocolates.filter(chocolate => chocolate.quantity > 0);
+			else
+				return chocolates;
 		}
 	}
 }

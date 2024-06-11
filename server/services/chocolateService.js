@@ -3,7 +3,7 @@ const { readJSONFile, writeJSONFile } = require('../utils/jsonParser');
 const chocolateFilePath = path.join(__dirname, '../data/json/chocolate.json');
 
 // Potrebno:
-// Sve cokolade za fabriku ✔ 
+// Sve cokolade za fabriku ✔
 
 // MENADZER:
 // Kreiranje ✔
@@ -15,22 +15,22 @@ const chocolateFilePath = path.join(__dirname, '../data/json/chocolate.json');
 // RADNIK:
 // Promena kvantiteta ✔
 
-// KUPAC: 
+// KUPAC:
 // Promena kvantiteta ✔
 
-exports.GetAllChocolatesForFactory = (factoryId) => { 
-    const chocolates = readJSONFile(chocolateFilePath);    
+exports.GetAllChocolatesForFactory = (factoryId) => {
+    const chocolates = readJSONFile(chocolateFilePath);
     let filteredChocolates = chocolates.filter(c => c.factoryId == factoryId);
     filteredChocolates = filteredChocolates.filter(c => c.isDeleted == false);
     return filteredChocolates;
   };
-  
+
 exports.getImagePath = (chocolateId) =>{
     const chocolates = readJSONFile(chocolateFilePath);
     const oldChocolate = chocolates.find(c => c.id == chocolateId);
 
     if(!oldChocolate){
-        throw new Error('No such chocolate exists');        
+        throw new Error('No such chocolate exists');
     }
 
     return oldChocolate.imagePath;
@@ -57,7 +57,7 @@ exports.SetImagePath = (chocolateId, imagePath) => {
     const oldChocolate = chocolates.find(c => c.id == chocolateId);
 
     if(!oldChocolate){
-        throw new Error('No such chocolate exists');        
+        throw new Error('No such chocolate exists');
     }
 
     oldChocolate.imagePath = imagePath;
@@ -80,7 +80,7 @@ exports.DeleteChocolate = (chocoId) =>{
     const oldChocolate = chocolates.find(c => c.id == chocoId);
 
     if(!oldChocolate){
-        throw new Error('No such chocolate exists');        
+        throw new Error('No such chocolate exists');
     }
 
     oldChocolate.isDeleted = true;
@@ -111,7 +111,7 @@ exports.SetQuantity = (chocoId, newQuantity) =>
     if(newQuantity !== 0){
         foundChocolate.status = "InStock";
     }
-    else{        
+    else{
         foundChocolate.status = "OutOfStock";
     }
     writeJSONFile(chocolateFilePath, chocolates);

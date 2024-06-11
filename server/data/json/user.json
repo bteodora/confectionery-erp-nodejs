@@ -18,7 +18,7 @@
     "role": "customer",
     "points": 0,
     "cart": {
-      "factoryId": 1,
+      "factoryId": null,
       "products": []
     }
   },
@@ -61,5 +61,15 @@
     "birth_date": "2002-02-15",
     "role": "staff",
     "factoryId": 1
+  },
+  {
+    "username": "kesa",
+    "password": "kesa",
+    "name": "Luka",
+    "surname": "Keselj",
+    "gender": "male",
+    "birth_date": "2003-05-07",
+    "role": "staff",
+    "factoryId": 2
   }
 ]

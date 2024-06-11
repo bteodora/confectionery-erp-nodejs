@@ -61,6 +61,7 @@ export default {
 			});
 		},
 		refresh(selectedQuantity) {
+			this.quantityErrorMessage = '';
 			this.newQuantity = selectedQuantity;
 		}
 	}

@@ -105,7 +105,7 @@ exports.updateCart = (username, newProduct) => {
 		users[index].cart.factoryId = newProduct.factoryId;
 	}
 	else if (users[index].cart.factoryId !== newProduct.factoryId) {
-		throw new Error('Cart must contain products from the same factory\nPlease empty your cart before adding products from another factory');
+		throw new Error('Cart must contain products from the same factory.\nPlease empty your cart before adding products from another factory');
 	}
 
 	chocolate = users[index].cart.products.find(p => p.chocolateId === newProduct.id);
@@ -147,5 +147,10 @@ exports.deleteFromCart = (username, chocolateId) => {
 	}
 
 	users[index].cart.products.splice(chocolateIndex, 1);
+
+	if (users[index].cart.products.length === 0) {
+		users[index].cart.factoryId = null;
+	}
+
 	writeJSONFile(usersFilePath, users);
 }
