@@ -1,5 +1,6 @@
 const path = require('path');
 const { readJSONFile, writeJSONFile } = require('../utils/jsonParser');
+const { get } = require('http');
 
 const usersFilePath = path.join(__dirname, '../data/json/user.json');
 
@@ -72,7 +73,7 @@ exports.registerUser = (newUser) => {
 }
 
 exports.login = (username, password) => {
-	const users = readJSONFile(usersFilePath);
+	const users = this.getAllUsers();
 	const foundUser = users.find(u => u.username === username && u.password === password);
 
 	if (!foundUser) {
@@ -81,14 +82,12 @@ exports.login = (username, password) => {
 }
 
 exports.getFactoryId = (username) => {
-	const users = readJSONFile(usersFilePath);
-	const foundUser = users.find(u => u.username === username);
+	const foundUser = this.getUser(username);
 	return foundUser.factoryId;
 }
 
 exports.getRole = (username) => {
-	const users = readJSONFile(usersFilePath);
-	const foundUser = users.find(u => u.username === username);
+	const foundUser = this.getUser(username);
 	return foundUser.role;
 }
 
@@ -106,7 +105,7 @@ exports.updateCart = (username, newProduct) => {
 		users[index].cart.factoryId = newProduct.factoryId;
 	}
 	else if (users[index].cart.factoryId !== newProduct.factoryId) {
-		throw new Error('Cart must contain products from the same factory');
+		throw new Error('Cart must contain products from the same factory\nPlease empty your cart before adding products from another factory');
 	}
 
 	chocolate = users[index].cart.products.find(p => p.chocolateId === newProduct.id);
@@ -123,6 +122,16 @@ exports.updateCart = (username, newProduct) => {
 }
 
 exports.getCart = (username) => {
+	const foundUser = this.getUser(username);
+
+	if (!foundUser) {
+		throw new Error('User not found');
+	}
+
+	return foundUser.cart;
+}
+
+exports.deleteFromCart = (username, chocolateId) => {
 	const users = this.getAllUsers();
 	const foundUser = users.find(u => u.username === username);
 
@@ -130,5 +139,13 @@ exports.getCart = (username) => {
 		throw new Error('User not found');
 	}
 
-	return foundUser.cart;
+	const index = users.indexOf(foundUser);
+
+	const chocolateIndex = users[index].cart.products.findIndex(p => p.chocolateId === chocolateId);
+	if (chocolateIndex === -1) {
+		throw new Error('Product not found in cart');
+	}
+
+	users[index].cart.products.splice(chocolateIndex, 1);
+	writeJSONFile(usersFilePath, users);
 }

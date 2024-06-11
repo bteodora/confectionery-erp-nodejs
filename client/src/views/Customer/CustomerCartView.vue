@@ -6,10 +6,11 @@
 	<div class="header">
 		<h1>Chocolates in cart</h1>
 		<br>
-		<h4><b>Total price in cart: {{ totalPrice }} DIN</b></h4>
+		<h4 v-if="chocolates.length !== 0"><b>Total price in cart: {{ totalPrice }} DIN</b></h4>
 	</div>
 	<div class="container d-flex flex-wrap justify-content-center">
 		<ChocolateCard v-for="chocolate in chocolates" :key="chocolate.id" :chocolate="chocolate" :inCart="true"/>
+		<p v-if="chocolates.length === 0" class="empty-cart-message"><i>Cart is empty...</i></p>
 	</div>
 </div>
 
@@ -63,7 +64,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 
 .header {
 	text-align: center;
@@ -75,6 +76,11 @@ export default {
 	padding-top: 2%;
 	padding-bottom: 2%;
 	justify-content: center;
+}
+
+.empty-cart-message {
+	font-size: 20px;
+    padding-top: 5%;
 }
 
 </style>

@@ -145,15 +145,26 @@ router.get('/factoryid', verifyToken, (req, res) => {
 
 router.put('/cart', verifyToken, (req, res) => {
 	const username = req.auth.username;
+
+	if(req.auth.role !== 'customer')
+		return res.status(403).send({ message: 'Forbidden' });
+
 	const newProduct = req.body;
 
-	userService.updateCart(username, newProduct);
-	res.status(200).send({ message: 'Cart updated successfully'});
-
+	try{
+		userService.updateCart(username, newProduct);
+		res.status(200).send({ message: 'Cart updated successfully'});
+	}
+	catch(err) {
+		res.status(400).send({ message: err.message});
+	}
 });
 
 router.get('/cart', verifyToken, (req, res) => {
 	const username = req.auth.username;
+
+	if(req.auth.role !== 'customer')
+		return res.status(403).send({ message: 'Forbidden' });
 
 	try {
 		const cart = userService.getCart(username);
@@ -162,5 +173,22 @@ router.get('/cart', verifyToken, (req, res) => {
 		res.status(400).send({ message: err.message});
 	}
 });
+
+router.delete('/cart/:chocolateId', verifyToken, (req, res) => {
+	const username = req.auth.username;
+
+	if(req.auth.role !== 'customer')
+		return res.status(403).send({ message: 'Forbidden' });
+
+	const chocolateId = Number(req.params.chocolateId);
+
+	try {
+		userService.deleteFromCart(username, chocolateId);
+		res.status(200).send({ message: 'Product removed from cart'});
+	} catch (err) {
+		res.status(400).send({ message: err.message});
+	}
+});
+
 
 module.exports = router;

@@ -278,6 +278,15 @@ export default {
 			this.$refs.customerUpdateQuantity.refresh(this.chocolate.selectedQuantity);
 		});
 	},
+	removeFromCart() {
+		axiosInstance.delete(`/user/cart/${this.chocolate.id}`)
+			.then((res) => {
+				location.reload();
+			})
+			.catch(error => {
+				console.error(error.message);
+			});
+	},
   }
 };
 </script>
