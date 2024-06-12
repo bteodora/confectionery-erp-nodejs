@@ -74,5 +74,18 @@ exports.DeclinePurchase = (purchaseId, declineReason) => {
 
 	purchase.status = 'Declined';
 	purchase.declineReason = declineReason;
+	purchase.products.forEach(p => chocolateService.AddQuantity(p.chocolateId, p.selectedQuantity)); 
+	writeJSONFile(purchaseFilePath, purchases);
+}
+
+exports.AcceptPurchase = (purchaseId) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const purchase = purchases.find(p => p.id == purchaseId);
+
+	if(!purchase){
+		throw new Error('No such purchase exists');
+	}
+
+	purchase.status = 'Accepted';
 	writeJSONFile(purchaseFilePath, purchases);
 }
