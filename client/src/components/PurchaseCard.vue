@@ -9,11 +9,24 @@
 			<li class="list-group-item"><b>Factory:</b> {{ factoryName }}</li>
 		</ul>
 		<div class="card-body">
-			<h5 class="card-title">Total price: {{ purchase.totalPrice }} DIN</h5>
+			<h5 class="card-title">Total price: {{ purchase.totalPrice.toFixed(2) }} DIN</h5>
 			<br>
-			<a :href="'#products' + purchase.id" class="btn btn-secondary" data-bs-toggle="collapse" role="button" aria-expanded="false"
-				aria-controls="collapseExample">
-				Products</a>
+			<div class="d-flex justify-content-between">
+				<a :href="'#products' + purchase.id" class="btn btn-secondary" data-bs-toggle="collapse" role="button"
+					aria-expanded="false" aria-controls="collapseExample">
+					Products</a>
+
+				<div class="ml-auto">
+					<div v-if="role == 'manager'">
+						<button class="btn btn-success me-3">Approve</button>
+						<button class="btn btn-danger">Reject</button>
+					</div>
+					<div v-if="role == 'customer'">
+						<button v-if="purchase.status !== 'Cancelled'" class="btn btn-danger" v-on:click="cancelPurchase">Cancel</button>
+						<button v-if="purchase.status === 'Approved'" class="btn btn-primary">Review</button>
+					</div>
+				</div>
+			</div>
 		</div>
 		<div class="collapse" :id="'products' + purchase.id">
 			<table class="table">
@@ -40,7 +53,7 @@
 
 <script>
 
-import axiosInstance from '@/utils/axiosInstance';
+import axiosInstance, { getUserProfile } from '@/utils/axiosInstance';
 
 export default {
 	name: 'PurchaseCard',
@@ -52,10 +65,13 @@ export default {
 	},
 	data() {
 		return {
+			role: '',
 			factoryName: ''
 		}
 	},
 	mounted() {
+		this.role = getUserProfile().role;
+
 		this.getFactory();
 		this.getCholocates();
 	},
@@ -87,6 +103,16 @@ export default {
 			let formattedDate = date.toLocaleDateString(undefined, dateOptions);
 			let formattedTime = date.toLocaleTimeString(undefined, timeOptions);
 			return `${formattedDate} ${formattedTime}`;
+		},
+		cancelPurchase() {
+			axiosInstance.post(`/purchase/cancel/${this.purchase.id}`)
+				.then(response => {
+					this.purchase.status = 'Cancelled';
+					alert(response.data.message);
+				})
+				.catch(error => {
+					console.error(error);
+				});
 		}
 	}
 }

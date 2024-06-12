@@ -7,7 +7,7 @@
 		<h1>Chocolates in cart</h1>
 		<br>
 		<div class="user-info w-25">
-			<h5><span>Points:</span> {{ user.points }}</h5>
+			<h5><span>Points:</span> {{ user.points.toFixed(2) }}</h5>
 			<h5><span> Customer type:</span> {{ user.type }}</h5>
 			<h5><span>Discount:</span> {{ user.discount }}</h5>
 		</div>
@@ -47,7 +47,7 @@ export default {
 			chocolates: [],
 			totalPrice: 0,
 			discountPrice: 0,
-			user: {}
+			user: { points: 0.0 }
 		}
 	},
 	mounted() {
@@ -86,21 +86,21 @@ export default {
 				console.log(error);
 			});
 		},
-		setDiscount(type) {
-			type = this.user.type;
-			if(type === 'regular') {
+		setDiscount() {
+			const type = this.user.type;
+			if(type === 'Regular') {
 				this.user.discount = 'no discount';
 				this.discountPrice = this.totalPrice;
 			}
-			else if(type === 'bronze') {
+			else if(type === 'Bronze') {
 				this.user.discount = '5%';
 				this.discountPrice = this.totalPrice * 0.95;
 			}
-			else if(type === 'silver') {
+			else if(type === 'Silver') {
 				this.user.discount = '10%';
 				this.discountPrice = this.totalPrice * 0.90;
 			}
-			else if(type === 'gold') {
+			else if(type === 'Gold') {
 				this.user.discount = '15%';
 				this.discountPrice = this.totalPrice * 0.85;
 			}
@@ -119,7 +119,13 @@ export default {
 			axiosInstance.post('/purchase/create')
 			.then((res) => {
 				alert(res.data.message);
-				this.emptyCart();
+
+				this.user.points = res.data.points;
+				this.user.type = res.data.type;
+				this.setDiscount();
+
+				this.chocolates = [];
+				this.totalPrice = 0;
 			})
 			.catch((error) => {
 				console.log(error);

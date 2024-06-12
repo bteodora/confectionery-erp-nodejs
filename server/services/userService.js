@@ -171,7 +171,7 @@ exports.emptyCart = (username) => {
 	writeJSONFile(usersFilePath, users);
 }
 
-exports.updatePoints = (username, totalPrice, increase = true) => {
+exports.addPoints = (username, totalPrice) => {
 	const users = this.getAllUsers();
 	const foundUser = users.find(u => u.username === username);
 
@@ -181,10 +181,25 @@ exports.updatePoints = (username, totalPrice, increase = true) => {
 
 	const index = users.indexOf(foundUser);
 
-	if(increase)
-		users[index].points += totalPrice / 1000.0 * 133.0;
-	else
-		users[index].points -= totalPrice / 1000.0 * 133.0 * 4.0;
+	let factor = 133.0;
+
+	totalPrice < 0 ? factor *= 4.0 : factor *= 1.0;
+
+	users[index].points += totalPrice / 1000.0 * factor;
+
+	this.promoteCustomer(users[index]);
 
 	writeJSONFile(usersFilePath, users);
+}
+
+exports.promoteCustomer = (user) => {
+	if(user.points >= 1000 && user.points < 2000){
+		user.type = 'Bronze';
+	}
+	else if(user.points >= 2000 && user.points < 40000){
+		user.type = 'Silver';
+	}
+	else if(user.points >= 40000){
+		user.type = 'Gold';
+	}
 }

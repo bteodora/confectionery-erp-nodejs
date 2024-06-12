@@ -17,7 +17,7 @@
     "birth_date": "2002-07-01",
     "role": "customer",
     "points": 0,
-    "type": "regular",
+    "type": "Regular",
     "cart": {
       "factoryId": null,
       "products": []

@@ -16,18 +16,6 @@ exports.GetByFactoryId = (factoryId) => {
 	return factoryPurchases;
 }
 
-exports.ChangePurchaseStatus = (purchaseId, status) => {
-	const purchases = readJSONFile(purchaseFilePath);
-	const purchase = purchases.find(p => p.id == purchaseId);
-
-	if(!purchase){
-		throw new Error('No such purchase exists');
-	}
-
-	purchase.status = status;
-	writeJSONFile(purchaseFilePath, purchases);
-}
-
 exports.CreatePurchase = (username, cart) => {
 	const purchases = readJSONFile(purchaseFilePath);
 
@@ -51,7 +39,40 @@ exports.CreatePurchase = (username, cart) => {
 		comment: null
 	}
 
+	userService.addPoints(username, newPurchase.totalPrice);
+	cart.products.forEach(p => chocolateService.AddQuantity(p.chocolateId, -p.selectedQuantity));
+
 	purchases.push(newPurchase);
-	userService.updatePoints(username, newPurchase.totalPrice);
+	writeJSONFile(purchaseFilePath, purchases);
+}
+
+exports.CancelPurchase = (purchaseId) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const purchase = purchases.find(p => p.id == purchaseId);
+
+	if(!purchase){
+		throw new Error('No such purchase exists');
+	}
+
+	if(purchase.status != 'Pending'){
+		throw new Error('Purchase cannot be canceled');
+	}
+
+	purchase.status = 'Cancelled';
+	purchase.products.forEach(p => chocolateService.AddQuantity(p.chocolateId, p.selectedQuantity));
+	userService.addPoints(purchase.username, -purchase.totalPrice);
+	writeJSONFile(purchaseFilePath, purchases);
+}
+
+exports.DeclinePurchase = (purchaseId, declineReason) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const purchase = purchases.find(p => p.id == purchaseId);
+
+	if(!purchase){
+		throw new Error('No such purchase exists');
+	}
+
+	purchase.status = 'Declined';
+	purchase.declineReason = declineReason;
 	writeJSONFile(purchaseFilePath, purchases);
 }

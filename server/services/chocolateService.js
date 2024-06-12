@@ -98,8 +98,7 @@ exports.GetById = (chocoId) => {
     return foundChocolate;
 }
 
-exports.SetQuantity = (chocoId, newQuantity) =>
-{
+exports.SetQuantity = (chocoId, newQuantity) => {
     const chocolates = readJSONFile(chocolateFilePath);
     const foundChocolate = chocolates.find(c => c.id == chocoId);
 
@@ -114,5 +113,30 @@ exports.SetQuantity = (chocoId, newQuantity) =>
     else{
         foundChocolate.status = "OutOfStock";
     }
+
     writeJSONFile(chocolateFilePath, chocolates);
+}
+
+exports.AddQuantity = (chocoId, quantity) => {
+	const chocolates = readJSONFile(chocolateFilePath);
+	const foundChocolate = chocolates.find(c => c.id == chocoId);
+
+	if(!foundChocolate){
+		throw new Error('No such chocolate exists');
+	}
+
+	if(foundChocolate.quantity + quantity < 0){
+		throw new Error('Not enough quantity');
+	}
+
+	foundChocolate.quantity += quantity;
+
+	if(foundChocolate.quantity > 0){
+		foundChocolate.status = "InStock";
+	}
+	else{
+		foundChocolate.status = "OutOfStock";
+	}
+
+	writeJSONFile(chocolateFilePath, chocolates);
 }
