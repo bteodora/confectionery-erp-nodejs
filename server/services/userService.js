@@ -170,3 +170,21 @@ exports.emptyCart = (username) => {
 
 	writeJSONFile(usersFilePath, users);
 }
+
+exports.updatePoints = (username, totalPrice, increase = true) => {
+	const users = this.getAllUsers();
+	const foundUser = users.find(u => u.username === username);
+
+	if (!foundUser) {
+		throw new Error('User not found');
+	}
+
+	const index = users.indexOf(foundUser);
+
+	if(increase)
+		users[index].points += totalPrice / 1000.0 * 133.0;
+	else
+		users[index].points -= totalPrice / 1000.0 * 133.0 * 4.0;
+
+	writeJSONFile(usersFilePath, users);
+}
