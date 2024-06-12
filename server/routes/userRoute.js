@@ -27,6 +27,7 @@ router.post('/register/customer', (req, res) => {
 		const newUser = req.body;
 		newUser.role = 'customer';
 		newUser.points = 0;
+		newUser.type = 'regular';
 		newUser.cart = {
 			factoryId: null,
 			products: [],
@@ -113,6 +114,8 @@ router.get('/profile', verifyToken, (req, res) => {
 			surname: user.surname,
 			gender: user.gender,
 			birth_date: user.birth_date,
+			points: user.points,
+			type: user.type,
 		});
 	}
 	catch(err) {

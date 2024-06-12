@@ -6,7 +6,15 @@
 	<div class="header">
 		<h1>Chocolates in cart</h1>
 		<br>
-		<h4 v-if="chocolates.length !== 0"><b>Total price in cart: {{ totalPrice }} DIN</b></h4>
+		<div class="user-info w-25">
+			<h5><span>Points:</span> {{ user.points }}</h5>
+			<h5><span> Customer type:</span> {{ user.type }}</h5>
+			<h5><span>Discount:</span> {{ user.discount }}</h5>
+		</div>
+		<div v-if="chocolates.length !== 0">
+			<h4>Total cart price: {{ totalPrice }} DIN</h4>
+			<h4><b>Price after discount: {{ discountPrice }} DIN</b></h4>
+		</div>
 		<br>
 		<div v-if="chocolates.length !== 0" class="d-grid gap-4 d-md-flex justify-content-md-center">
 			<button class="btn btn-success" v-on:click="createPurchase">Submit purchase</button>
@@ -37,7 +45,9 @@ export default {
 		return {
 			factoryId: null,
 			chocolates: [],
-			totalPrice: 0
+			totalPrice: 0,
+			discountPrice: 0,
+			user: {}
 		}
 	},
 	mounted() {
@@ -46,6 +56,8 @@ export default {
 			this.factoryId = response.data.factoryId;
 			const products = response.data.products;
 			products.forEach(p => this.getChocolate(p.chocolateId, p.selectedQuantity));
+
+			this.getUser();
 		})
 		.catch((error) => {
 			console.log(error);
@@ -63,6 +75,35 @@ export default {
 			.catch((error) => {
 				console.log(error);
 			});
+		},
+		getUser() {
+			axiosInstance.get('/user/profile')
+			.then((response) => {
+				this.user = response.data;
+				this.setDiscount();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+		},
+		setDiscount(type) {
+			type = this.user.type;
+			if(type === 'regular') {
+				this.user.discount = 'no discount';
+				this.discountPrice = this.totalPrice;
+			}
+			else if(type === 'bronze') {
+				this.user.discount = '5%';
+				this.discountPrice = this.totalPrice * 0.95;
+			}
+			else if(type === 'silver') {
+				this.user.discount = '10%';
+				this.discountPrice = this.totalPrice * 0.90;
+			}
+			else if(type === 'gold') {
+				this.user.discount = '15%';
+				this.discountPrice = this.totalPrice * 0.85;
+			}
 		},
 		emptyCart() {
 			axiosInstance.delete('/user/cart')
@@ -106,6 +147,20 @@ export default {
 .empty-cart-message {
 	font-size: 20px;
     padding-top: 5%;
+}
+
+.user-info {
+	display: inline-block;
+	padding: 20px;
+	border: 1px solid black;
+	border-radius: 4px;
+	background-color: #f0f0f0;
+	margin-bottom: 30px;
+}
+
+.user-info h5 {
+	display: flex; /* Makes the h5 a flex container */
+    justify-content: space-between;
 }
 
 </style>
