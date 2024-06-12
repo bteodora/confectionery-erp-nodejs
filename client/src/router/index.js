@@ -22,6 +22,7 @@ const router = createRouter({
 		{ path: '/customer/factorydetails', name: 'customer-factorydetails', component: () => import('../views/Customer/CustomerFactoryView.vue'), meta: { requiresAuth: true, allowedRoles: ['customer'] } },
 		{ path: '/customer/profile', name: 'customer-profile', component: () => import('../views/Customer/CustomerProfile.vue'), meta: { requiresAuth: true, allowedRoles: ['customer'] } },
 		{ path: '/customer/cart', name: 'customer-cart', component: () => import('../views/Customer/CustomerCartView.vue'), meta: { requiresAuth: true, allowedRoles: ['customer'] } },
+		{ path: '/customer/purchases', name: 'customer-purchases', component: () => import('../views/Customer/CustomerPurchasesView.vue'), meta: { requiresAuth: true, allowedRoles: ['customer'] } },
 
 		// Manager routes
 		{ path: '/manager', name: 'manager', component: () => import('../views/Manager/ManagerHome.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },

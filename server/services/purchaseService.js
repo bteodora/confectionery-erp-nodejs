@@ -34,7 +34,7 @@ exports.CreatePurchase = (username, cart) => {
 	let purchaseId = 1;
 
 	if(purchases.length > 0) {
-		purchaseId = purchases.sort((a, b) => a.chocolateId - b.chocolateId)[purchases.length - 1].chocolateId + 1;
+		purchaseId = purchases.sort((a, b) => a.id - b.id)[purchases.length - 1].id + 1;
 	}
 
 	cart.products.forEach(p => p.price = chocolateService.GetById(p.chocolateId).price);

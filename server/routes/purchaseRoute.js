@@ -22,4 +22,21 @@ router.post('/create', verifyToken, (req, res) => {
 	}
 });
 
+router.get('/byuser', verifyToken, (req, res) => {
+	const username = req.auth.username;
+	const role = req.auth.role;
+
+	if (role !== 'customer' && role !== 'manager') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+	try {
+		const purchases = purchaseService.GetByUserId(username);
+		return res.status(200).send(purchases);
+	}
+	catch (error) {
+		return res.status(400).send(error.message);
+	}
+});
+
 module.exports = router;

@@ -12,16 +12,9 @@
                 <li class="nav-item">
                     <router-link class="nav-link" to="/customer/cart">Cart</router-link>
                 </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPurchases" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Purchases
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownPurchases">
-                        <li><router-link class="dropdown-item" >Pending</router-link></li>
-                        <li><router-link class="dropdown-item" >Past</router-link></li>
-                    </ul>
-                </li>
+				<li>
+					<router-link class="nav-link" to="/customer/purchases">Purchases</router-link>
+				</li>
 			</div>
 			<a class="navbar-brand">{{ username }}</a>
 			<div class="btn-group">
