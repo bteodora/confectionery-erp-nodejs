@@ -18,12 +18,12 @@
 
 				<div class="ml-auto">
 					<div v-if="role == 'manager'">
-						<button class="btn btn-success me-3">Approve</button>
+						<button class="btn btn-success me-3" @click="acceptPurchase">Accept</button>
 						<button class="btn btn-danger">Reject</button>
 					</div>
 					<div v-if="role == 'customer'">
 						<button v-if="purchase.status !== 'Cancelled'" class="btn btn-danger" v-on:click="cancelPurchase">Cancel</button>
-						<button v-if="purchase.status === 'Approved'" class="btn btn-primary">Review</button>
+						<button v-if="purchase.status === 'Accepted'" class="btn btn-primary">Review</button>
 					</div>
 				</div>
 			</div>
@@ -108,6 +108,26 @@ export default {
 			axiosInstance.post(`/purchase/cancel/${this.purchase.id}`)
 				.then(response => {
 					this.purchase.status = 'Cancelled';
+					alert(response.data.message);
+				})
+				.catch(error => {
+					console.error(error);
+				});
+		},
+		declinePurchase() {
+			axiosInstance.post(`/purchase/decline/${this.purchase.id}`)
+				.then(response => {
+					this.purchase.status = 'Declined';
+					alert(response.data.message);
+				})
+				.catch(error => {
+					console.error(error);
+				});
+		}, 
+		acceptPurchase() {
+			axiosInstance.post(`/purchase/accept/${this.purchase.id}`)
+				.then(response => {
+					this.purchase.status = 'Accepted';
 					alert(response.data.message);
 				})
 				.catch(error => {
