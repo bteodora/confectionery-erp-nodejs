@@ -63,4 +63,40 @@ router.post("/cancel/:id", verifyToken, (req, res) => {
 	}
 });
 
+router.post("/accept/:id", verifyToken, (req, res) => {
+	const purchaseId = parseInt(req.params.id);
+	const role = req.auth.role;
+
+	if (role !== 'manager') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+	try {
+		purchaseService.AcceptPurchase(purchaseId);
+		return res.status(200).send({ message: 'Purchase successfully accepted!' });
+	}
+	catch (error) {
+		return res.status(400).send(error.message);
+	}
+});
+
+router.post("/decline/:id", verifyToken, (req, res) => {
+	const purchaseId = parseInt(req.params.id);
+	const role = req.auth.role;
+
+	if (role !== 'manager') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+	const declineReason = req.body;
+
+	try {
+		purchaseService.DeclinePurchase(purchaseId, declineReason);
+		return res.status(200).send({ message: 'Purchase successfully declined!' });
+	}
+	catch (error) {
+		return res.status(400).send(error.message);
+	}
+});
+
 module.exports = router;
