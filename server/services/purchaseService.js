@@ -16,6 +16,13 @@ exports.GetByFactoryId = (factoryId) => {
 	return factoryPurchases;
 }
 
+exports.getByUsersFactoryId = (username) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const factoryId = userService.getFactoryId(username);
+	const factoryPurchases = purchases.filter(p => p.factoryId == factoryId);
+	return factoryPurchases;
+}
+
 exports.CreatePurchase = (username, cart) => {
 	const purchases = readJSONFile(purchaseFilePath);
 

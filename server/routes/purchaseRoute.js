@@ -46,6 +46,23 @@ router.get('/byuser', verifyToken, (req, res) => {
 	}
 });
 
+router.get('/byfactory', verifyToken, (req, res) => {
+	const username = req.auth.username;
+	const role = req.auth.role;
+
+	if (role !== 'manager') { 
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+	try {
+		const purchases = purchaseService.getByUsersFactoryId(username);
+		return res.status(200).send(purchases);
+	}
+	catch (error) {
+		return res.status(400).send(error.message);
+	}
+});
+
 router.post("/cancel/:id", verifyToken, (req, res) => {
 	const purchaseId = parseInt(req.params.id);
 	const role = req.auth.role;
