@@ -96,6 +96,22 @@ exports.CommentPurchase = (purchaseId, comment) => {
 	}
 
 	comment.status = 'Pending';
+	comment.creationDate = new Date();
 	purchase.comment = comment;
 	writeJSONFile(purchaseFilePath, purchases);
+}
+
+exports.GetComments = (factoryId) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const factoryPurchases = purchases.filter(p => p.factoryId == factoryId && p.comment != null);
+
+	const comments = factoryPurchases.map(p => {
+		return {
+			id: p.id,
+			username: p.username,
+			...p.comment
+		}
+	});
+
+	return comments;
 }

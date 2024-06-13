@@ -1,16 +1,19 @@
 <template>
 	<div class="details" :style="{ 'background-color': background}">
 		<h1>{{ factory.name }}</h1>
-		<div class="row justify-content-md-center">
+		<div class="row justify-content-md-center w-100">
 			<div class="col col-md-2">
 				<img class="factoryLogo" :src="factoryImgSrc" />
 			</div>
-			<div class="col col-md-2 justify-content-start">
+			<div class="details-info col col-md-2 justify-content-start">
 				<p><b>Work hours:</b> {{ factory.startWorkTime }} - {{ factory.endWorkTime }}</p>
 				<p><b>Status: </b> {{ factory.status }}</p>
 				<p><b>Address:</b> {{ factory.location.address }}</p>
 				<p><b>Zip:</b> {{ factory.location.zip }}</p>
-				<h5><b>Rating:</b> {{ factory.rating.toPrecision(2) }} / 5</h5>
+				<p><b>Rating:</b> {{ factory.rating.toPrecision(2) }} / 5</p>
+			</div>
+			<div class="col col-md-2">
+
 			</div>
 		</div>
 	</div>
@@ -18,10 +21,15 @@
 		<h2>Chocolates</h2>
 		<div class="container d-flex flex-wrap justify-content-center">
 			<ChocolateCard v-for="chocolate in chocolates" :key="chocolate.id" :chocolate="chocolate" />
+			<p v-if="chocolates.length === 0" class="empty-message"><i>No chocolates...</i></p>
 		</div>
 	</div>
 	<div class="comments">
 		<h2>Comments</h2>
+		<div class="container d-flex flex-wrap justify-content-center">
+			<CommentCard v-for="comment in comments" :key="comment.id" :comment="comment"/>
+			<p v-if="comments.length === 0" class="empty-message"><i>No comments...</i></p>
+		</div>
 	</div>
 </template>
 
@@ -30,11 +38,13 @@
 import axiosInstance, { baseURL, getUserProfile } from '@/utils/axiosInstance';
 
 import ChocolateCard from '@/components/ChocolateCard.vue';
+import CommentCard from '@/components/CommentCard.vue';
 
 export default {
 	name: 'DetailedFactoryView',
 	components: {
-		ChocolateCard
+		ChocolateCard,
+		CommentCard
 	},
 	data() {
 		return {
@@ -44,7 +54,8 @@ export default {
 				status: 'OPEN'},
 			factoryImgSrc: '',
 			chocolates: [],
-			background: 'white'
+			background: 'white',
+			comments: []
 		}
 	},
 	mounted() {
@@ -65,6 +76,15 @@ export default {
 				console.log(error);
 			});
 			this.factoryImgSrc = `${baseURL}/factory/img/${this.factory.id}`;
+
+			axiosInstance.get(`/purchase/comments/byfactory/${this.factory.id}`)
+			.then((response) => {
+				this.comments = response.data;
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+
 		}).catch((error) => {
 			console.log(error.message);
 		});
@@ -109,6 +129,13 @@ h2 {
 	border-bottom: 1px solid lightgray;
 }
 
+.details-info {
+	margin: 5px;
+	border: 1px solid black;
+	padding: 20px;
+	border-radius: 10px;
+}
+
 .factoryLogo {
 	max-width: 100%;
 	max-height: 100%;
@@ -124,6 +151,12 @@ h2 {
 
 .comments {
 	padding-top: 2%;
-	text-align: center;
+	padding-bottom: 2%;
+	justify-content: center;
+}
+
+.empty-message {
+	font-size: 20px;
+    padding-top: 2%;
 }
 </style>

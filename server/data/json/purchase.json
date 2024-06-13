@@ -20,9 +20,10 @@
     "status": "Approved",
     "declineReason": null,
     "comment": {
-      "factoryRating": "5",
-      "text": "The Willy Wonka Factory is pure magic! Their chocolate is so good, it must have been crafted by Oompa-Loompas on a caffeine binge. #SweetDreams #WillyWonka",
-      "status": "Pending"
+      "factoryRating": 5,
+      "text": "The Willy Wonka Factory is pure magic! Their chocolate is so good, it must have been crafted by Oompa-Loompas on a caffeine binge.  #SweetDreams #WillyWonka",
+      "status": "Pending",
+      "creationDate": "2024-06-13T15:44:58.981Z"
     }
   },
   {
@@ -41,9 +42,32 @@
     "status": "Approved",
     "declineReason": null,
     "comment": {
-      "factoryRating": "3",
-      "text": "Not enough burek sa sirom!!!!!",
-      "status": "Pending"
+      "factoryRating": 3,
+      "text": "Not enough burek sa sirom!!!!",
+      "status": "Pending",
+      "creationDate": "2024-06-13T15:44:51.675Z"
+    }
+  },
+  {
+    "id": 3,
+    "creationDate": "2024-06-13T15:45:13.582Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 630,
+    "products": [
+      {
+        "chocolateId": 3,
+        "selectedQuantity": 3,
+        "price": 210
+      }
+    ],
+    "status": "Approved",
+    "declineReason": null,
+    "comment": {
+      "factoryRating": 5,
+      "text": "The Willy Wonka Factory is a magical wonderland where chocolate rivers flow and candy dreams come true. Run by the eccentric genius Wonka, it's a place of endless imagination and joy. Why did the chocolate bar file a police report? It got mugged!",
+      "status": "Pending",
+      "creationDate": "2024-06-13T15:46:31.160Z"
     }
   }
 ]

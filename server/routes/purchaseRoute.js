@@ -3,7 +3,7 @@ const router = express.Router();
 const purchaseService = require('../services/purchaseService');
 const userService = require('../services/userService');
 const factoryService = require('../services/factoryService');
-const { verifyToken } = require('../utils/tokenParser');
+const { verifyToken, checkRole } = require('../utils/tokenParser');
 
 router.post('/create', verifyToken, (req, res) => {
 	const username = req.auth.username;
@@ -74,6 +74,8 @@ router.post("/comment/:id", verifyToken, (req, res) => {
 	}
 
 	try {
+		comment.factoryRating = parseInt(comment.factoryRating);
+
 		if (!comment)
 			throw new Error('Comment cannot be empty');
 
@@ -87,6 +89,23 @@ router.post("/comment/:id", verifyToken, (req, res) => {
 		const purchase = purchaseService.GetById(purchaseId);
 		factoryService.updateRating(purchase.factoryId);
 		return res.status(200).send({ message: 'Comment successfully added!' });
+	}
+	catch (error) {
+		return res.status(400).send(error.message);
+	}
+});
+
+router.get("/comments/byfactory/:id", checkRole, (req, res) => {
+	const factoryId = parseInt(req.params.id);
+	const role = req.auth.role;
+
+	try {
+		const comments = purchaseService.GetComments(factoryId);
+
+		if (role === 'guest' || role === 'customer')
+			comments = comments.filter(c => c.comment.status === 'Approved');
+
+		return res.status(200).send(comments);
 	}
 	catch (error) {
 		return res.status(400).send(error.message);

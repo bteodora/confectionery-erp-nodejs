@@ -28,6 +28,7 @@ export default {
 		axiosInstance.get(`/purchase/byuser`)
 			.then(response => {
 				this.purchases = response.data;
+				this.purchases = this.purchases.sort((a, b) => a.id - b.id).reverse();
 			})
 			.catch(error => {
 				console.error(error);
