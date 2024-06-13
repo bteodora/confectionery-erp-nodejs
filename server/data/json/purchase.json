@@ -1,3 +1,81 @@
 [
-
+  {
+    "id": 1,
+    "creationDate": "2024-06-13T09:54:12.205Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 740,
+    "products": [
+      {
+        "chocolateId": 1,
+        "selectedQuantity": 4,
+        "price": 185
+      }
+    ],
+    "status": "Declined",
+    "declineReason": {
+      "reason": "testiranje"
+    },
+    "comment": null
+  },
+  {
+    "id": 2,
+    "creationDate": "2024-06-13T10:01:56.255Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 420,
+    "products": [
+      {
+        "chocolateId": 3,
+        "selectedQuantity": 2,
+        "price": 210
+      }
+    ],
+    "status": "Declined",
+    "declineReason": {
+      "reason": "testiranje"
+    },
+    "comment": null
+  },
+  {
+    "id": 3,
+    "creationDate": "2024-06-13T11:25:02.748Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 1025,
+    "products": [
+      {
+        "chocolateId": 1,
+        "selectedQuantity": 3,
+        "price": 185
+      },
+      {
+        "chocolateId": 2,
+        "selectedQuantity": 2,
+        "price": 235
+      }
+    ],
+    "status": "Accepted",
+    "declineReason": null,
+    "comment": null
+  },
+  {
+    "id": 4,
+    "creationDate": "2024-06-13T11:26:50.229Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 210,
+    "products": [
+      {
+        "chocolateId": 3,
+        "selectedQuantity": 1,
+        "price": 210
+      }
+    ],
+    "status": "Declined",
+    "declineReason": {
+      "reason": "Testiranje 3"
+    },
+    "comment": null
+  }
 ]

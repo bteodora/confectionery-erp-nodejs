@@ -9,7 +9,7 @@
     "category": "regular",
     "isDeleted": false,
     "status": "InStock",
-    "quantity": 15,
+    "quantity": 16,
     "id": 1,
     "imagePath": "data/img/1716911533746_wonka_bar.jpg"
   },
@@ -23,7 +23,7 @@
     "category": "regular",
     "isDeleted": false,
     "status": "InStock",
-    "quantity": 2,
+    "quantity": 11,
     "id": 2,
     "imagePath": "data/img/1716911583035_wonka_mixed.jpg"
   },
