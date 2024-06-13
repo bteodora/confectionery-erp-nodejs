@@ -27,17 +27,10 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <router-link class="nav-link" to="/manager/registerstaff">Workers</router-link>
+                    <router-link class="nav-link" to="/manager/registerstaff">Register Worker</router-link>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPurchases" role="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        Purchases
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownPurchases">
-                        <li><router-link class="dropdown-item" >Pending</router-link></li>
-                        <li><router-link class="dropdown-item" >Past</router-link></li>
-                    </ul>
+                    <router-link class="nav-link" to="/manager/purchases">Purchases</router-link>
                 </li>
             </ul>
 
