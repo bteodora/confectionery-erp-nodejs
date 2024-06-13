@@ -9,7 +9,7 @@
     "category": "regular",
     "isDeleted": false,
     "status": "InStock",
-    "quantity": 15,
+    "quantity": 10,
     "id": 1,
     "imagePath": "data/img/1716911533746_wonka_bar.jpg"
   },
@@ -37,7 +37,7 @@
     "category": "regular",
     "isDeleted": false,
     "status": "InStock",
-    "quantity": 10,
+    "quantity": 5,
     "id": 3,
     "imagePath": "data/img/1716911640696_wonka_caramel.jpg"
   },
@@ -79,7 +79,7 @@
     "category": "cooking",
     "isDeleted": false,
     "status": "InStock",
-    "quantity": 5,
+    "quantity": 3,
     "id": 6,
     "imagePath": "data\\img\\1718106484252_top_cacao.jpg"
   }

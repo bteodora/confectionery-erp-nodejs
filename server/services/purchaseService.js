@@ -16,6 +16,12 @@ exports.GetByFactoryId = (factoryId) => {
 	return factoryPurchases;
 }
 
+exports.GetById = (purchaseId) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const purchase = purchases.find(p => p.id == purchaseId);
+	return purchase;
+}
+
 exports.CreatePurchase = (username, cart) => {
 	const purchases = readJSONFile(purchaseFilePath);
 
@@ -74,5 +80,22 @@ exports.DeclinePurchase = (purchaseId, declineReason) => {
 
 	purchase.status = 'Declined';
 	purchase.declineReason = declineReason;
+	writeJSONFile(purchaseFilePath, purchases);
+}
+
+exports.CommentPurchase = (purchaseId, comment) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const purchase = purchases.find(p => p.id == purchaseId);
+
+	if(!purchase){
+		throw new Error('No such purchase exists');
+	}
+
+	if(purchase.status != 'Approved' || purchase.comment != null){
+		throw new Error('Purchase cannot be commented');
+	}
+
+	comment.status = 'Pending';
+	purchase.comment = comment;
 	writeJSONFile(purchaseFilePath, purchases);
 }

@@ -1,3 +1,49 @@
 [
-
+  {
+    "id": 1,
+    "creationDate": "2024-06-13T11:15:45.791Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 1975,
+    "products": [
+      {
+        "chocolateId": 1,
+        "selectedQuantity": 5,
+        "price": 185
+      },
+      {
+        "chocolateId": 3,
+        "selectedQuantity": 5,
+        "price": 210
+      }
+    ],
+    "status": "Approved",
+    "declineReason": null,
+    "comment": {
+      "factoryRating": "5",
+      "text": "The Willy Wonka Factory is pure magic! Their chocolate is so good, it must have been crafted by Oompa-Loompas on a caffeine binge. #SweetDreams #WillyWonka",
+      "status": "Pending"
+    }
+  },
+  {
+    "id": 2,
+    "creationDate": "2024-06-13T11:44:16.751Z",
+    "username": "trksi",
+    "factoryId": 2,
+    "totalPrice": 840,
+    "products": [
+      {
+        "chocolateId": 6,
+        "selectedQuantity": 2,
+        "price": 420
+      }
+    ],
+    "status": "Approved",
+    "declineReason": null,
+    "comment": {
+      "factoryRating": "3",
+      "text": "Not enough burek sa sirom!!!!!",
+      "status": "Pending"
+    }
+  }
 ]

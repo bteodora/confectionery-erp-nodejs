@@ -4,11 +4,11 @@
       <img :src="imgSrc" class="card-img-top" alt="Chocolate Image">
       <div class="card-body">
         <h5 class="card-title">{{ chocolate.name }}</h5>
-        <p class="card-text" :class="statusClass">Status: {{ chocolate.status }}<span v-if="chocolate.status === 'InStock'"> (Quantity: {{ chocolate.quantity }})</span></p>
+        <p class="card-text" v-if="!inCart" :class="statusClass">Status: {{ chocolate.status }}<span v-if="chocolate.status === 'InStock'"> (Quantity: {{ chocolate.quantity }})</span></p>
         <p class="card-text">Category: {{ chocolate.category }}</p>
         <p class="card-text">Type: {{ chocolate.type }}</p>
         <p class="card-text">Weight: {{ chocolate.weight }} grams</p>
-		<p class="card-text" v-if="inCart">Selected quantity: {{ chocolate.selectedQuantity }}</p>
+		<p class="card-text" v-if="inCart"><b>Selected quantity: {{ chocolate.selectedQuantity }}</b></p>
         <p class="card-description" v-if="!inCart">{{ chocolate.description }}</p>
         <p class="card-price"><b>Price: {{ chocolate.price }} DIN</b></p>
 		<p class="card-price" v-if="inCart"><b>Total price: {{ chocolate.price * chocolate.selectedQuantity }} DIN</b></p>
