@@ -43,5 +43,6 @@ export default {
 .card {
 	margin: 2%;
 	max-width: 50%;
+	border-radius: 10px;
 }
 </style>

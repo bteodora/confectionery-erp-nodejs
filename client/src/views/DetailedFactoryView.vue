@@ -1,5 +1,5 @@
 <template>
-	<div class="details" :style="{ 'background-color': background}">
+	<div class="details" :style="{ 'background-color': background }">
 		<h1>{{ factory.name }}</h1>
 		<div class="row justify-content-md-center w-100">
 			<div class="col col-md-2">
@@ -13,7 +13,8 @@
 				<p><b>Rating:</b> {{ factory.rating.toPrecision(2) }} / 5</p>
 			</div>
 			<div class="col col-md-2">
-
+				<label class="form-label"><b>Location:</b></label>
+				<div id="map" />
 			</div>
 		</div>
 	</div>
@@ -27,7 +28,7 @@
 	<div class="comments">
 		<h2>Comments</h2>
 		<div class="container d-flex flex-wrap justify-content-center">
-			<CommentCard v-for="comment in comments" :key="comment.id" :comment="comment"/>
+			<CommentCard v-for="comment in comments" :key="comment.id" :comment="comment" />
 			<p v-if="comments.length === 0" class="empty-message"><i>No comments...</i></p>
 		</div>
 	</div>
@@ -51,7 +52,8 @@ export default {
 			factory: {
 				rating: 0,
 				location: {},
-				status: 'OPEN'},
+				status: 'OPEN'
+			},
 			factoryImgSrc: '',
 			chocolates: [],
 			background: 'white',
@@ -60,36 +62,85 @@ export default {
 	},
 	mounted() {
 		axiosInstance.get(`/factory/${this.$route.query.factoryId}`)
-		.then((response) => {
-			this.factory = response.data;
-
-			const isOpen = this.isFactoryOpen(this.factory.startWorkTime, this.factory.endWorkTime);
-			this.factory.status = isOpen ? 'OPEN' : 'CLOSED';
-			this.background = isOpen ? 'white' : 'lightgray';
-
-			axiosInstance.get(`/chocolate/factory/${this.factory.id}`)
 			.then((response) => {
-				this.chocolates = response.data;
-				this.chocolates = this.filterOutOfStockChocolates(this.chocolates);
-			})
-			.catch((error) => {
-				console.log(error);
-			});
-			this.factoryImgSrc = `${baseURL}/factory/img/${this.factory.id}`;
+				this.factory = response.data;
 
-			axiosInstance.get(`/purchase/comments/byfactory/${this.factory.id}`)
-			.then((response) => {
-				this.comments = response.data;
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+				const isOpen = this.isFactoryOpen(this.factory.startWorkTime, this.factory.endWorkTime);
+				this.factory.status = isOpen ? 'OPEN' : 'CLOSED';
+				this.background = isOpen ? 'white' : 'lightgray';
 
-		}).catch((error) => {
-			console.log(error.message);
-		});
+				this.setupMap();
+				this.getChocolates();
+				this.getComments();
+
+			}).catch((error) => {
+				console.log(error.message);
+			});
 	},
 	methods: {
+		setupMap() {
+			let map = new ol.Map({
+				layers: [
+					new ol.layer.Tile({
+						source: new ol.source.OSM(),
+						preload: 1
+					})
+				],
+				target: 'map',
+				view: new ol.View({
+					center: ol.proj.fromLonLat([this.factory.location.lon, this.factory.location.lat]),
+					zoom: 13,
+					maxZoom: 18,
+					minZoom: 7
+				})
+			});
+
+			let markerStyle = new ol.style.Style({
+				image: new ol.style.Icon({
+					anchor: [16, 64],
+					anchorXUnits: 'pixels',
+					anchorYUnits: 'pixels',
+					scale: 0.5,
+					src: 'https://maps.google.com/mapfiles/kml/pushpin/red-pushpin.png'
+				})
+			});
+
+			let marker = new ol.Feature({
+				geometry: new ol.geom.Point(ol.proj.fromLonLat([this.factory.location.lon, this.factory.location.lat]))
+			});
+
+			marker.setStyle(markerStyle);
+
+			let vectorSource = new ol.source.Vector({
+				features: [marker]
+			});
+
+			let markerVectorLayer = new ol.layer.Vector({
+				source: vectorSource,
+			});
+
+			map.addLayer(markerVectorLayer);
+		},
+		getChocolates() {
+			axiosInstance.get(`/chocolate/factory/${this.factory.id}`)
+				.then((response) => {
+					this.chocolates = response.data;
+					this.chocolates = this.filterOutOfStockChocolates(this.chocolates);
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+			this.factoryImgSrc = `${baseURL}/factory/img/${this.factory.id}`;
+		},
+		getComments() {
+			axiosInstance.get(`/purchase/comments/byfactory/${this.factory.id}`)
+				.then((response) => {
+					this.comments = response.data;
+				})
+				.catch((error) => {
+					console.log(error);
+				});
+		},
 		isFactoryOpen(startWorkTime, endWorkTime) {
 			const now = new Date();
 			const start = new Date();
@@ -113,7 +164,6 @@ export default {
 </script>
 
 <style scoped>
-
 h1 {
 	padding-bottom: 2%;
 	text-align: center;
@@ -157,6 +207,12 @@ h2 {
 
 .empty-message {
 	font-size: 20px;
-    padding-top: 2%;
+	padding-top: 2%;
+}
+
+#map {
+	border: 1px solid lightgray;
+	width: 100%;
+	height: 210px;
 }
 </style>
