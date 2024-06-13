@@ -31,6 +31,7 @@ const router = createRouter({
 		{ path: '/manager/allchocolate', name: 'manager-allChocolate', component: () => import('../views/Manager/AllChocolates.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
 		{ path: '/manager/registerstaff', name: 'manager-registerstaff', component: () => import('../views/Manager/RegisterStaff.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
 		{ path: '/manager/profile', name: 'manager-profile', component: () => import('../views/Manager/ManagerProfile.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
+		{ path: '/manager/purchases', name: 'manager-purchases', component: () => import('../views/Manager/ManagerPurchasesView.vue'), meta: { requiresAuth: true, allowedRoles: ['manager'] } },
 
 		// Staff routes
 		{ path: '/staff', name: 'staff', component: () => import('../views/Worker/StaffHome.vue'), meta: { requiresAuth: true, allowedRoles: ['staff'] } },
