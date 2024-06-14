@@ -87,7 +87,7 @@ exports.DeclinePurchase = (purchaseId, declineReason) => {
 
 	purchase.status = 'Declined';
 	purchase.declineReason = declineReason;
-	purchase.products.forEach(p => chocolateService.AddQuantity(p.chocolateId, p.selectedQuantity)); 
+	purchase.products.forEach(p => chocolateService.AddQuantity(p.chocolateId, p.selectedQuantity));
 	writeJSONFile(purchaseFilePath, purchases);
 }
 
@@ -111,7 +111,7 @@ exports.CommentPurchase = (purchaseId, comment) => {
 		throw new Error('No such purchase exists');
 	}
 
-	if(purchase.status != 'Approved' || purchase.comment != null){
+	if(purchase.status != 'Accepted' || purchase.comment != null){
 		throw new Error('Purchase cannot be commented');
 	}
 
