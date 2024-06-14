@@ -32,6 +32,37 @@ exports.verifyToken = (req, res, next) => {
 	next();
 }
 
+exports.checkRole = (req, res, next) => {
+	let token = '';
+
+	try {
+		const authHeader = req.header('Authorization');
+		token = authHeader.split(' ')[1];
+	}
+	catch (err) {
+		req.auth.role = 'guest';
+		next();
+	}
+
+	if (!token) {
+		req.auth.role = 'guest';
+		next();
+	}
+
+
+	try {
+		const decoded = jwt.verify(token, secret_key);
+
+		req.auth = {
+			role: decoded.role
+		}
+	} catch (err) {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+	next();
+}
+
 exports.generateToken = (user) => {
 	const { username, role } = user;
 

@@ -22,8 +22,10 @@
 						<button class="btn btn-danger" v-if="purchase.status == 'Pending'" @click="openRejectModal(purchase.id)">Reject</button>
 					</div>
 					<div v-if="role == 'customer'">
-						<button v-if="purchase.status !== 'Cancelled'" class="btn btn-danger" v-on:click="cancelPurchase">Cancel</button>
-						<button v-if="purchase.status === 'Accepted'" class="btn btn-primary">Review</button>
+						<button v-if="purchase.status === 'Pending'" class="btn btn-danger"
+							v-on:click="cancelPurchase">Cancel</button>
+						<button v-if="purchase.status === 'Accepted' && purchase.comment === null" type="button"
+							class="btn btn-primary" data-bs-toggle="modal" :data-bs-target="'#reviewModal' + purchase.id">Review</button>
 					</div>
 				</div>
 			</div>
@@ -47,6 +49,36 @@
 					</tr>
 				</tbody>
 			</table>
+		</div>
+
+		<div class="modal fade" :id="'reviewModal' + purchase.id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+			aria-labelledby="reviewModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="reviewModalLabel">Review factory</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+							v-on:click="closeModal"></button>
+					</div>
+					<div class="modal-body">
+						<label class="form-label">Rating: {{ comment.factoryRating }}</label>
+						<input type="range" class="form-range" min="1" max="5" v-model="comment.factoryRating" />
+						<br><br>
+						<div class="d-flex justify-content-between">
+							<label class="form-label">Your comment</label>
+							<label>{{ comment.text.length }} / 256</label>
+						</div>
+						<textarea class="form-control" rows="5" maxlength="256" v-model="comment.text" />
+						<br>
+						<div class="errorText">{{ errorMessage }}</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
+							v-on:click="closeModal">Close</button>
+						<button type="button" class="btn btn-primary" v-on:click="submitReview" data-bs-dismiss="modal">Submit</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 
@@ -90,7 +122,13 @@ export default {
 		return {
 			role: '',
 			factoryName: '',
-			rejectReason: ''
+			rejectReason: '',
+			factoryRating: 1,
+			comment: {
+				factoryRating: 1,
+				text: ''
+			},
+			errorMessage: ''
 		}
 	},
 	mounted() {
@@ -171,6 +209,27 @@ export default {
 				.catch(error => {
 					console.error(error);
 				});
+		},
+		closeModal() {
+			this.comment.factoryRating = 1;
+			this.comment.text = '';
+		},
+		submitReview() {
+			if (this.comment.text.length === 0) {
+				this.errorMessage = 'Comment is required!';
+				return;
+			}
+
+			axiosInstance.post(`/purchase/comment/${this.purchase.id}`, {
+				comment: this.comment,
+			})
+			.then(response => {
+				this.purchase.comment = this.comment;
+				this.closeModal();
+			})
+			.catch(error => {
+				console.log(error.message);
+			});
 		}
 	}
 }

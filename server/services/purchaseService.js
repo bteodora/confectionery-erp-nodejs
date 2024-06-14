@@ -23,6 +23,12 @@ exports.getByUsersFactoryId = (username) => {
 	return factoryPurchases;
 }
 
+exports.GetById = (purchaseId) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const purchase = purchases.find(p => p.id == purchaseId);
+	return purchase;
+}
+
 exports.CreatePurchase = (username, cart) => {
 	const purchases = readJSONFile(purchaseFilePath);
 
@@ -95,4 +101,37 @@ exports.AcceptPurchase = (purchaseId) => {
 
 	purchase.status = 'Accepted';
 	writeJSONFile(purchaseFilePath, purchases);
+}
+
+exports.CommentPurchase = (purchaseId, comment) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const purchase = purchases.find(p => p.id == purchaseId);
+
+	if(!purchase){
+		throw new Error('No such purchase exists');
+	}
+
+	if(purchase.status != 'Approved' || purchase.comment != null){
+		throw new Error('Purchase cannot be commented');
+	}
+
+	comment.status = 'Pending';
+	comment.creationDate = new Date();
+	purchase.comment = comment;
+	writeJSONFile(purchaseFilePath, purchases);
+}
+
+exports.GetComments = (factoryId) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const factoryPurchases = purchases.filter(p => p.factoryId == factoryId && p.comment != null);
+
+	const comments = factoryPurchases.map(p => {
+		return {
+			id: p.id,
+			username: p.username,
+			...p.comment
+		}
+	});
+
+	return comments;
 }

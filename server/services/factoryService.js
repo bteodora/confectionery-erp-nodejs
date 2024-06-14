@@ -3,6 +3,7 @@ const multer = require('multer');
 const { readJSONFile, writeJSONFile } = require('../utils/jsonParser');
 const factoriesFilePath = path.join(__dirname, '../data/json/factory.json');
 const userService = require('./userService');
+const purchaseFilePath = path.join(__dirname, '../data/json/purchase.json');
 
 exports.getAllFactories = () => {
 	const factories = readJSONFile(factoriesFilePath);
@@ -58,4 +59,20 @@ exports.getFactoryImgPath = (factoryId) => {
 	}
 
 	return foundFactory.imgPath;
+}
+
+exports.updateRating = (factoryId) => {
+	const factories = this.getAllFactories();
+	const foundFactory = factories.find(f => f.id === factoryId);
+
+	if (!foundFactory) {
+		throw new Error('Factory not found');
+	}
+
+	const purchases = readJSONFile(purchaseFilePath);
+	const factoryPurchases = purchases.filter(p => p.factoryId === factoryId);
+
+	foundFactory.rating = factoryPurchases.reduce((acc, curr) => acc + curr.comment.factoryRating, 0) / factoryPurchases.length;
+
+	writeJSONFile(factoriesFilePath, factories);
 }
