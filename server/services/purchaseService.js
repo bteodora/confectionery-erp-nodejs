@@ -135,3 +135,11 @@ exports.GetComments = (factoryId) => {
 
 	return comments;
 }
+
+exports.ApproveComment = () =>{
+ 
+}
+
+exports.RejectComment = () =>{
+	
+}
