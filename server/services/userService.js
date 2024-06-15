@@ -1,6 +1,6 @@
 const path = require('path');
 const { readJSONFile, writeJSONFile } = require('../utils/jsonParser');
-const { get } = require('http');
+const purchaseService = require('./purchaseService');
 
 const usersFilePath = path.join(__dirname, '../data/json/user.json');
 
@@ -78,6 +78,14 @@ exports.login = (username, password) => {
 
 	if (!foundUser) {
 		throw new Error('Invalid username or password');
+	}
+
+	if(foundUser.isBlocked){
+		throw new Error('Your account has been blocked!');
+	}
+
+	if(foundUser.role === 'admin'){
+		this.checkSuspiciousUsers();
 	}
 }
 
@@ -193,7 +201,10 @@ exports.addPoints = (username, totalPrice) => {
 }
 
 exports.promoteCustomer = (user) => {
-	if(user.points >= 1000 && user.points < 2000){
+	if(user.points < 1000){
+		user.type = 'Regular';
+	}
+	else if(user.points >= 1000 && user.points < 2000){
 		user.type = 'Bronze';
 	}
 	else if(user.points >= 2000 && user.points < 40000){
@@ -202,4 +213,28 @@ exports.promoteCustomer = (user) => {
 	else if(user.points >= 40000){
 		user.type = 'Gold';
 	}
+}
+
+exports.checkSuspiciousUsers = () => {
+	const users = this.getAllUsers();
+
+	users.forEach(u => {
+		let count = purchaseService.CountCancelledPurchasesInLastMonth(u.username);
+		count >= 5 ? u.isSuspicious = true : u.isSuspicious = false;
+	});
+}
+
+exports.blockUser = (username) => {
+	const users = this.getAllUsers();
+	const foundUser = users.find(u => u.username === username);
+
+	if (!foundUser) {
+		throw new Error('User not found');
+	}
+
+	const index = users.indexOf(foundUser);
+
+	users[index].isBlocked = true;
+
+	writeJSONFile(usersFilePath, users);
 }

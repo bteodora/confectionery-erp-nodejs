@@ -27,7 +27,9 @@ router.post('/register/customer', (req, res) => {
 		const newUser = req.body;
 		newUser.role = 'customer';
 		newUser.points = 0;
-		newUser.type = 'regular';
+		newUser.type = 'Regular';
+		newUser.isSuspicious = false;
+		newUser.isBlocked = false;
 		newUser.cart = {
 			factoryId: null,
 			products: [],
@@ -200,6 +202,20 @@ router.delete('/cart', verifyToken, (req, res) => {
 	try {
 		userService.emptyCart(username);
 		res.status(200).send({ message: 'Cart emptied'});
+	} catch (err) {
+		res.status(400).send({ message: err.message});
+	}
+});
+
+router.delete('/block/:username', verifyToken, (req, res) => {
+	if(req.auth.role !== 'admin')
+		return res.status(403).send({ message: 'Forbidden' });
+
+	const username = req.params.username;
+
+	try {
+		userService.blockUser(username);
+		res.status(200).send({ message: 'User successfully blocked'});
 	} catch (err) {
 		res.status(400).send({ message: err.message});
 	}

@@ -135,3 +135,13 @@ exports.GetComments = (factoryId) => {
 
 	return comments;
 }
+
+exports.CountCancelledPurchasesInLastMonth = (username) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const userPurchases = purchases.filter(p => p.username == username && p.status == 'Cancelled');
+	const lastMonth = new Date();
+	lastMonth.setMonth(lastMonth.getMonth() - 1);
+
+	const cancelledPurchases = userPurchases.filter(p => p.creationDate >= lastMonth);
+	return cancelledPurchases.length;
+}

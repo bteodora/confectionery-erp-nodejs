@@ -64,8 +64,8 @@
     "factoryId": 1,
     "category": "regular",
     "isDeleted": false,
-    "status": "OutOfStock",
-    "quantity": 0,
+    "status": "InStock",
+    "quantity": 20,
     "id": 5,
     "imagePath": "data/img/1717501880988_Wonka Nutty.png"
   },

@@ -18,6 +18,8 @@
     "role": "customer",
     "points": -131.67000000000002,
     "type": "Regular",
+    "isSuspicious": false,
+    "isBlocked": false,
     "cart": {
       "factoryId": null,
       "products": []
@@ -74,13 +76,20 @@
     "factoryId": 2
   },
   {
-    "username": "staff1",
-    "password": "1",
-    "name": "Teodora",
-    "surname": "Becejac",
-    "gender": "female",
-    "birth_date": "2002-02-15",
-    "role": "staff",
-    "factoryId": 1
+    "username": "nenadg",
+    "password": "nenadg",
+    "name": "Nenad",
+    "surname": "Gvozdenac",
+    "gender": "male",
+    "birth_date": "2002-03-05",
+    "role": "customer",
+    "points": 0,
+    "type": "Regular",
+    "isSuspicious": false,
+    "isBlocked": false,
+    "cart": {
+      "factoryId": null,
+      "products": []
+    }
   }
 ]
