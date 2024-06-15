@@ -29,7 +29,6 @@ router.post('/register/customer', (req, res) => {
 		newUser.points = 0;
 		newUser.type = 'Regular';
 		newUser.isSuspicious = false;
-		newUser.isBlocked = false;
 		newUser.cart = {
 			factoryId: null,
 			products: [],

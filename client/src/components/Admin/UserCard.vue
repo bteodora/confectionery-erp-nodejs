@@ -1,6 +1,7 @@
 <template>
 	<div class="card" :class="{ 'blocked': user.isBlocked }" style="width: 20rem;">
-		<h5 class="card-header">{{ user.role[0].toUpperCase() + user.role.slice(1) }}</h5>
+		<h5 class="card-header">{{ user.role[0].toUpperCase() + user.role.slice(1) }}
+			{{ user.isSuspicious ? '(suspicious)' : ''}}</h5>
 		<div class="card-body">
 			<p class="card-title"><b>{{ user.username }}</b></p><br>
 			<p class="text">Name: {{ user.name + " " + user.surname }}</p>
@@ -9,8 +10,7 @@
 			<p class="text" v-if="user.points != undefined">Points: {{ user.points.toFixed(2) }}</p>
 			<p class="text" v-else>&nbsp;</p>
 			<div class="text-end">
-				<button class="btn btn-danger" v-if="user.isSuspicious === true && user.isBlocked === false" v-on:click="blockUser">Block</button>
-				<p class="text" v-else>&nbsp;</p>
+				<button class="btn btn-danger" v-if="user.role !== 'admin'" v-on:click="blockUser">Block</button>
 			</div>
 		</div>
 	</div>
@@ -28,9 +28,6 @@ export default {
 			required: true,
 			default: { points: 0 }
 		}
-	},
-	mounted() {
-
 	},
 	methods: {
 		blockUser() {

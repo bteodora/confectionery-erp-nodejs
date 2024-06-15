@@ -27,6 +27,7 @@
 					<select class="form-select w-50 m-2" v-model="filter_role">
 						<option value="" disabled selected>Select role</option>
 						<option value="customer">Customer</option>
+						<option value="suspicious">Suspicious customer</option>
 						<option value="manager">Manager</option>
 						<option value="staff">Staff</option>
 						<option value="admin">Admin</option>
@@ -121,7 +122,10 @@ export default {
 			if (this.filter_role === '')
 				return
 
-			this.filtered_users = this.filtered_users.filter(user => user.role === this.filter_role)
+			if (this.filter_role === 'suspicious')
+				this.filtered_users = this.filtered_users.filter(user => user.isSuspicious === true)
+			else
+				this.filtered_users = this.filtered_users.filter(user => user.role === this.filter_role)
 		},
 		clearFilter() {
 			this.filter_role = '';

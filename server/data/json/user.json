@@ -6,7 +6,8 @@
     "surname": "Kuslakovic",
     "gender": "male",
     "birth_date": "2002-02-15",
-    "role": "admin"
+    "role": "admin",
+    "isBlocked": false
   },
   {
     "username": "trksi",
@@ -19,11 +20,11 @@
     "points": -131.67000000000002,
     "type": "Regular",
     "isSuspicious": false,
-    "isBlocked": false,
     "cart": {
       "factoryId": null,
       "products": []
-    }
+    },
+    "isBlocked": false
   },
   {
     "username": "tbecejac",
@@ -33,7 +34,8 @@
     "gender": "female",
     "birth_date": "2002-02-15",
     "role": "manager",
-    "factoryId": 1
+    "factoryId": 1,
+    "isBlocked": false
   },
   {
     "username": "gala",
@@ -43,7 +45,8 @@
     "gender": "male",
     "birth_date": "2002-01-08",
     "role": "manager",
-    "factoryId": 2
+    "factoryId": 2,
+    "isBlocked": false
   },
   {
     "username": "msremac",
@@ -53,7 +56,8 @@
     "gender": "male",
     "birth_date": "2002-01-12",
     "role": "manager",
-    "factoryId": 3
+    "factoryId": 3,
+    "isBlocked": false
   },
   {
     "username": "grkila",
@@ -63,7 +67,8 @@
     "gender": "male",
     "birth_date": "2002-02-15",
     "role": "staff",
-    "factoryId": 1
+    "factoryId": 1,
+    "isBlocked": false
   },
   {
     "username": "kesa",
@@ -73,7 +78,8 @@
     "gender": "male",
     "birth_date": "2003-05-07",
     "role": "staff",
-    "factoryId": 2
+    "factoryId": 2,
+    "isBlocked": false
   },
   {
     "username": "nenadg",
@@ -86,10 +92,10 @@
     "points": -1141.08813,
     "type": "Regular",
     "isSuspicious": true,
-    "isBlocked": false,
     "cart": {
       "factoryId": null,
       "products": []
-    }
+    },
+    "isBlocked": false
   }
 ]

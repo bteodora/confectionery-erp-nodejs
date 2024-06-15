@@ -68,6 +68,8 @@ exports.registerUser = (newUser) => {
 		throw new Error('Username already exists');
 	}
 
+	newUser.isBlocked = false;
+
 	users.push(newUser);
 	writeJSONFile(usersFilePath, users);
 }
@@ -235,6 +237,10 @@ exports.blockUser = (username) => {
 
 	if (!foundUser) {
 		throw new Error('User not found');
+	}
+
+	if(foundUser.role === 'admin'){
+		throw new Error('Admin account cannot be blocked');
 	}
 
 	const index = users.indexOf(foundUser);
