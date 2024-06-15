@@ -142,6 +142,6 @@ exports.CountCancelledPurchasesInLastMonth = (username) => {
 	const lastMonth = new Date();
 	lastMonth.setMonth(lastMonth.getMonth() - 1);
 
-	const cancelledPurchases = userPurchases.filter(p => p.creationDate >= lastMonth);
+	const cancelledPurchases = userPurchases.filter(p => new Date(p.creationDate) >= lastMonth);
 	return cancelledPurchases.length;
 }

@@ -32,5 +32,90 @@
     "status": "Accepted",
     "declineReason": null,
     "comment": null
+  },
+  {
+    "id": 3,
+    "creationDate": "2024-06-15T21:19:13.145Z",
+    "username": "nenadg",
+    "factoryId": 1,
+    "totalPrice": 659.97,
+    "products": [
+      {
+        "chocolateId": 5,
+        "selectedQuantity": 3,
+        "price": 219.99
+      }
+    ],
+    "status": "Cancelled",
+    "declineReason": null,
+    "comment": null
+  },
+  {
+    "id": 4,
+    "creationDate": "2024-06-15T21:19:20.517Z",
+    "username": "nenadg",
+    "factoryId": 1,
+    "totalPrice": 659.97,
+    "products": [
+      {
+        "chocolateId": 5,
+        "selectedQuantity": 3,
+        "price": 219.99
+      }
+    ],
+    "status": "Cancelled",
+    "declineReason": null,
+    "comment": null
+  },
+  {
+    "id": 5,
+    "creationDate": "2024-06-15T21:19:28.341Z",
+    "username": "nenadg",
+    "factoryId": 1,
+    "totalPrice": 659.97,
+    "products": [
+      {
+        "chocolateId": 5,
+        "selectedQuantity": 3,
+        "price": 219.99
+      }
+    ],
+    "status": "Cancelled",
+    "declineReason": null,
+    "comment": null
+  },
+  {
+    "id": 6,
+    "creationDate": "2024-06-15T21:19:43.926Z",
+    "username": "nenadg",
+    "factoryId": 1,
+    "totalPrice": 659.97,
+    "products": [
+      {
+        "chocolateId": 5,
+        "selectedQuantity": 3,
+        "price": 219.99
+      }
+    ],
+    "status": "Cancelled",
+    "declineReason": null,
+    "comment": null
+  },
+  {
+    "id": 7,
+    "creationDate": "2024-06-15T21:19:58.822Z",
+    "username": "nenadg",
+    "factoryId": 1,
+    "totalPrice": 219.99,
+    "products": [
+      {
+        "chocolateId": 5,
+        "selectedQuantity": 1,
+        "price": 219.99
+      }
+    ],
+    "status": "Cancelled",
+    "declineReason": null,
+    "comment": null
   }
 ]

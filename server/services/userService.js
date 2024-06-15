@@ -219,9 +219,14 @@ exports.checkSuspiciousUsers = () => {
 	const users = this.getAllUsers();
 
 	users.forEach(u => {
+		if (u.role !== 'customer')
+			return;
+
 		let count = purchaseService.CountCancelledPurchasesInLastMonth(u.username);
 		count >= 5 ? u.isSuspicious = true : u.isSuspicious = false;
 	});
+
+	writeJSONFile(usersFilePath, users);
 }
 
 exports.blockUser = (username) => {
