@@ -5,13 +5,15 @@
 			<label>{{ formatDate(comment.creationDate) }}</label>
 		</div>
 		<ul class="list-group list-group-flush">
+			<li v-if="role === 'manager' || role === 'admin'" class="list-group-item">Status: {{ comment.status }}</li>
 			<li class="list-group-item">Rating: {{ comment.factoryRating }}</li>
 		</ul>
 		<div class="card-body">
 			<p class="card-text">{{ comment.text }}</p>
 			<div class="d-flex justify-content-end">
-				<button v-if="role === 'manager'" class="btn btn-success me-2" @click="approveComment">Approve</button> // add v-if comment.status === Pending
-				<button v-if="role === 'manager'" class="btn btn-danger" @click="rejectComment">Reject</button>
+				<button  @click="testiranje">test</button>
+				<button v-if="role === 'manager' && comment.status === 'Pending'" class="btn btn-success me-2" @click="approveComment">Approve</button>
+				<button v-if="role === 'manager' && comment.status === 'Pending'" class="btn btn-danger" @click="rejectComment">Reject</button>
 			</div>
 		</div>
 	</div>
@@ -19,6 +21,7 @@
 
 <script>
 import axiosInstance, { getUserProfile } from '@/utils/axiosInstance';
+
 export default {
 	name: 'CommentCard',
 	props: {
@@ -29,12 +32,14 @@ export default {
 	},
 	data() {
 		return {
-			role: ''
+			role: '', 
+			userFactoryId: 0, 
+			purchaseFactoryId: 0
 		};
 	},
 	mounted() {
 		this.role = getUserProfile().role;
-		alert(this.role);
+				
 	},
 	methods: {
 		formatDate(dateString) {
@@ -45,19 +50,57 @@ export default {
 			let formattedTime = date.toLocaleTimeString(undefined, timeOptions);
 			return `${formattedDate} ${formattedTime}`;
 		},
+		testiranje() {
+    alert('usao');
+    axiosInstance.get('/user/factoryid')
+        .then((response) => {     
+            this.userFactoryId = response.data.factoryId;
+            alert(this.userFactoryId);
+
+            // Move the second Axios request inside this then block
+            return axiosInstance.get('/purchase/commentfactoryid', this.comment);
+        })
+        .then((response) => {     
+            alert("stizem");
+            this.purchaseFactoryId = response.data.factoryId;
+
+            // Now both userFactoryId and purchaseFactoryId are set
+            alert(this.purchaseFactoryId + " - " + this.userFactoryId);
+        })
+        .catch((error) => {
+            alert(error);
+            console.error('Error fetching data:', error);
+        });
+},
+
 		approveComment() {
-			alert("approve")
+			alert(this.purchaseFactoryId, this.userFactoryId);
+			axiosInstance.post('/purchase/commentapprove', this.comment)
+				.then(response => {
+					this.comment.status = 'Approved';
+					alert(response.data.message);
+				})
+				.catch(error => {
+					console.error(error);
+					alert(error.response.data.message || 'An error occurred');
+				});
 		},
 		rejectComment() {
-			alert("reject")
+			axiosInstance.post('/purchase/commentreject', this.comment)
+				.then(response => {
+					this.comment.status = 'Rejected';
+					alert(response.data.message);
+				})
+				.catch(error => {
+					console.error(error);
+					alert(error.response.data.message || 'An error occurred');
+				});
 		}
 	}
 }
-
 </script>
 
 <style scoped>
-
 .card {
 	margin: 2%;
 	max-width: 50%;

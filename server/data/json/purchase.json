@@ -37,5 +37,49 @@
       "status": "Pending",
       "creationDate": "2024-06-15T20:00:15.696Z"
     }
+  },
+  {
+    "id": 3,
+    "creationDate": "2024-06-16T16:29:00.433Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 705,
+    "products": [
+      {
+        "chocolateId": 2,
+        "selectedQuantity": 3,
+        "price": 235
+      }
+    ],
+    "status": "Accepted",
+    "declineReason": null,
+    "comment": {
+      "factoryRating": 4,
+      "text": "Not so good but not bad either",
+      "status": "Approved",
+      "creationDate": "2024-06-16T16:29:57.569Z"
+    }
+  },
+  {
+    "id": 4,
+    "creationDate": "2024-06-16T16:37:35.316Z",
+    "username": "trksi",
+    "factoryId": 2,
+    "totalPrice": 1260,
+    "products": [
+      {
+        "chocolateId": 6,
+        "selectedQuantity": 3,
+        "price": 420
+      }
+    ],
+    "status": "Accepted",
+    "declineReason": null,
+    "comment": {
+      "factoryRating": 5,
+      "text": "It was great! I will purchase this again!",
+      "status": "Pending",
+      "creationDate": "2024-06-16T16:39:04.400Z"
+    }
   }
 ]

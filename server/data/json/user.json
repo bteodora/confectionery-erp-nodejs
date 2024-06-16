@@ -16,7 +16,7 @@
     "gender": "male",
     "birth_date": "2002-07-01",
     "role": "customer",
-    "points": -131.67000000000002,
+    "points": 129.675,
     "type": "Regular",
     "cart": {
       "factoryId": null,
