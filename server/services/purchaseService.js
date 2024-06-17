@@ -7,13 +7,15 @@ const userService = require('./userService');
 exports.GetByUserId = (username) => {
 	const purchases = readJSONFile(purchaseFilePath);
 	const userPurchases = purchases.filter(p => p.username == username);
-	return userPurchases;
+	const nonDeleted = userPurchases.filter(p => p.status != 'Deleted');
+	return nonDeleted;
 }
 
 exports.GetByFactoryId = (factoryId) => {
 	const purchases = readJSONFile(purchaseFilePath);
 	const factoryPurchases = purchases.filter(p => p.factoryId == factoryId);
-	return factoryPurchases;
+	const nonDeleted = factoryPurchases.filter(p => p.status != 'Deleted');
+	return nonDeleted;
 }
 
 exports.getByUsersFactoryId = (username) => {
@@ -132,8 +134,8 @@ exports.GetComments = (factoryId) => {
 			...p.comment
 		}
 	});
-
-	return comments;
+	const nonDeleted = comments.filter(c => c.status != 'Deleted');
+	return nonDeleted;
 }
 
 exports.ApproveComment = (comment) => {
@@ -145,6 +147,45 @@ exports.ApproveComment = (comment) => {
 	}
 
 	purchase.comment.status = 'Approved';
+	writeJSONFile(purchaseFilePath, purchases);
+}
+
+exports.DeletePurchase = (purchaseId) =>{
+	const purchases = readJSONFile(purchaseFilePath);
+	const purchase = purchases.find(p => p.id == purchaseId);
+
+	if(!purchase){
+		throw new Error('No such purchase exists');
+	}
+
+	purchase.status = "Deleted";
+	writeJSONFile(purchaseFilePath, purchases);
+}
+
+exports.DeletePurchase = (purchaseId) =>{
+	const purchases = readJSONFile(purchaseFilePath);
+	const purchase = purchases.find(p => p.id == purchaseId);
+
+	if(!purchase){
+		throw new Error('No such purchase exists');
+	}
+
+	purchase.status = 'Deleted';
+	if(purchase.comment != null){
+		purchase.comment.status = 'Deleted';
+	}	
+	writeJSONFile(purchaseFilePath, purchases);
+}
+
+exports.DeleteComment = (comment) => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const purchase = purchases.find(p => p.comment && p.comment.factoryRating === comment.factoryRating && p.comment.text === comment.text && p.comment.creationDate === comment.creationDate);
+
+	if (!purchase) {
+		throw new Error('No such purchase or comment exists');
+	}
+
+	purchase.comment.status = 'Deleted';
 	writeJSONFile(purchaseFilePath, purchases);
 }
 
