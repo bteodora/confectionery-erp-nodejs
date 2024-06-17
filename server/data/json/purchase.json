@@ -1,44 +1,25 @@
 [
   {
-    "id": 1,
-    "creationDate": "2024-06-17T19:53:09.057Z",
+    "id": "lxjh2vmt",
+    "creationDate": "2024-06-17T21:13:28.229Z",
     "username": "trksi",
     "factoryId": 1,
-    "totalPrice": 940,
+    "totalPrice": 659.97,
     "products": [
       {
-        "chocolateId": 2,
-        "selectedQuantity": 4,
-        "price": 235
+        "chocolateId": 5,
+        "selectedQuantity": 3,
+        "price": 219.99
       }
     ],
     "status": "Accepted",
     "declineReason": null,
     "comment": {
       "factoryRating": 5,
-      "text": "Wonka is the best factory in the world!",
+      "text": "Wonka factory is the best factory in the world!",
       "factoryId": 1,
       "status": "Approved",
-      "creationDate": "2024-06-17T19:53:56.716Z"
+      "creationDate": "2024-06-17T21:17:16.679Z"
     }
-  },
-  {
-    "id": 2,
-    "creationDate": "2024-06-17T20:04:07.424Z",
-    "username": "trksi",
-    "factoryId": 1,
-    "totalPrice": 1665,
-    "products": [
-      {
-        "chocolateId": 1,
-        "selectedQuantity": 9,
-        "price": 185
-      }
-    ],
-    "status": "Declined",
-    "declineReason": {
-      "reason": "Nije dobar"
-    },
-    "comment": null
   }
 ]

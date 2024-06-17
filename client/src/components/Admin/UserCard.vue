@@ -10,7 +10,7 @@
 			<p class="text" v-if="user.points != undefined">Points: {{ user.points.toFixed(2) }}</p>
 			<p class="text" v-else>&nbsp;</p>
 			<div class="text-end">
-				<button class="btn btn-danger" v-if="user.role !== 'admin'" v-on:click="blockUser">Block</button>
+				<button class="btn btn-danger" v-if="user.role !== 'admin' && !user.isBlocked" v-on:click="blockUser">Block</button>
 			</div>
 		</div>
 	</div>

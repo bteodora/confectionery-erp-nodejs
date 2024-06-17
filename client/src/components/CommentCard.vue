@@ -43,7 +43,6 @@ export default {
 				this.userFactoryId = response.data.factoryId;
 			})
 			.catch((error) => {
-				alert(error);
 				console.error('Error fetching factoryId:', error);
 			});
 	},

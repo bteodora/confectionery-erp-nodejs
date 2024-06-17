@@ -141,7 +141,7 @@ router.get('/factoryid', verifyToken, (req, res) => {
         return res.status(200).send({ factoryId });
     } catch (err) {
         console.error('Error:', err);
-        res.status(400).send({ message: err.message });
+        return res.status(400).send({ message: err.message });
     }
 });
 
