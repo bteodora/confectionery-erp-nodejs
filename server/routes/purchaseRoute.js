@@ -202,15 +202,4 @@ router.post("/commentreject", checkRole, (req, res) => {
 	}
 });
 
-router.get("/commentfactoryid", verifyToken, (req, res) => {
-	const comment = req.body;
-	try {
-		const factoryId = purchaseService.GetFactoryIdByComment(comment);
-		return res.status(200).send(factoryId);
-	}
-	catch (error) {
-		return res.status(400).send(error.message);
-	}
-});
-
 module.exports = router;

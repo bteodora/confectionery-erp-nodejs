@@ -136,17 +136,6 @@ exports.GetComments = (factoryId) => {
 	return comments;
 }
 
-exports.GetFactoryIdByComment = (comment) => {
-	const purchases = readJSONFile(purchaseFilePath);
-	const purchase = purchases.find(p => p.comment && p.comment.factoryRating === comment.factoryRating && p.comment.text === comment.text && p.comment.creationDate === comment.creationDate);
-	if (!purchase) {
-		console.log('ovde')
-		throw new Error('No such purchase or comment exists');
-	}
-
-	return purchase.factoryId;
-}
-
 exports.ApproveComment = (comment) => {
 	const purchases = readJSONFile(purchaseFilePath);
 	const purchase = purchases.find(p => p.comment && p.comment.factoryRating === comment.factoryRating && p.comment.text === comment.text && p.comment.creationDate === comment.creationDate);
