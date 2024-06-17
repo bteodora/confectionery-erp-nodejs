@@ -7,14 +7,14 @@ const userService = require('./userService');
 exports.GetByUserId = (username) => {
 	const purchases = readJSONFile(purchaseFilePath);
 	const userPurchases = purchases.filter(p => p.username == username);
-	const nonDeleted = userPurchases.filter(p => p.status != 'Deleted');
+	const nonDeleted = userPurchases.filter(p => p.status !== 'Deleted');
 	return nonDeleted;
 }
 
 exports.GetByFactoryId = (factoryId) => {
 	const purchases = readJSONFile(purchaseFilePath);
 	const factoryPurchases = purchases.filter(p => p.factoryId == factoryId);
-	const nonDeleted = factoryPurchases.filter(p => p.status != 'Deleted');
+	const nonDeleted = factoryPurchases.filter(p => p.status !== 'Deleted');
 	return nonDeleted;
 }
 
@@ -134,7 +134,7 @@ exports.GetComments = (factoryId) => {
 			...p.comment
 		}
 	});
-	const nonDeleted = comments.filter(c => c.status != 'Deleted');
+	const nonDeleted = comments.filter(c => c.status !== 'Deleted');
 	return nonDeleted;
 }
 

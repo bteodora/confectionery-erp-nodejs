@@ -36,8 +36,8 @@
     "factoryId": 1,
     "category": "regular",
     "isDeleted": false,
-    "status": "OutOfStock",
-    "quantity": 0,
+    "status": "InStock",
+    "quantity": 40,
     "id": 3,
     "imagePath": "data/img/1716911640696_wonka_caramel.jpg"
   },
