@@ -1,112 +1,107 @@
 <template>
 	<div class="card w-75">
-		<div class="card-header d-flex justify-content-between align-items-center">
-			<div># ID: {{ purchase.id }}</div>
-			<div>Customer name: {{ fullname }}</div>
-		</div>
-		<ul class="list-group list-group-flush">
-			<li class="list-group-item"><b>Date:</b> {{ formatDate(purchase.creationDate) }}</li>
-			<li class="list-group-item"><b>Status:</b> {{ purchase.status }}</li>
-			<li class="list-group-item"><b>Factory:</b> {{ factoryName }}</li>
-		</ul>
-		<div class="card-body">
-			<h5 class="card-title">Total price: {{ purchase.totalPrice.toFixed(2) }} DIN</h5>
-			<br>
-			<div class="d-flex justify-content-between">
-				<a :href="'#products' + purchase.id" class="btn btn-secondary" data-bs-toggle="collapse" role="button"
-					aria-expanded="false" aria-controls="collapseExample">
-					Products</a>
-
-				<div class="ml-auto">
-					<div v-if="role == 'manager'">
-						<button class="btn btn-success me-3" @click="acceptPurchase" v-if="purchase.status == 'Pending'">Accept</button>
-						<button class="btn btn-danger" v-if="purchase.status == 'Pending'" @click="openRejectModal(purchase.id)">Reject</button>
-					</div>
-					<div v-if="role == 'customer'">
-						<button v-if="purchase.status === 'Pending'" class="btn btn-danger"
-							v-on:click="cancelPurchase">Cancel</button>
-						<button v-if="purchase.status === 'Accepted' && purchase.comment === null" type="button"
-							class="btn btn-primary" data-bs-toggle="modal" :data-bs-target="'#reviewModal' + purchase.id">Review</button>
-					</div>
-				</div>
+	  <div class="card-header d-flex justify-content-between align-items-center">
+		<div># ID: {{ purchase.id }}</div>
+		<div v-if="role !== 'customer'">Customer name: {{ fullname }}</div>
+	  </div>
+	  <ul class="list-group list-group-flush">
+		<li class="list-group-item"><b>Date:</b> {{ formatDate(purchase.creationDate) }}</li>
+		<li class="list-group-item"><b>Status:</b> {{ purchase.status }}</li>
+		<li class="list-group-item" v-if="purchase.status === 'Declined'"><b>Reason for Decline:</b> {{ purchase.declineReason.reason }}</li>
+		<li class="list-group-item"><b>Factory:</b> {{ factoryName }}</li>
+	  </ul>
+	  <div class="card-body">
+		<h5 class="card-title">Total price: {{ purchase.totalPrice.toFixed(2) }} DIN</h5>
+		<br>
+		<div class="d-flex justify-content-between">
+		  <a :href="'#products' + purchase.id" class="btn btn-secondary" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="collapseExample">
+			Products
+		  </a>
+		  <div class="ml-auto">
+			<div v-if="role == 'manager'">
+			  <button class="btn btn-success me-3" @click="acceptPurchase" v-if="purchase.status == 'Pending'">Accept</button>
+			  <button class="btn btn-danger" v-if="purchase.status == 'Pending'" @click="openRejectModal(purchase.id)">Reject</button>
 			</div>
-		</div>
-		<div class="collapse" :id="'products' + purchase.id">
-			<table class="table">
-				<thead>
-					<tr>
-						<th scope="col-2">#</th>
-						<th scope="col-6">Name</th>
-						<th scope="col-2">Quantity</th>
-						<th scope="col-2">Price</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr v-for="(product, index) in purchase.products" :key="product.chocolateId">
-						<th scope="row" class="col-2">{{ index + 1 }}</th>
-						<td class="col-6">{{ product.name }}</td>
-						<td class="col-2">{{ product.selectedQuantity }}</td>
-						<td class="col-2">{{ product.price }} DIN</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-
-		<div class="modal fade" :id="'reviewModal' + purchase.id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-			aria-labelledby="reviewModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title" id="reviewModalLabel">Review factory</h5>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
-							v-on:click="closeModal"></button>
-					</div>
-					<div class="modal-body">
-						<label class="form-label">Rating: {{ comment.factoryRating }}</label>
-						<input type="range" class="form-range" min="1" max="5" v-model="comment.factoryRating" />
-						<br><br>
-						<div class="d-flex justify-content-between">
-							<label class="form-label">Your comment</label>
-							<label>{{ comment.text.length }} / 256</label>
-						</div>
-						<textarea class="form-control" rows="5" maxlength="256" v-model="comment.text" />
-						<br>
-						<div class="errorText">{{ errorMessage }}</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-							v-on:click="closeModal">Close</button>
-						<button type="button" class="btn btn-primary" v-on:click="submitReview" data-bs-dismiss="modal">Submit</button>
-					</div>
-				</div>
+			<div v-if="role == 'customer'">
+			  <button v-if="purchase.status === 'Pending'" class="btn btn-danger" v-on:click="cancelPurchase">Cancel</button>
+			  <button v-if="purchase.status === 'Accepted' && purchase.comment === null" type="button" class="btn btn-primary" data-bs-toggle="modal" :data-bs-target="'#reviewModal' + purchase.id">Review</button>
 			</div>
+		  </div>
 		</div>
+	  </div>
+	  <div class="collapse" :id="'products' + purchase.id">
+		<table class="table">
+		  <thead>
+			<tr>
+			  <th scope="col-2">#</th>
+			  <th scope="col-6">Name</th>
+			  <th scope="col-2">Quantity</th>
+			  <th scope="col-2">Price</th>
+			</tr>
+		  </thead>
+		  <tbody>
+			<tr v-for="(product, index) in purchase.products" :key="product.chocolateId">
+			  <th scope="row" class="col-2">{{ index + 1 }}</th>
+			  <td class="col-6">{{ product.name }}</td>
+			  <td class="col-2">{{ product.selectedQuantity }}</td>
+			  <td class="col-2">{{ product.price }} DIN</td>
+			</tr>
+		  </tbody>
+		</table>
+	  </div>
+  
+	  <div class="modal fade" :id="'reviewModal' + purchase.id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title" id="reviewModalLabel">Review factory</h5>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" v-on:click="closeModal"></button>
+			</div>
+			<div class="modal-body">
+			  <label class="form-label">Rating: {{ comment.factoryRating }}</label>
+			  <input type="range" class="form-range" min="1" max="5" v-model="comment.factoryRating" />
+			  <br><br>
+			  <div class="d-flex justify-content-between">
+				<label class="form-label">Your comment</label>
+				<label>{{ comment.text.length }} / 256</label>
+			  </div>
+			  <textarea class="form-control" rows="5" maxlength="256" v-model="comment.text" />
+			  <br>
+			  <div class="errorText">{{ errorMessage }}</div>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" v-on:click="closeModal">Close</button>
+			  <button type="button" class="btn btn-primary" v-on:click="submitReview" data-bs-dismiss="modal">Submit</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
 	</div>
-
+  
 	<!-- Modal for Reject Purchase -->
 	<div class="modal fade" :id="'rejectModal-' + purchase.id" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
-		<div class="modal-dialog">
-			<div class="modal-content">
-				<div class="modal-header">
-					<h5 class="modal-title" id="rejectModalLabel">Reject Purchase</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-				</div>
-				<div class="modal-body">
-					<div class="mb-3">
-						<label for="rejectReason" class="form-label">Reason for rejection</label>
-						<textarea id="rejectReason" class="form-control" v-model="rejectReason"></textarea>
-						<div class="text-danger" v-if="errorMessage">{{ errorMessage }}</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-danger" @click="confirmRejectPurchase(purchase.id)">Reject</button>
-				</div>
+	  <div class="modal-dialog">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="rejectModalLabel">Reject Purchase</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  </div>
+		  <div class="modal-body">
+			<div class="mb-3">
+			  <label for="rejectReason" class="form-label">Reason for rejection</label>
+			  <textarea id="rejectReason" class="form-control" v-model="rejectReason"></textarea>
+			  <div class="text-danger" v-if="errorMessage">{{ errorMessage }}</div>
 			</div>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+			<button type="button" class="btn btn-danger" @click="confirmRejectPurchase(purchase.id)">Reject</button>
+		  </div>
 		</div>
+	  </div>
 	</div>
-
-</template>
+  </template>
+  
 
 <script>
 import axiosInstance, { getUserProfile } from '@/utils/axiosInstance';
