@@ -12,9 +12,15 @@
         "price": 235
       }
     ],
-    "status": "Cancelled",
+    "status": "Accepted",
     "declineReason": null,
-    "comment": null
+    "comment": {
+      "factoryRating": 4,
+      "text": "It was good, but the delivery was really slow.",
+      "factoryId": 1,
+      "status": "Pending",
+      "creationDate": "2024-06-17T17:25:41.131Z"
+    }
   },
   {
     "id": 2,
