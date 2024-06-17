@@ -27,10 +27,17 @@
 					<select class="form-select w-50 m-2" v-model="filter_role">
 						<option value="" disabled selected>Select role</option>
 						<option value="customer">Customer</option>
-						<option value="suspicious">Suspicious customer</option>
 						<option value="manager">Manager</option>
 						<option value="staff">Staff</option>
 						<option value="admin">Admin</option>
+					</select>
+					<select class="form-select w-50 m-2" v-model="filter_type" v-if="filter_role === 'customer'">
+						<option value="" disabled selected>Select customer type</option>
+						<option value="suspicious">SUSPICIOUS</option>
+						<option value="Regular">Regular</option>
+						<option value="Bronze">Bronze</option>
+						<option value="Silver">Silver</option>
+						<option value="Gold">Gold</option>
 					</select>
 					<div class="container w-50 m-2">
 						<div class="row">
@@ -91,6 +98,7 @@ export default {
 			search_name: '',
 			search_surname: '',
 			filter_role: '',
+			filter_type: '',
 			sortByUsernameAsc: true,
 			sortByNameAsc: true,
 			sortBySurnameAsc: true,
@@ -122,13 +130,18 @@ export default {
 			if (this.filter_role === '')
 				return
 
-			if (this.filter_role === 'suspicious')
-				this.filtered_users = this.filtered_users.filter(user => user.isSuspicious === true)
-			else
-				this.filtered_users = this.filtered_users.filter(user => user.role === this.filter_role)
+			this.filtered_users = this.filtered_users.filter(user => user.role === this.filter_role)
+
+			if(this.filter_role === 'customer' && this.filter_type !== '') {
+				if (this.filter_type === 'suspicious')
+					this.filtered_users = this.filtered_users.filter(user => user.isSuspicious === true)
+				else
+					this.filtered_users = this.filtered_users.filter(user => user.type === this.filter_type)
+			}
 		},
 		clearFilter() {
 			this.filter_role = '';
+			this.filter_type = '';
 			this.applySearchAndFilter();
 		},
 		clearSearch() {
