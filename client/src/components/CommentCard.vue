@@ -11,7 +11,6 @@
 		<div class="card-body">
 			<p class="card-text">{{ comment.text }}</p>
 			<div class="d-flex justify-content-end">
-				<button  @click="testiranje">test</button>
 				<button v-if="role === 'manager' && comment.status === 'Pending'" class="btn btn-success me-2" @click="approveComment">Approve</button>
 				<button v-if="role === 'manager' && comment.status === 'Pending'" class="btn btn-danger" @click="rejectComment">Reject</button>
 			</div>
@@ -21,6 +20,7 @@
 
 <script>
 import axiosInstance, { getUserProfile } from '@/utils/axiosInstance';
+import { Alert } from 'bootstrap';
 
 export default {
 	name: 'CommentCard',
@@ -33,13 +33,19 @@ export default {
 	data() {
 		return {
 			role: '', 
-			userFactoryId: 0, 
-			purchaseFactoryId: 0
+			userFactoryId: 0
 		};
 	},
 	mounted() {
 		this.role = getUserProfile().role;
-				
+		axiosInstance.get('/user/factoryid')
+			.then((response) => {     
+				this.userFactoryId = response.data.factoryId;
+			})
+			.catch((error) => {
+				alert(error);
+				console.error('Error fetching factoryId:', error);
+			});		
 	},
 	methods: {
 		formatDate(dateString) {
@@ -50,31 +56,17 @@ export default {
 			let formattedTime = date.toLocaleTimeString(undefined, timeOptions);
 			return `${formattedDate} ${formattedTime}`;
 		},
-		testiranje() {
-    alert('usao');
-    axiosInstance.get('/user/factoryid')
-        .then((response) => {     
-            this.userFactoryId = response.data.factoryId;
-            alert(this.userFactoryId);
-
-            // Move the second Axios request inside this then block
-            return axiosInstance.get('/purchase/commentfactoryid', this.comment);
-        })
-        .then((response) => {     
-            alert("stizem");
-            this.purchaseFactoryId = response.data.factoryId;
-
-            // Now both userFactoryId and purchaseFactoryId are set
-            alert(this.purchaseFactoryId + " - " + this.userFactoryId);
-        })
-        .catch((error) => {
-            alert(error);
-            console.error('Error fetching data:', error);
-        });
-},
-
+		checkFactoryIds(){
+			if(this.userFactoryId != this.comment.factoryId){
+				alert("You can not reject or accept comments from factory that is not yours!");
+				return false;
+			}
+			return true;
+		},
 		approveComment() {
-			alert(this.purchaseFactoryId, this.userFactoryId);
+			if(!this.checkFactoryIds()){
+				return;
+			}
 			axiosInstance.post('/purchase/commentapprove', this.comment)
 				.then(response => {
 					this.comment.status = 'Approved';
@@ -86,6 +78,9 @@ export default {
 				});
 		},
 		rejectComment() {
+			if(!this.checkFactoryIds()){				
+				return;
+			}
 			axiosInstance.post('/purchase/commentreject', this.comment)
 				.then(response => {
 					this.comment.status = 'Rejected';

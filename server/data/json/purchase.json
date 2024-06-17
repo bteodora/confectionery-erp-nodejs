@@ -32,9 +32,10 @@
     "status": "Accepted",
     "declineReason": null,
     "comment": {
+      "factoryId": 1,
       "factoryRating": 5,
       "text": "test",
-      "status": "Pending",
+      "status": "Approved",
       "creationDate": "2024-06-15T20:00:15.696Z"
     }
   },
@@ -54,6 +55,7 @@
     "status": "Accepted",
     "declineReason": null,
     "comment": {
+      "factoryId": 1,
       "factoryRating": 4,
       "text": "Not so good but not bad either",
       "status": "Approved",
@@ -76,10 +78,34 @@
     "status": "Accepted",
     "declineReason": null,
     "comment": {
+      "factoryId": 2,
       "factoryRating": 5,
       "text": "It was great! I will purchase this again!",
       "status": "Pending",
       "creationDate": "2024-06-16T16:39:04.400Z"
+    }
+  },
+  {
+    "id": 5,
+    "creationDate": "2024-06-17T15:59:04.637Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 185,
+    "products": [
+      {
+        "chocolateId": 1,
+        "selectedQuantity": 1,
+        "price": 185
+      }
+    ],
+    "status": "Accepted",
+    "declineReason": null,
+    "comment": {
+      "factoryRating": 5,
+      "text": "It went great! I would give it an even higher grade if possible!",
+      "factoryId": 1,
+      "status": "Pending",
+      "creationDate": "2024-06-17T16:00:28.266Z"
     }
   }
 ]

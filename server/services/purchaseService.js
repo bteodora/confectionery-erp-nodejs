@@ -114,7 +114,7 @@ exports.CommentPurchase = (purchaseId, comment) => {
 	if(purchase.status != 'Accepted' || purchase.comment != null){
 		throw new Error('Purchase cannot be commented');
 	}
-
+	comment.factoryId = purchase.factoryId;
 	comment.status = 'Pending';
 	comment.creationDate = new Date();
 	purchase.comment = comment;
