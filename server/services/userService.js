@@ -249,3 +249,15 @@ exports.blockUser = (username) => {
 
 	writeJSONFile(usersFilePath, users);
 }
+
+exports.getFullName = (username) => {
+	const users = this.getAllUsers();
+	const foundUser = users.find(u => u.username === username);
+
+	if (!foundUser) {
+		throw new Error('User not found');
+	}
+
+	const fullName = foundUser.name + " " + foundUser.surname;
+	return fullName;
+}

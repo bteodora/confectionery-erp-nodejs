@@ -124,6 +124,18 @@ router.get('/profile', verifyToken, (req, res) => {
 	}
 });
 
+router.get('/fullname', verifyToken, (req, res) => {
+	const username = req.query.username;
+	try {
+		const fullname = userService.getFullName(username);
+		return res.status(200).send({ fullname });
+	}
+	catch(err) {
+		console.log(err.message);
+		res.status(400).send({ message: err.message});
+	}
+});
+
 router.put('/profile', verifyToken, (req, res) => {
 	const username = req.auth.username;
 	const user = req.body;

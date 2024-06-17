@@ -1,7 +1,8 @@
 <template>
 	<div class="card w-75">
-		<div class="card-header">
-			# ID: {{ purchase.id }}
+		<div class="card-header d-flex justify-content-between align-items-center">
+			<div># ID: {{ purchase.id }}</div>
+			<div>Customer name: {{ fullname }}</div>
 		</div>
 		<ul class="list-group list-group-flush">
 			<li class="list-group-item"><b>Date:</b> {{ formatDate(purchase.creationDate) }}</li>
@@ -108,7 +109,6 @@
 </template>
 
 <script>
-
 import axiosInstance, { getUserProfile } from '@/utils/axiosInstance';
 
 export default {
@@ -122,6 +122,7 @@ export default {
 	data() {
 		return {
 			role: '',
+			fullname: '',
 			factoryName: '',
 			rejectReason: '',
 			factoryRating: 1,
@@ -136,6 +137,20 @@ export default {
 		this.role = getUserProfile().role;
 		this.getFactory();
 		this.getChocolates();
+
+		axiosInstance.get('/user/fullname', {
+			params: {
+				username: this.purchase.username
+			}
+		})
+		.then((response) => {
+			this.fullname = response.data.fullname;
+		})
+		.catch((error) => {
+			alert(error);
+			console.error('Error fetching fullname:', error);
+		});
+
 	},
 	methods: {
 		getFactory() {
@@ -240,7 +255,6 @@ export default {
 		}
 	}
 }
-
 </script>
 
 <style scoped>
