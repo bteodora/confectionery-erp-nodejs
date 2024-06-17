@@ -19,8 +19,8 @@
 </template>
 
 <script>
+
 import axiosInstance, { getUserProfile } from '@/utils/axiosInstance';
-import { Alert } from 'bootstrap';
 
 export default {
 	name: 'CommentCard',
@@ -32,20 +32,20 @@ export default {
 	},
 	data() {
 		return {
-			role: '', 
+			role: '',
 			userFactoryId: 0
 		};
 	},
 	mounted() {
 		this.role = getUserProfile().role;
 		axiosInstance.get('/user/factoryid')
-			.then((response) => {     
+			.then((response) => {
 				this.userFactoryId = response.data.factoryId;
 			})
 			.catch((error) => {
 				alert(error);
 				console.error('Error fetching factoryId:', error);
-			});		
+			});
 	},
 	methods: {
 		formatDate(dateString) {
@@ -78,7 +78,7 @@ export default {
 				});
 		},
 		rejectComment() {
-			if(!this.checkFactoryIds()){				
+			if(!this.checkFactoryIds()){
 				return;
 			}
 			axiosInstance.post('/purchase/commentreject', this.comment)

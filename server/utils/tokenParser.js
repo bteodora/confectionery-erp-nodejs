@@ -40,12 +40,18 @@ exports.checkRole = (req, res, next) => {
 		token = authHeader.split(' ')[1];
 	}
 	catch (err) {
-		req.auth.role = 'guest';
+		req.auth = {
+			role: 'guest'
+		};
+
 		next();
 	}
 
 	if (!token) {
-		req.auth.role = 'guest';
+		req.auth = {
+			role: 'guest'
+		};
+
 		next();
 	}
 

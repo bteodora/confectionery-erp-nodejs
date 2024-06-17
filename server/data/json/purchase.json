@@ -1,3 +1,44 @@
 [
-
+  {
+    "id": 1,
+    "creationDate": "2024-06-17T19:53:09.057Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 940,
+    "products": [
+      {
+        "chocolateId": 2,
+        "selectedQuantity": 4,
+        "price": 235
+      }
+    ],
+    "status": "Accepted",
+    "declineReason": null,
+    "comment": {
+      "factoryRating": 5,
+      "text": "Wonka is the best factory in the world!",
+      "factoryId": 1,
+      "status": "Approved",
+      "creationDate": "2024-06-17T19:53:56.716Z"
+    }
+  },
+  {
+    "id": 2,
+    "creationDate": "2024-06-17T20:04:07.424Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 1665,
+    "products": [
+      {
+        "chocolateId": 1,
+        "selectedQuantity": 9,
+        "price": 185
+      }
+    ],
+    "status": "Declined",
+    "declineReason": {
+      "reason": "Nije dobar"
+    },
+    "comment": null
+  }
 ]

@@ -51,7 +51,7 @@ router.get('/byfactory', verifyToken, (req, res) => {
 	const username = req.auth.username;
 	const role = req.auth.role;
 
-	if (role !== 'manager') { 
+	if (role !== 'manager') {
 		return res.status(403).send({ message: 'Forbidden' });
 	}
 
@@ -132,7 +132,7 @@ router.post("/comment/:id", verifyToken, (req, res) => {
 router.post("/decline/:id", verifyToken, (req, res) => {
 	const purchaseId = parseInt(req.params.id);
 	const role = req.auth.role;
-	
+
 	if (role !== 'manager') {
 		return res.status(403).send({ message: 'Forbidden' });
 	}
@@ -150,13 +150,14 @@ router.post("/decline/:id", verifyToken, (req, res) => {
 
 router.get("/comments/byfactory/:id", checkRole, (req, res) => {
 	const factoryId = parseInt(req.params.id);
+
 	const role = req.auth.role;
 
 	try {
-		const comments = purchaseService.GetComments(factoryId);
+		let comments = purchaseService.GetComments(factoryId);
 
 		if (role === 'guest' || role === 'customer')
-			comments = comments.filter(c => c.comment.status === 'Approved');
+			comments = comments.filter(c => c.status === 'Approved');
 
 		return res.status(200).send(comments);
 	}
