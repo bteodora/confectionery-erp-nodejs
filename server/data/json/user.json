@@ -17,7 +17,7 @@
     "gender": "male",
     "birth_date": "2002-07-01",
     "role": "customer",
-    "points": -131.67000000000002,
+    "points": 0.0,
     "type": "Regular",
     "isSuspicious": false,
     "cart": {
@@ -89,7 +89,7 @@
     "gender": "male",
     "birth_date": "2002-03-05",
     "role": "customer",
-    "points": -1141.08813,
+    "points": 0.0,
     "type": "Regular",
     "isSuspicious": true,
     "cart": {

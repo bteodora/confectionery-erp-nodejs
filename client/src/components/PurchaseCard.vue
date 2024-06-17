@@ -94,6 +94,7 @@
 					<div class="mb-3">
 						<label for="rejectReason" class="form-label">Reason for rejection</label>
 						<textarea id="rejectReason" class="form-control" v-model="rejectReason"></textarea>
+						<div class="text-danger" v-if="errorMessage">{{ errorMessage }}</div>
 					</div>
 				</div>
 				<div class="modal-footer">
@@ -193,11 +194,16 @@ export default {
 		openRejectModal(purchaseId) {
 			// Clear previous reason input
 			this.rejectReason = '';
+			this.errorMessage = ''; // Clear previous error message
 			// Open the modal for the specific purchase ID
 			const rejectModal = new bootstrap.Modal(document.getElementById(`rejectModal-${purchaseId}`));
 			rejectModal.show();
 		},
 		confirmRejectPurchase(purchaseId) {
+			if (!this.rejectReason.trim()) {
+				this.errorMessage = 'Reason for rejection is required.';
+				return;
+			}
 			this.declinePurchase(purchaseId, this.rejectReason);
 		},
 		acceptPurchase() {
@@ -226,6 +232,7 @@ export default {
 			.then(response => {
 				this.purchase.comment = this.comment;
 				this.closeModal();
+				location.reload();
 			})
 			.catch(error => {
 				console.log(error.message);

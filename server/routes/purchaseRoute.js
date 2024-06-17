@@ -132,7 +132,7 @@ router.post("/comment/:id", verifyToken, (req, res) => {
 router.post("/decline/:id", verifyToken, (req, res) => {
 	const purchaseId = parseInt(req.params.id);
 	const role = req.auth.role;
-
+	
 	if (role !== 'manager') {
 		return res.status(403).send({ message: 'Forbidden' });
 	}
@@ -159,6 +159,43 @@ router.get("/comments/byfactory/:id", checkRole, (req, res) => {
 			comments = comments.filter(c => c.comment.status === 'Approved');
 
 		return res.status(200).send(comments);
+	}
+	catch (error) {
+		return res.status(400).send(error.message);
+	}
+});
+
+router.post("/commentapprove", checkRole, (req, res) =>{
+	const role = req.auth.role;
+
+	if (role !== 'manager') {
+		return res.status(403).send({ message: 'Forbidden ovde' });
+	}
+
+	const comment = req.body;
+
+	try {
+		purchaseService.ApproveComment(comment);
+		return res.status(200).send({ message: 'Comment successfully approved!' });
+	}
+	catch (error) {
+		return res.status(400).send(error.message);
+	}
+
+});
+
+router.post("/commentreject", checkRole, (req, res) => {
+	const role = req.auth.role;
+
+	if (role !== 'manager') {
+		return res.status(403).send({ message: 'Forbidden reject' });
+	}
+
+	const comment = req.body;
+
+	try {
+		purchaseService.RejectComment(comment);
+		return res.status(200).send({ message: 'Comment successfully rejected!' });
 	}
 	catch (error) {
 		return res.status(400).send(error.message);
