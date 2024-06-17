@@ -110,6 +110,7 @@ export default {
 					f.isOpen = this.isFactoryOpen(f.startWorkTime, f.endWorkTime);
 					return f;
 				})
+				this.factories = [...this.factories].sort((a, b) => b.isOpen - a.isOpen);
 				this.filtered_factories = this.factories
 			})
 			.catch((error) => {
