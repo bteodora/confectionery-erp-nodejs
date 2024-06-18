@@ -190,9 +190,9 @@ export default {
 		delete() {
 			axiosInstance.delete(`/purchase/delete/${this.purchase.id}`)
 				.then(response => {
-					this.purchase.status = 'Deleted';
-					location.reload();
+					this.purchase.status = 'Deleted';					
 					alert(response.data.message);
+					location.reload();
 				})
 				.catch(error => {
 					console.error(error);
