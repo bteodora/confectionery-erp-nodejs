@@ -222,12 +222,12 @@ router.post("/commentreject", checkRole, (req, res) => {
 
 router.delete("/commentdelete/:id", verifyToken, (req, res) => {
 	const role = req.auth.role;
-	
+
 	if (role !== 'admin') {
 		return res.status(403).send({ message: 'Forbidden' });
 	}
-	const purchaseId = parseInt(req.params.id);
-	
+	const purchaseId = req.params.id;
+
 	try {
 		purchaseService.DeleteComment(purchaseId);
 		return res.status(200).send({ message: 'Comment successfully deleted!' });
