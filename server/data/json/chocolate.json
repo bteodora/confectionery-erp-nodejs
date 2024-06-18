@@ -65,7 +65,7 @@
     "category": "regular",
     "isDeleted": false,
     "status": "InStock",
-    "quantity": 20,
+    "quantity": 17,
     "id": 5,
     "imagePath": "data/img/1717501880988_Wonka Nutty.png"
   },
@@ -78,8 +78,8 @@
     "factoryId": 2,
     "category": "cooking",
     "isDeleted": false,
-    "status": "OutOfStock",
-    "quantity": 0,
+    "status": "InStock",
+    "quantity": 5,
     "id": 6,
     "imagePath": "data\\img\\1718106484252_top_cacao.jpg"
   }

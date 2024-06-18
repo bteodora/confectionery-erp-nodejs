@@ -8,16 +8,19 @@
 			</button>
 			<div class="collapse navbar-collapse m-3" id="collapsibleNavbar">
 				<ul class="navbar-nav align-items-center m-2">
-					<input class="form-control w-50 m-2" type="text" placeholder="Factory name" v-model="search_facetory_name">
-					<input class="form-control w-50 m-2" type="text" placeholder="Chocolate name" v-model="search_chocolate_name">
+					<input class="form-control w-50 m-2" type="text" placeholder="Factory name"
+						v-model="search_factory_name">
+					<input class="form-control w-50 m-2" type="text" placeholder="Chocolate name"
+						v-model="search_chocolate_name">
 					<input class="form-control w-50 m-2" type="text" placeholder="City" v-model="search_city">
 					<input class="form-control w-50 m-2" type="number" placeholder="Rating" v-model="search_rating"
-						min="0" max="5" step="0.25" >
+						min="0" max="5" step="0.5">
 
 					<div class="container text-center w-50 m-2">
 						<div class="row">
 							<div class="col-6">
-								<button class="btn btn-secondary w-100" v-on:click="applySearchAndFilter()">Search</button>
+								<button class="btn btn-secondary w-100"
+									v-on:click="applySearchAndFilter()">Search</button>
 							</div>
 							<div class="col-6">
 								<button class="btn btn-secondary w-100" v-on:click="clearSearch()">Clear search</button>
@@ -25,16 +28,38 @@
 						</div>
 					</div>
 				</ul>
-				<ul class="navbar-nav align-items-center m-2">
+				<ul class="navbar-nav align-items-center my-4">
 					<select class="form-select w-50 m-2" v-model="filter_status">
 						<option value="" selected :disabled="filter_status !== ''">Select status</option>
 						<option value=true>OPEN</option>
 						<option value=false>CLOSED</option>
 					</select>
+					<div class="container text-center w-50 m-2">
+						<div class="row">
+							<div class="col-6">
+								<select class="form-select" v-model="filter_chocolate_type">
+									<option value="" selected :disabled="filter_chocolate_type !== ''">Select chocolate type</option>
+									<option value="black">Black</option>
+									<option value="white">White</option>
+									<option value="milk">Milk</option>
+									<option value="mixed">Mixed</option>
+								</select>
+							</div>
+							<div class="col-6">
+								<select class="form-select" v-model="filter_chocolate_category">
+									<option value="" selected :disabled="filter_chocolate_category !== ''">Select chocolate category</option>
+									<option value="cooking">Chocolate for cooking</option>
+									<option value="drinking">For drinking</option>
+									<option value="regular">Regular</option>
+								</select>
+							</div>
+						</div>
+					</div>
 					<div class="container w-50 m-2">
 						<div class="row">
 							<div class="col-6">
-								<button class="btn btn-secondary w-100" v-on:click="applySearchAndFilter()">Filter</button>
+								<button class="btn btn-secondary w-100"
+									v-on:click="applySearchAndFilter()">Filter</button>
 							</div>
 							<div class="col-6">
 								<button class="btn btn-secondary w-100" v-on:click="clearFilter()">Clear filter</button>
@@ -42,7 +67,7 @@
 						</div>
 					</div>
 				</ul>
-				<ul class="navbar-nav align-items-center m-2">
+				<ul class="navbar-nav align-items-center my-4">
 					<div class="container w-50">
 						<div class="row">
 							<div class="col-6">
@@ -66,7 +91,9 @@
 	</nav>
 
 	<div class="card-container">
-		<FactoryCard v-for="factory in filtered_factories" :factory="factory" :key="factory.id" :viewingRole="viewingRole"/>
+		<FactoryCard v-for="factory in filtered_factories" :factory="factory" :key="factory.id"
+			:viewingRole="viewingRole" />
+		<p v-if="filtered_factories.length === 0" class="empty-message"><i>No factories...</i></p>
 	</div>
 
 </template>
@@ -90,6 +117,8 @@ export default {
 			search_chocolate_name: '',
 			search_city: '',
 			search_rating: '',
+			filter_chocolate_type: '',
+			filter_chocolate_category: '',
 			filter_status: '',
 			sortByFactoryNameAsc: true,
 			sortByCityAsc: true,
@@ -104,17 +133,18 @@ export default {
 	methods: {
 		getFactories() {
 			axiosInstance.get('/factory')
-			.then((response) => {
-				this.factories = response.data;
-				this.factories = this.factories.map(f => {
-					f.isOpen = this.isFactoryOpen(f.startWorkTime, f.endWorkTime);
-					return f;
+				.then((response) => {
+					this.factories = response.data;
+					this.factories = this.factories.map(f => {
+						f.isOpen = this.isFactoryOpen(f.startWorkTime, f.endWorkTime);
+						return f;
+					})
+					this.factories = [...this.factories].sort((a, b) => b.isOpen - a.isOpen);
+					this.filtered_factories = this.factories
 				})
-				this.filtered_factories = this.factories
-			})
-			.catch((error) => {
-				console.log(error);
-			});
+				.catch((error) => {
+					console.log(error);
+				});
 		},
 		applySearchAndFilter() {
 			this.filtered_factories = this.factories
@@ -123,25 +153,43 @@ export default {
 		},
 		search() {
 			this.filtered_factories = this.filtered_factories.filter(f => {
-				return f.name.toLocaleLowerCase().includes(this.search_factory_name.toLocaleLowerCase()) &&
-					f.location.city.toLocaleLowerCase().includes(this.search_city.toLocaleLowerCase())
+				let containesChocolateName = f.chocolateNames.some(chocolate => chocolate.toLocaleLowerCase().includes(this.search_chocolate_name.toLocaleLowerCase()))
+				containesChocolateName = containesChocolateName || f.chocolateNames.length === 0
+
+				let containesFactoryName = f.name.toLocaleLowerCase().includes(this.search_factory_name.toLocaleLowerCase())
+
+				let containesCity = f.location.city.toLocaleLowerCase().includes(this.search_city.toLocaleLowerCase())
+
+				let satisfiesRating = f.rating >= this.search_rating
+
+				return containesFactoryName &&
+					containesChocolateName &&
+					containesCity &&
+					satisfiesRating
 			})
 
 		},
 		filter() {
-			if (this.filter_status === '')
-				return
+			if (this.filter_status !== '')
+				this.filtered_factories = this.filtered_factories.filter(f => f.isOpen === JSON.parse(this.filter_status))
 
-			this.filtered_factories = this.filtered_factories.filter(f => f.isOpen === JSON.parse(this.filter_status))
+			if (this.filter_chocolate_category !== '')
+				this.filtered_factories = this.filtered_factories.filter(f => f.chocolateCategories.includes(this.filter_chocolate_category))
+
+			if (this.filter_chocolate_type !== '')
+				this.filtered_factories = this.filtered_factories.filter(f => f.chocolateTypes.includes(this.filter_chocolate_type))
 		},
 		clearSearch() {
 			this.search_factory_name = '';
 			this.search_chocolate_name = '';
 			this.search_city = '';
+			this.search_rating = '';
 			this.applySearchAndFilter();
 		},
 		clearFilter() {
-			this.filter_status = ''
+			this.filter_status = '';
+			this.filter_chocolate_category = '';
+			this.filter_chocolate_type = '';
 			this.applySearchAndFilter();
 		},
 		sortByFactoryName() {
@@ -191,10 +239,18 @@ export default {
 </script>
 
 <style scoped>
+
+
 .card-container {
 	display: flex;
 	margin-top: 2%;
 	justify-content: center;
 	flex-wrap: wrap;
 }
+
+.empty-message {
+	font-size: 20px;
+	padding-top: 2%;
+}
+
 </style>

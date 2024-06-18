@@ -91,10 +91,15 @@ router.post('/login', (req, res) => {
 		if(!User.checkUsername(username) || !User.checkPassword(password))
 			return res.status(400).send({ message: 'Invalid fields'});
 
-		userService.login(username, password);
-		const role = userService.getRole(username);
-		const token = generateToken({ username, role: role});
-		res.status(200).send({ token, role: role });
+		const foundUser = userService.login(username, password);
+
+		const token = generateToken({
+			username: foundUser.username,
+			role: foundUser.role,
+			factoryId: foundUser.factoryId || null
+		});
+
+		res.status(200).send({ token, role: foundUser.role });
 	} catch (err) {
 		res.status(400).send({ message: err.message});
 	}
@@ -153,7 +158,7 @@ router.get('/factoryid', verifyToken, (req, res) => {
         return res.status(200).send({ factoryId });
     } catch (err) {
         console.error('Error:', err);
-        res.status(400).send({ message: err.message });
+        return res.status(400).send({ message: err.message });
     }
 });
 

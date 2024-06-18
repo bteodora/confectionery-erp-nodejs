@@ -18,12 +18,12 @@ const chocolateFilePath = path.join(__dirname, '../data/json/chocolate.json');
 // KUPAC:
 // Promena kvantiteta ✔
 
-exports.GetAllChocolatesForFactory = (factoryId) => {
+exports.GetByFactoryId = (factoryId) => {
     const chocolates = readJSONFile(chocolateFilePath);
     let filteredChocolates = chocolates.filter(c => c.factoryId == factoryId);
     filteredChocolates = filteredChocolates.filter(c => c.isDeleted == false);
     return filteredChocolates;
-  };
+}
 
 exports.getImagePath = (chocolateId) =>{
     const chocolates = readJSONFile(chocolateFilePath);

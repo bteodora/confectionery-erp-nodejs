@@ -35,11 +35,7 @@ exports.GetById = (purchaseId) => {
 exports.CreatePurchase = (username, cart) => {
 	const purchases = readJSONFile(purchaseFilePath);
 
-	let purchaseId = 1;
-
-	if(purchases.length > 0) {
-		purchaseId = purchases.sort((a, b) => a.id - b.id)[purchases.length - 1].id + 1;
-	}
+	let purchaseId = Date.now().toString(36).slice(-10);
 
 	cart.products.forEach(p => p.price = chocolateService.GetById(p.chocolateId).price);
 
