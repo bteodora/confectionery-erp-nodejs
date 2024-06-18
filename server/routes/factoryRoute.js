@@ -5,9 +5,26 @@ const {verifyToken} = require('../utils/tokenParser');
 const upload = require('../utils/imgParser');
 const path = require('path');
 const Factory = require('../models/factory');
+const chocolateServices = require('../services/chocolateService');
+
 
 router.get('/', (req, res) => {
-	const factories = factoryServices.getAllFactories();
+	let factories = factoryServices.getAllFactories();
+
+	factories.forEach(f => {
+		let chocolates = chocolateServices.GetByFactoryId(f.id);
+		chocolates = chocolates.filter(c => c.status === 'InStock');
+
+		let types = new Set(chocolates.map(c => c.type));
+		f.chocolateTypes = Array.from(types);
+
+		let categories = new Set(chocolates.map(c => c.category));
+		f.chocolateCategories = Array.from(categories);
+
+		let names = chocolates.map(c => c.name);
+		f.chocolateNames = Array.from(names);
+	});
+
 	return res.status(200).send(factories);
 });
 

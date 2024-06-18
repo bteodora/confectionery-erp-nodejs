@@ -74,7 +74,7 @@
 		</div>
 	</nav>
 	<div class="card-container">
-		<UserCard v-for="user in filtered_users" :user="user" />
+		<UserCard v-for="user in filtered_users" :user="user" :key="user.username"/>
 	</div>
 </template>
 

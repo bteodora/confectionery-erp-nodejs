@@ -21,7 +21,7 @@ const Chocolate = require('../models/chocolate');
 
 router.get('/factory/:factoryId', (req, res) => {
     const factoryId = Number(req.params.factoryId);
-    const chocolates = chocolateService.GetAllChocolatesForFactory(factoryId);
+    const chocolates = chocolateService.GetByFactoryId(factoryId);
 
     if (chocolates.length > 0) {
       return res.status(200).send(chocolates);
