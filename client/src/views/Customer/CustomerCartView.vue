@@ -7,17 +7,38 @@
 		<br>
 		<div class="user-info-container">
 		  <div :class="{'user-info': true, 'move-left': showCustomerTypes, 'move-right': !showCustomerTypes}" class="w-25" ref="userInfo">
-			<h5><span>Points:</span> {{ user.points.toFixed(2) }}</h5>
-			<h5><span> Customer type:</span> {{ user.type }}</h5>
-			<h5><span>Discount:</span> {{ user.discount }}</h5>
+			<div class="info-row">
+			  <span>Points:</span>
+			  <span>{{ user.points.toFixed(2) }}</span>
+			</div>
+			<div class="info-row">
+			  <span>Customer type:</span>
+			  <span>{{ user.type }}</span>
+			</div>
+			<div class="info-row">
+			  <span>Discount:</span>
+			  <span>{{ user.discount }}</span>
+			</div>
 			<button class="btn btn-secondary" @click="toggleCustomerTypes">Show Customer Types</button>
 		  </div>
 		  <transition name="fade">
 			<div v-if="showCustomerTypes" class="customer-types w-25" ref="customerTypes">
-			  <h5>Regular customer: <span>0-1000 points</span></h5>
-			  <h5>Bronze customer: <span>1000-2000 points</span></h5>
-			  <h5>Silver customer: <span>2000-40000 points</span></h5>
-			  <h5>Golden customer: <span>40000+ points</span></h5>
+			  <div class="info-row">
+				<span>Regular customer:</span>
+				<span>0-1000 points</span>
+			  </div>
+			  <div class="info-row">
+				<span>Bronze customer:</span>
+				<span>1000-2000 points</span>
+			  </div>
+			  <div class="info-row">
+				<span>Silver customer:</span>
+				<span>2000-40000 points</span>
+			  </div>
+			  <div class="info-row">
+				<span>Golden customer:</span>
+				<span>40000+ points</span>
+			  </div>
 			</div>
 		  </transition>
 		</div>
@@ -38,6 +59,7 @@
 	  </div>
 	</div>
   </template>
+  
   
   <script>
   import ChocolateCard from '@/components/ChocolateCard.vue';
@@ -188,6 +210,7 @@
 	background-color: #f0f0f0;
 	margin-bottom: 30px;
 	position: relative;
+	width: 250px;
   }
   
   .user-info {
@@ -200,6 +223,13 @@
 	top: 0;
 	z-index: 1;
 	transition: transform 0.5s ease;
+  }
+  
+  .info-row {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 10px;
+	font-size: 1.1em;
   }
   
   .move-left {
@@ -218,4 +248,5 @@
 	opacity: 0;
   }
   </style>
+  
   
