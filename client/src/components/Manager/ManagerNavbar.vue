@@ -13,7 +13,7 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownChocolates">
                         <li><router-link class="dropdown-item" to="/manager">Show All</router-link></li>
-                        <li><router-link class="dropdown-item" >Show ratings</router-link></li>
+                        <li><a class="dropdown-item" @click="myfactory">My factory</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
@@ -57,17 +57,43 @@ export default {
     data() {
         return {
             username: '',
-            role: ''
+            role: '',
+            factoryId: null
         };
     },
     mounted() {
         const profile = getUserProfile();
 		this.username = profile.username;
+        axiosInstance.get('/user/factoryid')
+        .then((response) => {     
+            this.factoryId = response.data.factoryId;
+        })
+        .catch((error) => {
+			alert(error);
+            console.error('Error fetching factoryId:', error);
+        });
     },
     methods: {
         logout() {
             logoutUser();
             this.$router.push('/');
+        },
+        myfactory() {
+        const viewingRole = getUserProfile().role;
+        let route = {query: {factoryId: this.factoryId}};
+
+        if(viewingRole == 'admin')
+            route.path = '/admin/factorydetails';
+        else if(viewingRole == 'manager')
+            route.path = '/manager/factorydetails';
+        else if(viewingRole == 'customer')
+            route.path = '/customer/factorydetails';
+        else if(viewingRole == 'staff')
+            route.path = '/staff/factorydetails';
+        else
+            route.path = '/factorydetails';
+
+        this.$router.push(route);
         }
     }
 };
