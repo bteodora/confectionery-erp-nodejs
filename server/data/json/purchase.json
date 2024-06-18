@@ -1,3 +1,53 @@
 [
-
+  {
+    "id": "lxklt6gppc",
+    "creationDate": "2024-06-16T16:13:39.961Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 370,
+    "products": [
+      {
+        "chocolateId": 1,
+        "selectedQuantity": 2,
+        "price": 185
+      }
+    ],
+    "status": "Accepted",
+    "declineReason": null,
+    "comment": null
+  },
+  {
+    "id": "lxkltec35f",
+    "creationDate": "2024-06-17T16:13:50.163Z",
+    "username": "trksi",
+    "factoryId": 1,
+    "totalPrice": 879.96,
+    "products": [
+      {
+        "chocolateId": 5,
+        "selectedQuantity": 4,
+        "price": 219.99
+      }
+    ],
+    "status": "Accepted",
+    "declineReason": null,
+    "comment": null
+  },
+  {
+    "id": "lxkltkl3ih",
+    "creationDate": "2024-06-18T16:13:58.263Z",
+    "username": "trksi",
+    "factoryId": 2,
+    "totalPrice": 840,
+    "products": [
+      {
+        "chocolateId": 6,
+        "selectedQuantity": 2,
+        "price": 420
+      }
+    ],
+    "status": "Accepted",
+    "declineReason": null,
+    "comment": null
+  }
 ]

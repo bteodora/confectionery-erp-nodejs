@@ -95,8 +95,8 @@ export default {
 		axiosInstance.get(`/purchase/byfactory`)
 			.then(response => {
 				this.purchases = response.data;
-				this.filtered_purchases = this.purchases;
 				this.fetchFactoryNames();
+				this.filtered_purchases = this.purchases;
 			})
 			.catch(error => {
 				console.error(error);
@@ -107,7 +107,7 @@ export default {
 			this.purchases.forEach(purchase => {
 				axiosInstance.get(`/factory/${purchase.factoryId}`)
 					.then(response => {
-						this.$set(purchase, 'factoryName', response.data.name);
+						purchase.factoryName = response.data.name;
 					})
 					.catch(error => {
 						console.error(error);
@@ -196,4 +196,3 @@ export default {
 	margin-bottom: 0.5rem;
 }
 </style>
-

@@ -8,7 +8,7 @@
 		<li class="list-group-item"><b>Date:</b> {{ formatDate(purchase.creationDate) }}</li>
 		<li class="list-group-item"><b>Status:</b> {{ purchase.status }}</li>
 		<li class="list-group-item" v-if="purchase.status === 'Declined'"><b>Reason for Decline:</b> {{ purchase.declineReason.reason }}</li>
-		<li class="list-group-item"><b>Factory:</b> {{ factoryName }}</li>
+		<li class="list-group-item"><b>Factory:</b> {{ purchase.factoryName }}</li>
 	  </ul>
 	  <div class="card-body">
 		<h5 class="card-title">Total price: {{ purchase.totalPrice.toFixed(2) }} DIN</h5>
@@ -50,7 +50,7 @@
 		  </tbody>
 		</table>
 	  </div>
-  
+
 	  <div class="modal fade" :id="'reviewModal' + purchase.id" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
 		  <div class="modal-content">
@@ -78,7 +78,7 @@
 		</div>
 	  </div>
 	</div>
-  
+
 	<!-- Modal for Reject Purchase -->
 	<div class="modal fade" :id="'rejectModal-' + purchase.id" tabindex="-1" aria-labelledby="rejectModalLabel" aria-hidden="true">
 	  <div class="modal-dialog">
@@ -102,7 +102,7 @@
 	  </div>
 	</div>
   </template>
-  
+
 
 <script>
 import axiosInstance, { getUserProfile } from '@/utils/axiosInstance';
@@ -119,7 +119,6 @@ export default {
 		return {
 			role: '',
 			fullname: '',
-			factoryName: '',
 			rejectReason: '',
 			factoryRating: 1,
 			comment: {
@@ -131,7 +130,6 @@ export default {
 	},
 	mounted() {
 		this.role = getUserProfile().role;
-		this.getFactory();
 		this.getChocolates();
 
 		axiosInstance.get('/user/fullname', {
@@ -149,15 +147,6 @@ export default {
 
 	},
 	methods: {
-		getFactory() {
-			axiosInstance.get(`/factory/${this.purchase.factoryId}`)
-				.then(response => {
-					this.factoryName = response.data.name;
-				})
-				.catch(error => {
-					console.error(error);
-				});
-		},
 		getChocolates() {
 			this.purchase.products.forEach(product => {
 				axiosInstance.get(`/chocolate/choco/${product.chocolateId}`)
@@ -190,7 +179,7 @@ export default {
 		delete() {
 			axiosInstance.delete(`/purchase/delete/${this.purchase.id}`)
 				.then(response => {
-					this.purchase.status = 'Deleted';					
+					this.purchase.status = 'Deleted';
 					alert(response.data.message);
 					location.reload();
 				})
