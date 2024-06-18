@@ -70,7 +70,7 @@ exports.checkRole = (req, res, next) => {
 }
 
 exports.generateToken = (user) => {
-	const { username, role } = user;
+	const { username, role, factoryId } = user;
 
-	return jwt.sign({ username, role }, secret_key, { expiresIn: expiration_time });
+	return jwt.sign({ username, role, factoryId }, secret_key, { expiresIn: expiration_time });
 }

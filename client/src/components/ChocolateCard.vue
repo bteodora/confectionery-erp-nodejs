@@ -12,7 +12,7 @@
         <p class="card-description" v-if="!inCart">{{ chocolate.description }}</p>
         <p class="card-price"><b>Price: {{ chocolate.price }} DIN</b></p>
 		<p class="card-price" v-if="inCart"><b>Total price: {{ chocolate.price * chocolate.selectedQuantity }} DIN</b></p>
-        <div class="card-buttons" v-if="role === 'manager'">
+        <div class="card-buttons" v-if="role === 'manager' && userFactoryId === chocolate.factoryId">
           <button class="btn btn-primary" @click="openUpdateModal">Update</button>
           <button class="btn btn-danger" @click="deleteChocolate">Delete</button>
         </div>
@@ -23,7 +23,7 @@
 		  <button class="btn btn-primary" @click="updateSelectedQuantity">Update quantity</button>
 		  <button class="btn btn-danger" @click="removeFromCart">Remove</button>
 		</div>
-        <div v-if="role === 'staff'" class="staff-button">
+        <div v-if="role === 'staff' && userFactoryId === chocolate.factoryId" class="staff-button">
           <button class="btn btn-success" @click="openQuantityModal">Add chocolate</button>
         </div>
       </div>
@@ -151,6 +151,7 @@ export default {
         weight: 0,
         description: ''
       },
+	  userFactoryId: 0,
       errorMessage: '',
       newQuantity: 0,
       quantityErrorMessage: ''
@@ -158,7 +159,9 @@ export default {
   },
   mounted() {
     this.imgSrc = `${baseURL}/chocolate/img/${this.chocolate.id}`;
-    this.role = getUserProfile().role;
+    const loggedInUser = getUserProfile();
+	this.role = loggedInUser.role;
+	this.userFactoryId = loggedInUser.factoryId;
     this.newQuantity = this.chocolate.quantity;
     axiosInstance.get('/user/factoryid')
         .then((response) => {

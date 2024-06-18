@@ -89,6 +89,8 @@ exports.login = (username, password) => {
 	if(foundUser.role === 'admin'){
 		this.checkSuspiciousUsers();
 	}
+
+	return foundUser;
 }
 
 exports.getFactoryId = (username) => {
