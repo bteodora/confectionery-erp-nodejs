@@ -17,17 +17,12 @@
     "gender": "male",
     "birth_date": "2002-07-01",
     "role": "customer",
-    "points": 87.77601000000001,
+    "points": 0.0,
     "type": "Regular",
     "isSuspicious": false,
     "cart": {
-      "factoryId": 1,
-      "products": [
-        {
-          "chocolateId": 1,
-          "selectedQuantity": 1
-        }
-      ]
+      "factoryId": null,
+      "products": []
     },
     "isBlocked": false
   },

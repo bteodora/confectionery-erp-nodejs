@@ -35,7 +35,10 @@ exports.GetById = (purchaseId) => {
 exports.CreatePurchase = (username, cart) => {
 	const purchases = readJSONFile(purchaseFilePath);
 
-	let purchaseId = Date.now().toString(36).slice(-10);
+	let purchaseId = Date.now().toString(36).slice(0, 10);
+	let randomChars = Math.random().toString(36).substring(2);
+	purchaseId += randomChars;
+	purchaseId = purchaseId.slice(0, 10);
 
 	cart.products.forEach(p => p.price = chocolateService.GetById(p.chocolateId).price);
 

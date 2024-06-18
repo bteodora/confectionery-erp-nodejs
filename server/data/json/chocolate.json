@@ -9,7 +9,7 @@
     "category": "regular",
     "isDeleted": false,
     "status": "InStock",
-    "quantity": 9,
+    "quantity": 10,
     "id": 1,
     "imagePath": "data/img/1716911533746_wonka_bar.jpg"
   },
@@ -23,7 +23,7 @@
     "category": "regular",
     "isDeleted": false,
     "status": "InStock",
-    "quantity": 4,
+    "quantity": 2,
     "id": 2,
     "imagePath": "data/img/1716911583035_wonka_mixed.jpg"
   },
@@ -37,7 +37,7 @@
     "category": "regular",
     "isDeleted": false,
     "status": "InStock",
-    "quantity": 40,
+    "quantity": 20,
     "id": 3,
     "imagePath": "data/img/1716911640696_wonka_caramel.jpg"
   },
@@ -65,7 +65,7 @@
     "category": "regular",
     "isDeleted": false,
     "status": "InStock",
-    "quantity": 17,
+    "quantity": 10,
     "id": 5,
     "imagePath": "data/img/1717501880988_Wonka Nutty.png"
   },
@@ -79,7 +79,7 @@
     "category": "cooking",
     "isDeleted": false,
     "status": "InStock",
-    "quantity": 5,
+    "quantity": 10,
     "id": 6,
     "imagePath": "data\\img\\1718106484252_top_cacao.jpg"
   }
