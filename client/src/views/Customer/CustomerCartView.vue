@@ -6,14 +6,14 @@
 		<h1>Chocolates in cart</h1>
 		<br>
 		<div class="user-info-container">
-		  <div :class="{'user-info': true, 'slide-left': showCustomerTypes, 'slide-right': !showCustomerTypes}" class="w-25">
+		  <div :class="{'user-info': true, 'move-left': showCustomerTypes, 'move-right': !showCustomerTypes}" class="w-25" ref="userInfo">
 			<h5><span>Points:</span> {{ user.points.toFixed(2) }}</h5>
 			<h5><span> Customer type:</span> {{ user.type }}</h5>
 			<h5><span>Discount:</span> {{ user.discount }}</h5>
 			<button class="btn btn-secondary" @click="toggleCustomerTypes">Show Customer Types</button>
 		  </div>
 		  <transition name="fade">
-			<div v-if="showCustomerTypes" class="customer-types w-25">
+			<div v-if="showCustomerTypes" class="customer-types w-25" ref="customerTypes">
 			  <h5>Regular customer: <span>0-1000 points</span></h5>
 			  <h5>Bronze customer: <span>1000-2000 points</span></h5>
 			  <h5>Silver customer: <span>2000-40000 points</span></h5>
@@ -37,10 +37,8 @@
 		<p v-if="chocolates.length === 0" class="empty-cart-message"><i>Cart is empty...</i></p>
 	  </div>
 	</div>
-</template>
+  </template>
   
-  
-
   <script>
   import ChocolateCard from '@/components/ChocolateCard.vue';
   import CustomerNavbar from '@/components/Customer/CustomerNavbar.vue';
@@ -115,7 +113,17 @@
 		}
 	  },
 	  toggleCustomerTypes() {
-		this.showCustomerTypes = !this.showCustomerTypes;
+		if (this.showCustomerTypes) {
+		  this.showCustomerTypes = false;
+		} else {
+		  this.showCustomerTypes = true;
+		  this.$nextTick(() => {
+			const userInfoRect = this.$refs.userInfo.getBoundingClientRect();
+			const customerTypesWidth = this.$refs.customerTypes.offsetWidth;
+			const offset = (userInfoRect.width + customerTypesWidth) / 4;
+			this.$refs.customerTypes.style.left = `${userInfoRect.right - offset}px`;
+		  });
+		}
 	  },
 	  emptyCart() {
 		axiosInstance.delete('/user/cart')
@@ -147,9 +155,7 @@
   }
   </script>
   
-
-<style scoped>
-
+  <style scoped>
   .header {
 	text-align: center;
 	padding-bottom: 2%;
@@ -171,6 +177,7 @@
 	display: flex;
 	justify-content: center;
 	gap: 20px;
+	position: relative;
   }
   
   .user-info, .customer-types {
@@ -180,53 +187,35 @@
 	border-radius: 10px;
 	background-color: #f0f0f0;
 	margin-bottom: 30px;
+	position: relative;
   }
   
-  .user-info h5, .customer-types h5 {
-	display: flex;
-	justify-content: space-between;
+  .user-info {
+	z-index: 2;
+	transition: transform 0.5s ease;
+  }
+  
+  .customer-types {
+	position: absolute;
+	top: 0;
+	z-index: 1;
+	transition: transform 0.5s ease;
+  }
+  
+  .move-left {
+	transform: translateX(-50%);
+  }
+  
+  .move-right {
+	transform: translateX(0);
   }
   
   .fade-enter-active, .fade-leave-active {
-	transition: all 0.5s ease;
+	transition: opacity 0.5s ease;
   }
   
   .fade-enter, .fade-leave-to {
 	opacity: 0;
-	transform: translateX(20px);
   }
-  
-  .btn-info {
-	width: 200px; /* Make the button wider */
-	height: 30px; /* Make the button shorter */
-	margin-top: 10px;
-  }
-  
-  @keyframes slideLeft {
-	from {
-	  transform: translateX(0);
-	}
-	to {
-	  transform: translateX(-20px);
-	}
-  }
-  
-  @keyframes slideRight {
-	from {
-	  transform: translateX(-20px);
-	}
-	to {
-	  transform: translateX(0);
-	}
-  }
-  
-  .slide-left {
-	animation: slideLeft 0.5s forwards;
-  }
-  
-  .slide-right {
-	animation: slideRight 0.5s forwards;
-  }
-  
-</style>
+  </style>
   

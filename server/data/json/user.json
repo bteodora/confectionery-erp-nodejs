@@ -21,8 +21,13 @@
     "type": "Regular",
     "isSuspicious": false,
     "cart": {
-      "factoryId": null,
-      "products": []
+      "factoryId": 1,
+      "products": [
+        {
+          "chocolateId": 1,
+          "selectedQuantity": 1
+        }
+      ]
     },
     "isBlocked": false
   },
