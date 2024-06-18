@@ -17,12 +17,17 @@
     "gender": "male",
     "birth_date": "2002-07-01",
     "role": "customer",
-    "points": 0.0,
+    "points": 87.77601000000001,
     "type": "Regular",
     "isSuspicious": false,
     "cart": {
-      "factoryId": null,
-      "products": []
+      "factoryId": 1,
+      "products": [
+        {
+          "chocolateId": 1,
+          "selectedQuantity": 1
+        }
+      ]
     },
     "isBlocked": false
   },
@@ -79,7 +84,7 @@
     "birth_date": "2003-05-07",
     "role": "staff",
     "factoryId": 2,
-    "isBlocked": true
+    "isBlocked": false
   },
   {
     "username": "nenadg",
