@@ -22,7 +22,8 @@ exports.getByUsersFactoryId = (username) => {
 	const purchases = readJSONFile(purchaseFilePath);
 	const factoryId = userService.getFactoryId(username);
 	const factoryPurchases = purchases.filter(p => p.factoryId == factoryId);
-	return factoryPurchases;
+	const nonDeleted = factoryPurchases.filter(p => p.status !== 'Deleted');
+	return nonDeleted;
 }
 
 exports.GetById = (purchaseId) => {
@@ -175,12 +176,12 @@ exports.DeletePurchase = (purchaseId) =>{
 	writeJSONFile(purchaseFilePath, purchases);
 }
 
-exports.DeleteComment = (comment) => {
+exports.DeleteComment = (purchaseId) => {
 	const purchases = readJSONFile(purchaseFilePath);
-	const purchase = purchases.find(p => p.comment && p.comment.factoryRating === comment.factoryRating && p.comment.text === comment.text && p.comment.creationDate === comment.creationDate);
+	const purchase = purchases.find(p => p.id == purchaseId);
 
 	if (!purchase) {
-		throw new Error('No such purchase or comment exists');
+		throw new Error('No such purchase exists');
 	}
 
 	purchase.comment.status = 'Deleted';

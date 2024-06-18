@@ -35,7 +35,7 @@
         "price": 185
       }
     ],
-    "status": "Declined",
+    "status": "Rejected",
     "declineReason": {
       "reason": "Nije dobar"
     },

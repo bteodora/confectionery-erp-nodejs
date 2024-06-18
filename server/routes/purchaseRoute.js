@@ -64,6 +64,23 @@ router.get('/byfactory', verifyToken, (req, res) => {
 	}
 });
 
+router.delete("/delete/:id", verifyToken, (req, res) => {
+	const purchaseId = parseInt(req.params.id);
+	const role = req.auth.role;
+
+	if (role !== 'admin') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+	try {
+		purchaseService.DeletePurchase(purchaseId);
+		return res.status(200).send({ message: 'Purchase successfully deleted!' });
+	}
+	catch (error) {
+		return res.status(400).send(error.message);
+	}
+});
+
 router.post("/cancel/:id", verifyToken, (req, res) => {
 	const purchaseId = parseInt(req.params.id);
 	const role = req.auth.role;
@@ -199,6 +216,24 @@ router.post("/commentreject", checkRole, (req, res) => {
 		return res.status(200).send({ message: 'Comment successfully rejected!' });
 	}
 	catch (error) {
+		return res.status(400).send(error.message);
+	}
+});
+
+router.delete("/commentdelete/:id", verifyToken, (req, res) => {
+	const role = req.auth.role;
+	
+	if (role !== 'admin') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+	const purchaseId = parseInt(req.params.id);
+	
+	try {
+		purchaseService.DeleteComment(purchaseId);
+		return res.status(200).send({ message: 'Comment successfully deleted!' });
+	}
+	catch (error) {
+		console.log(error);
 		return res.status(400).send(error.message);
 	}
 });

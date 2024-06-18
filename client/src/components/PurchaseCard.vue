@@ -18,6 +18,7 @@
 			Products
 		  </a>
 		  <div class="ml-auto">
+			<button v-if="role === 'admin'" class="btn btn-danger" @click="delete">Delete</button>
 			<div v-if="role == 'manager'">
 			  <button class="btn btn-success me-3" @click="acceptPurchase" v-if="purchase.status == 'Pending'">Accept</button>
 			  <button class="btn btn-danger" v-if="purchase.status == 'Pending'" @click="openRejectModal(purchase.id)">Reject</button>
@@ -184,6 +185,18 @@ export default {
 				})
 				.catch(error => {
 					console.error(error);
+				});
+		},
+		delete() {
+			axiosInstance.delete(`/purchase/delete/${this.purchase.id}`)
+				.then(response => {
+					this.purchase.status = 'Deleted';
+					location.reload();
+					alert(response.data.message);
+				})
+				.catch(error => {
+					console.error(error);
+					alert(error.response.data.message || 'An error occurred');
 				});
 		},
 		declinePurchase(purchaseId, reason) {

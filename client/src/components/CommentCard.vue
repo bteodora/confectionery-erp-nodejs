@@ -13,6 +13,7 @@
 			<div class="d-flex justify-content-end">
 				<button v-if="role === 'manager' && comment.status === 'Pending'" class="btn btn-success me-2" @click="approveComment">Approve</button>
 				<button v-if="role === 'manager' && comment.status === 'Pending'" class="btn btn-danger" @click="rejectComment">Reject</button>
+				<button v-if="role === 'admin'" class="btn btn-danger" @click="deleteComment">Delete</button>
 			</div>
 		</div>
 	</div>
@@ -70,6 +71,18 @@ export default {
 			axiosInstance.post('/purchase/commentapprove', this.comment)
 				.then(response => {
 					this.comment.status = 'Approved';
+					alert(response.data.message);
+				})
+				.catch(error => {
+					console.error(error);
+					alert(error.response.data.message || 'An error occurred');
+				});
+		},
+		deleteComment() {
+			axiosInstance.delete(`/purchase/commentdelete/${this.comment.id}`)
+				.then(response => {
+					this.comment.status = 'Deleted';
+					location.reload();
 					alert(response.data.message);
 				})
 				.catch(error => {
