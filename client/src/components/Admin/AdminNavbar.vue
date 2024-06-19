@@ -24,8 +24,11 @@
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li><router-link class="dropdown-item" to="/admin/registermanager">Register new manager</router-link></li>
 						<li><router-link class="dropdown-item" to="/admin/showallusers">Show all</router-link></li>
-					</ul>
+					</ul>					
 				</li>
+				<li class="nav-item">
+                    <router-link class="nav-link" to="/admin/purchases">Purchases</router-link>
+                </li>
 			</ul>
 
 			<a class="navbar-brand">{{ username }}</a>

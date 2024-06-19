@@ -11,6 +11,12 @@ exports.GetByUserId = (username) => {
 	return nonDeleted;
 }
 
+exports.GetAll = () => {
+	const purchases = readJSONFile(purchaseFilePath);
+	const nonDeleted = purchases.filter(p => p.status !== 'Deleted');
+	return nonDeleted;
+}
+
 exports.GetByFactoryId = (factoryId) => {
 	const purchases = readJSONFile(purchaseFilePath);
 	const factoryPurchases = purchases.filter(p => p.factoryId == factoryId);

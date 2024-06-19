@@ -47,6 +47,22 @@ router.get('/byuser', verifyToken, (req, res) => {
 	}
 });
 
+router.get('/all', verifyToken, (req, res) => {
+	const role = req.auth.role;
+
+	if (role !== 'admin') {
+		return res.status(403).send({ message: 'Forbidden' });
+	}
+
+	try {
+		const purchases = purchaseService.GetAll();
+		return res.status(200).send(purchases);
+	}
+	catch (error) {
+		return res.status(400).send(error.message);
+	}
+});
+
 router.get('/byfactory', verifyToken, (req, res) => {
 	const username = req.auth.username;
 	const role = req.auth.role;
@@ -64,8 +80,8 @@ router.get('/byfactory', verifyToken, (req, res) => {
 	}
 });
 
-router.delete("/delete/:id", verifyToken, (req, res) => {
-	const purchaseId = parseInt(req.params.id);
+router.delete("/pdelete/:id", verifyToken, (req, res) => {
+	const purchaseId = req.params.id;
 	const role = req.auth.role;
 
 	if (role !== 'admin') {
@@ -77,12 +93,13 @@ router.delete("/delete/:id", verifyToken, (req, res) => {
 		return res.status(200).send({ message: 'Purchase successfully deleted!' });
 	}
 	catch (error) {
+		console.log(error);
 		return res.status(400).send(error.message);
 	}
 });
 
 router.post("/cancel/:id", verifyToken, (req, res) => {
-	const purchaseId = req.params.id;
+	const purchaseId = parseInt(req.params.id);
 	const role = req.auth.role;
 
 	if (role !== 'customer') {
@@ -99,7 +116,7 @@ router.post("/cancel/:id", verifyToken, (req, res) => {
 });
 
 router.post("/accept/:id", verifyToken, (req, res) => {
-	const purchaseId = req.params.id;
+	const purchaseId = parseInt(req.params.id);
 	const role = req.auth.role;
 
 	if (role !== 'manager') {
@@ -116,7 +133,7 @@ router.post("/accept/:id", verifyToken, (req, res) => {
 });
 
 router.post("/comment/:id", verifyToken, (req, res) => {
-    const purchaseId = req.params.id;
+    const purchaseId = parseInt(req.params.id);
     const role = req.auth.role;
     const comment = req.body.comment;
 
@@ -147,7 +164,7 @@ router.post("/comment/:id", verifyToken, (req, res) => {
 });
 
 router.post("/decline/:id", verifyToken, (req, res) => {
-	const purchaseId = req.params.id
+	const purchaseId = parseInt(req.params.id);
 	const role = req.auth.role;
 
 	if (role !== 'manager') {

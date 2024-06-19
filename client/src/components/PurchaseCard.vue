@@ -18,7 +18,7 @@
 			Products
 		  </a>
 		  <div class="ml-auto">
-			<button v-if="role === 'admin'" class="btn btn-danger" @click="delete">Delete</button>
+			<button v-if="role === 'admin'" class="btn btn-danger" @click="deletep">Delete</button>
 			<div v-if="role == 'manager'">
 			  <button class="btn btn-success me-3" @click="acceptPurchase" v-if="purchase.status == 'Pending'">Accept</button>
 			  <button class="btn btn-danger" v-if="purchase.status == 'Pending'" @click="openRejectModal(purchase.id)">Reject</button>
@@ -176,8 +176,8 @@ export default {
 					console.error(error);
 				});
 		},
-		delete() {
-			axiosInstance.delete(`/purchase/delete/${this.purchase.id}`)
+		deletep() {
+			axiosInstance.delete(`/purchase/pdelete/${this.purchase.id}`)
 				.then(response => {
 					this.purchase.status = 'Deleted';
 					alert(response.data.message);
@@ -204,10 +204,8 @@ export default {
 				});
 		},
 		openRejectModal(purchaseId) {
-			// Clear previous reason input
 			this.rejectReason = '';
-			this.errorMessage = ''; // Clear previous error message
-			// Open the modal for the specific purchase ID
+			this.errorMessage = '';
 			const rejectModal = new bootstrap.Modal(document.getElementById(`rejectModal-${purchaseId}`));
 			rejectModal.show();
 		},
