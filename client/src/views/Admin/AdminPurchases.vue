@@ -9,10 +9,7 @@
 				</button>
 				<div class="collapse navbar-collapse m-3" id="collapsibleNavbar">
 					<ul class="navbar-nav align-items-center m-2">
-						<!-- Search by Factory Name, conditional on role -->
-						<div v-if="role === 'admin'" class="w-50">
-							<input class="form-control w-100 m-2" type="text" placeholder="Factory Name" v-model="search_factory_name">
-						</div>
+						<input class="form-control w-50 m-2" type="text" placeholder="Factory Name" v-model="search_factory_name">
 						<div class="input-group w-50 m-2">
 							<span class="input-group-text">Price From</span>
 							<input type="number" class="form-control" v-model="search_price_from">
