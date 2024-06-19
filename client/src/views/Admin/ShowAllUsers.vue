@@ -75,6 +75,7 @@
 	</nav>
 	<div class="card-container">
 		<UserCard v-for="user in filtered_users" :user="user" :key="user.username"/>
+		<p v-if="filtered_users.length === 0" class="empty-cart-message"><i>No users available...</i></p>
 	</div>
 </template>
 
@@ -202,6 +203,11 @@ export default {
 	margin-top: 2%;
 	justify-content: center;
 	flex-wrap: wrap;
+}
+
+.empty-cart-message {
+	font-size: 20px;
+    padding-top: 5%;
 }
 
 </style>

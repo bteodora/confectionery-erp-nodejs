@@ -61,5 +61,90 @@
       "status": "Rejected",
       "creationDate": "2024-06-19T07:16:04.521Z"
     }
+  },
+  {
+    "id": "lxliig15mk",
+    "creationDate": "2024-06-19T07:29:06.473Z",
+    "username": "nenadg",
+    "factoryId": 1,
+    "totalPrice": 370,
+    "products": [
+      {
+        "chocolateId": 1,
+        "selectedQuantity": 2,
+        "price": 185
+      }
+    ],
+    "status": "Cancelled",
+    "declineReason": null,
+    "comment": null
+  },
+  {
+    "id": "lxliiu3wsm",
+    "creationDate": "2024-06-19T07:29:24.716Z",
+    "username": "nenadg",
+    "factoryId": 2,
+    "totalPrice": 840,
+    "products": [
+      {
+        "chocolateId": 6,
+        "selectedQuantity": 2,
+        "price": 420
+      }
+    ],
+    "status": "Cancelled",
+    "declineReason": null,
+    "comment": null
+  },
+  {
+    "id": "lxlij30xhb",
+    "creationDate": "2024-06-19T07:29:36.273Z",
+    "username": "nenadg",
+    "factoryId": 2,
+    "totalPrice": 420,
+    "products": [
+      {
+        "chocolateId": 6,
+        "selectedQuantity": 1,
+        "price": 420
+      }
+    ],
+    "status": "Cancelled",
+    "declineReason": null,
+    "comment": null
+  },
+  {
+    "id": "lxlijbb34w",
+    "creationDate": "2024-06-19T07:29:47.007Z",
+    "username": "nenadg",
+    "factoryId": 2,
+    "totalPrice": 2520,
+    "products": [
+      {
+        "chocolateId": 6,
+        "selectedQuantity": 6,
+        "price": 420
+      }
+    ],
+    "status": "Cancelled",
+    "declineReason": null,
+    "comment": null
+  },
+  {
+    "id": "lxlijn3vor",
+    "creationDate": "2024-06-19T07:30:02.299Z",
+    "username": "nenadg",
+    "factoryId": 2,
+    "totalPrice": 420,
+    "products": [
+      {
+        "chocolateId": 6,
+        "selectedQuantity": 1,
+        "price": 420
+      }
+    ],
+    "status": "Cancelled",
+    "declineReason": null,
+    "comment": null
   }
 ]
