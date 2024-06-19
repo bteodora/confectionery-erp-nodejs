@@ -11,8 +11,10 @@
 		<div class="card-body">
 			<p class="card-text">{{ comment.text }}</p>
 			<div class="d-flex justify-content-end">
-				<button v-if="role === 'manager' && comment.status === 'Pending'" class="btn btn-success me-2" @click="approveComment">Approve</button>
-				<button v-if="role === 'manager' && comment.status === 'Pending'" class="btn btn-danger" @click="rejectComment">Reject</button>
+				<div v-if="role === 'manager' && comment.status === 'Pending' && userFactoryId == comment.factoryId">
+					<button  class="btn btn-success me-2" @click="approveComment">Approve</button>
+					<button  class="btn btn-danger" @click="rejectComment">Reject</button>
+				</div>
 				<button v-if="role === 'admin'" class="btn btn-danger" @click="deleteComment">Delete</button>
 			</div>
 		</div>
@@ -64,9 +66,6 @@ export default {
 			return true;
 		},
 		approveComment() {
-			if(!this.checkFactoryIds()){
-				return;
-			}
 			axiosInstance.post('/purchase/commentapprove', this.comment)
 				.then(response => {
 					this.comment.status = 'Approved';
@@ -90,9 +89,6 @@ export default {
 				});
 		},
 		rejectComment() {
-			if(!this.checkFactoryIds()){
-				return;
-			}
 			axiosInstance.post('/purchase/commentreject', this.comment)
 				.then(response => {
 					this.comment.status = 'Rejected';

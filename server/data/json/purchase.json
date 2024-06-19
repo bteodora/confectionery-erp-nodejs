@@ -31,7 +31,13 @@
     ],
     "status": "Accepted",
     "declineReason": null,
-    "comment": null
+    "comment": {
+      "factoryRating": 5,
+      "text": "Wonka is the best factory in the world! I like it a lot there!!!!",
+      "factoryId": 1,
+      "status": "Approved",
+      "creationDate": "2024-06-19T07:15:03.474Z"
+    }
   },
   {
     "id": "lxkltkl3ih",
@@ -48,6 +54,12 @@
     ],
     "status": "Accepted",
     "declineReason": null,
-    "comment": null
+    "comment": {
+      "factoryRating": 4,
+      "text": "It needs more burek sa sirom boys!!!",
+      "factoryId": 2,
+      "status": "Rejected",
+      "creationDate": "2024-06-19T07:16:04.521Z"
+    }
   }
 ]
