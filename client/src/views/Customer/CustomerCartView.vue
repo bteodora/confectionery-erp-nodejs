@@ -1,6 +1,6 @@
 <template>
 	<CustomerNavbar/>
-  
+
 	<div class="chocolates">
 	  <div class="header">
 		<h1>Chocolates in cart</h1>
@@ -44,8 +44,8 @@
 		</div>
 		<br>
 		<div v-if="chocolates.length !== 0">
-		  <h4>Total cart price: {{ totalPrice }} DIN</h4>
-		  <h4><b>Price after discount: {{ discountPrice }} DIN</b></h4>
+		  <h4>Total cart price: {{ totalPrice.toFixed(2) }} DIN</h4>
+		  <h4><b>Price after discount: {{ discountPrice.toFixed(2) }} DIN</b></h4>
 		</div>
 		<br>
 		<div v-if="chocolates.length !== 0" class="d-grid gap-4 d-md-flex justify-content-md-center">
@@ -59,13 +59,13 @@
 	  </div>
 	</div>
   </template>
-  
-  
+
+
   <script>
   import ChocolateCard from '@/components/ChocolateCard.vue';
   import CustomerNavbar from '@/components/Customer/CustomerNavbar.vue';
   import axiosInstance from '@/utils/axiosInstance';
-  
+
   export default {
 	name: 'CustomerCartView',
 	components: {
@@ -88,7 +88,7 @@
 		  this.factoryId = response.data.factoryId;
 		  const products = response.data.products;
 		  products.forEach(p => this.getChocolate(p.chocolateId, p.selectedQuantity));
-  
+
 		  this.getUser();
 		})
 		.catch((error) => {
@@ -161,11 +161,11 @@
 		axiosInstance.post('/purchase/create')
 		  .then((res) => {
 			alert(res.data.message);
-  
+
 			this.user.points = res.data.points;
 			this.user.type = res.data.type;
 			this.setDiscount();
-  
+
 			this.chocolates = [];
 			this.totalPrice = 0;
 		  })
@@ -176,32 +176,32 @@
 	}
   }
   </script>
-  
+
   <style scoped>
   .header {
 	text-align: center;
 	padding-bottom: 2%;
 	border-bottom: 1px solid lightgray;
   }
-  
+
   .chocolates {
 	padding-top: 2%;
 	padding-bottom: 2%;
 	justify-content: center;
   }
-  
+
   .empty-cart-message {
 	font-size: 20px;
 	padding-top: 5%;
   }
-  
+
   .user-info-container {
 	display: flex;
 	justify-content: center;
 	gap: 20px;
 	position: relative;
   }
-  
+
   .user-info, .customer-types {
 	display: inline-block;
 	padding: 20px;
@@ -212,41 +212,39 @@
 	position: relative;
 	width: 250px;
   }
-  
+
   .user-info {
 	z-index: 2;
 	transition: transform 0.5s ease;
   }
-  
+
   .customer-types {
 	position: absolute;
 	top: 0;
 	z-index: 1;
 	transition: transform 0.5s ease;
   }
-  
+
   .info-row {
 	display: flex;
 	justify-content: space-between;
 	margin-bottom: 10px;
 	font-size: 1.1em;
   }
-  
+
   .move-left {
 	transform: translateX(-50%);
   }
-  
+
   .move-right {
 	transform: translateX(0);
   }
-  
+
   .fade-enter-active, .fade-leave-active {
 	transition: opacity 0.5s ease;
   }
-  
+
   .fade-enter, .fade-leave-to {
 	opacity: 0;
   }
   </style>
-  
-  

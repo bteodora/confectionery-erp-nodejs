@@ -82,5 +82,19 @@
     "quantity": 8,
     "id": 6,
     "imagePath": "data\\img\\1718106484252_top_cacao.jpg"
+  },
+  {
+    "name": "Chocolate Burek",
+    "price": 10000,
+    "type": "black",
+    "weight": 1000,
+    "description": "\nIndulge in a rare and unique treat with chocolate burek, a delightful twist on the traditional pastry. Layers of flaky dough embrace rich, velvety chocolate for an unforgettable experience.",
+    "factoryId": 2,
+    "category": "regular",
+    "isDeleted": false,
+    "status": "OutOfStock",
+    "quantity": 0,
+    "id": 7,
+    "imagePath": "data\\img\\1718782511138_choco_burek.jpg"
   }
 ]

@@ -146,5 +146,22 @@
     "status": "Cancelled",
     "declineReason": null,
     "comment": null
+  },
+  {
+    "id": "lxlir907r8",
+    "creationDate": "2024-06-19T07:35:57.271Z",
+    "username": "trksi",
+    "factoryId": 2,
+    "totalPrice": 10000,
+    "products": [
+      {
+        "chocolateId": 7,
+        "selectedQuantity": 1,
+        "price": 10000
+      }
+    ],
+    "status": "Accepted",
+    "declineReason": null,
+    "comment": null
   }
 ]
