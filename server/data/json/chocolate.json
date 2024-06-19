@@ -81,7 +81,7 @@
     "status": "InStock",
     "quantity": 8,
     "id": 6,
-    "imagePath": "data\\img\\1718106484252_top_cacao.jpg"
+    "imagePath": "data/img/1718106484252_top_cacao.jpg"
   },
   {
     "name": "Chocolate Burek",
@@ -95,6 +95,6 @@
     "status": "OutOfStock",
     "quantity": 0,
     "id": 7,
-    "imagePath": "data\\img\\1718782511138_choco_burek.jpg"
+    "imagePath": "data/img/1718782511138_choco_burek.jpg"
   }
 ]
