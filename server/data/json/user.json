@@ -17,8 +17,8 @@
     "gender": "male",
     "birth_date": "2002-07-01",
     "role": "customer",
-    "points": 277.96468000000004,
-    "type": "Regular",
+    "points": 1607.96468,
+    "type": "Bronze",
     "isSuspicious": false,
     "cart": {
       "factoryId": null,
@@ -89,9 +89,9 @@
     "gender": "male",
     "birth_date": "2002-03-05",
     "role": "customer",
-    "points": 0,
+    "points": -1823.43,
     "type": "Regular",
-    "isSuspicious": false,
+    "isSuspicious": true,
     "cart": {
       "factoryId": null,
       "products": []

@@ -2,7 +2,7 @@
 	<div class="card w-75">
 	  <div class="card-header d-flex justify-content-between align-items-center">
 		<div># ID: {{ purchase.id }}</div>
-		<div v-if="role !== 'customer'">Customer name: {{ fullname }}</div>
+		<div v-if="role !== 'customer'">Customer: {{ fullname }}</div>
 	  </div>
 	  <ul class="list-group list-group-flush">
 		<li class="list-group-item"><b>Date:</b> {{ formatDate(purchase.creationDate) }}</li>
