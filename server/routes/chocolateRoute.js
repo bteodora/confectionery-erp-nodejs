@@ -87,7 +87,7 @@ router.post('/img/upload/:chocoId', verifyToken, upload.single('img'), (req, res
         return res.status(400).send({ message: 'No file uploaded' });
     }
 
-    const imgPath = req.file.path;
+    const imgPath = req.file.path.replace(/\\/g, '/');
 
     try {
         chocolateService.SetImagePath(chocoId, imgPath);

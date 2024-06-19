@@ -73,7 +73,7 @@ router.post('/img/upload/:factoryId', verifyToken, (req, res, next) => {
 		if(isNaN(factoryId))
 			return res.status(400).send({ message: 'Invalid factoryId'});
 
-		const imgPath = req.file.path.replace('\\', '/');
+		const imgPath = req.file.path.replace(/\\/g, '/');
 
 		factoryServices.setFactoryImgPath(factoryId, imgPath);
 		res.status(200).send({ message: 'Logo successfully uploaded'});

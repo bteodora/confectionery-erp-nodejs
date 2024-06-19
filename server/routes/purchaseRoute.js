@@ -99,7 +99,7 @@ router.delete("/pdelete/:id", verifyToken, (req, res) => {
 });
 
 router.post("/cancel/:id", verifyToken, (req, res) => {
-	const purchaseId = parseInt(req.params.id);
+	const purchaseId = req.params.id;
 	const role = req.auth.role;
 
 	if (role !== 'customer') {
@@ -116,7 +116,7 @@ router.post("/cancel/:id", verifyToken, (req, res) => {
 });
 
 router.post("/accept/:id", verifyToken, (req, res) => {
-	const purchaseId = parseInt(req.params.id);
+	const purchaseId = req.params.id;
 	const role = req.auth.role;
 
 	if (role !== 'manager') {
@@ -133,7 +133,7 @@ router.post("/accept/:id", verifyToken, (req, res) => {
 });
 
 router.post("/comment/:id", verifyToken, (req, res) => {
-    const purchaseId = parseInt(req.params.id);
+    const purchaseId = req.params.id;
     const role = req.auth.role;
     const comment = req.body.comment;
 
@@ -164,7 +164,7 @@ router.post("/comment/:id", verifyToken, (req, res) => {
 });
 
 router.post("/decline/:id", verifyToken, (req, res) => {
-	const purchaseId = parseInt(req.params.id);
+	const purchaseId = req.params.id;
 	const role = req.auth.role;
 
 	if (role !== 'manager') {
@@ -239,12 +239,12 @@ router.post("/commentreject", checkRole, (req, res) => {
 
 router.delete("/commentdelete/:id", verifyToken, (req, res) => {
 	const role = req.auth.role;
-	
+
 	if (role !== 'admin') {
 		return res.status(403).send({ message: 'Forbidden' });
 	}
 	const purchaseId = parseInt(req.params.id);
-	
+
 	try {
 		purchaseService.DeleteComment(purchaseId);
 		return res.status(200).send({ message: 'Comment successfully deleted!' });
