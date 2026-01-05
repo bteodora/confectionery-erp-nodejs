@@ -18,7 +18,7 @@
   </p>
 
   <p>
-    <a href="Specifikacija.pdf"><strong>📄 View Domain Specification (PDF) »</strong></a>
+    <a href="WP_E2_Projekat.pdf"><strong>📄 View Domain Specification (PDF) »</strong></a>
     <br>
     <a href="#architecture-and-design"><strong>🏛 Architecture »</strong></a>
     ·
